@@ -1,0 +1,59 @@
+ul.side-bar li {
+    position: relative;
+    z-index: 10;
+    padding: 15px;
+    font-weight: 500;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--dark-grey);
+    cursor: pointer;
+    transition: color 0.5s ease-in-out;
+}
+
+ul.side-bar li::before,
+ul.side-bar li:hover::after,
+.active-side-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: -1;
+}
+
+ul.side-bar li::before {
+    width: 100%;
+    background-color: var(--grey);
+}
+
+ul.side-bar li:hover,
+.active-side-bar {
+    color: #fff !important;
+}
+
+ul.side-bar li:hover::after,
+.active-side-bar::after {
+    background-color: var(--primary-color);
+    animation: slideFromLeft 0.5s ease-in-out forwards;
+}
+
+ul.side-bar li:first-child {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    overflow: hidden;
+}
+
+ul.side-bar li:last-child {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    overflow: hidden;
+}
+
+@keyframes slideFromLeft {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}

@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-3">
+    <div>
+      <ul class="side-bar">
+        @for (item of sideBarContent; track $index) {
+        <li
+          [ngClass]="{
+            'active-side-bar': selectedItem === $index
+          }"
+          (click)="onClick($index)"
+        >
+          {{ item.title }}
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+  <div class="col-9">
+    <div></div>
+  </div>
+</div>
