@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { SideBarComponent } from "./components/side-bar/side-bar.component";
+import { MyAccountSideBarComponent } from './components/side-bar/my-account-side-bar.component';
 
 @Component({
   selector: 'app-my-account',
   standalone: true,
-  imports: [SideBarComponent],
+  imports: [MyAccountSideBarComponent],
   templateUrl: './my-account.component.html',
   styleUrl: './my-account.component.css'
 })

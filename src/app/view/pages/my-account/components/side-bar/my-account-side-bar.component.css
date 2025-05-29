@@ -1,4 +1,4 @@
-ul.side-bar li {
+ul.my-account-side-bar li {
     position: relative;
     z-index: 10;
     padding: 15px;
@@ -9,9 +9,9 @@ ul.side-bar li {
     transition: color 0.5s ease-in-out;
 }
 
-ul.side-bar li::before,
-ul.side-bar li:hover::after,
-.active-side-bar::after {
+ul.my-account-side-bar li::before,
+ul.my-account-side-bar li:hover::after,
+.active-my-account-side-bar::after {
     content: '';
     position: absolute;
     top: 0;
@@ -20,29 +20,29 @@ ul.side-bar li:hover::after,
     z-index: -1;
 }
 
-ul.side-bar li::before {
+ul.my-account-side-bar li::before {
     width: 100%;
     background-color: var(--grey);
 }
 
-ul.side-bar li:hover,
-.active-side-bar {
+ul.my-account-side-bar li:hover,
+.active-my-account-side-bar {
     color: #fff !important;
 }
 
-ul.side-bar li:hover::after,
-.active-side-bar::after {
+ul.my-account-side-bar li:hover::after,
+.active-my-account-side-bar::after {
     background-color: var(--primary-color);
     animation: slideFromLeft 0.5s ease-in-out forwards;
 }
 
-ul.side-bar li:first-child {
+ul.my-account-side-bar li:first-child {
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     overflow: hidden;
 }
 
-ul.side-bar li:last-child {
+ul.my-account-side-bar li:last-child {
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     overflow: hidden;
