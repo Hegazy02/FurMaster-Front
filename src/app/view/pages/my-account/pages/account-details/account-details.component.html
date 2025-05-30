@@ -1,7 +1,9 @@
 <app-account-details-profile-pic
   (imageFile)="onImageSelected($event)"
 ></app-account-details-profile-pic>
-<app-account-details-form (accountDetailsFormSubmit)="onSubmit($event)"></app-account-details-form>
+<app-account-details-form
+  (accountDetailsFormSubmit)="onSubmit($event)"
+></app-account-details-form>
 
 <ngx-spinner
   bdColor="rgba(51,51,51,0.8)"
@@ -11,7 +13,12 @@
 >
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-<app-error-message
+<app-floating-message
   message="Could not update user"
   [show]="isError"
-></app-error-message>
+></app-floating-message>
+<app-floating-message
+  message="User updated successfully"
+  [show]="isSuccess"
+  [type]="MessageType.Success"
+></app-floating-message>

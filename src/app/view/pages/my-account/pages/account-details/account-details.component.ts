@@ -2,7 +2,10 @@ import { Component, inject } from '@angular/core';
 import { AccountDetailsFormComponent } from './account-details-form/account-details-form.component';
 import { AccountDetailsProfilePicComponent } from './account-details-profile-pic/account-details-profile-pic.component';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { ErrorMessageComponent } from '../../../../../shared/error-message/error-message.component';
+import {
+  FloatingMessageComponent,
+  MessageType,
+} from '../../../../../shared/error-message/floating-message.component';
 import { Observable } from 'rxjs/internal/Observable';
 import { FormGroup } from '@angular/forms';
 import { UserService } from '../../../../../core/services/user.service';
@@ -14,7 +17,7 @@ import { UserService } from '../../../../../core/services/user.service';
     AccountDetailsFormComponent,
     AccountDetailsProfilePicComponent,
     NgxSpinnerModule,
-    ErrorMessageComponent,
+    FloatingMessageComponent,
   ],
   templateUrl: './account-details.component.html',
   styleUrl: './account-details.component.css',
@@ -23,7 +26,9 @@ export class AccountDetailsComponent {
   spinner = inject(NgxSpinnerService);
   userService = inject(UserService);
   isError = false;
+  isSuccess = false;
   file?: File;
+  MessageType = MessageType;
 
   onImageSelected(file: File) {
     this.file = file;
@@ -32,6 +37,7 @@ export class AccountDetailsComponent {
   onSubmit(accountDetailsForm: FormGroup) {
     this.spinner.show();
     this.isError = false;
+    this.isSuccess = false;
 
     const update$ = this.updateUser(accountDetailsForm);
 
@@ -41,9 +47,9 @@ export class AccountDetailsComponent {
     }
 
     update$.subscribe({
-      next: () => {
+      next: (data) => {
         this.spinner.hide();
-        this.isError = false;
+        this.isSuccess = true;
       },
       error: (err) => {
         this.spinner.hide();
