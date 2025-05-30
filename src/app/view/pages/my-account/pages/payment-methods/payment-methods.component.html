@@ -1,4 +1,6 @@
-<div class="row d-flex flex-wrap g-4 justify-content-center align-content-center payment-cards">
+<div
+  class="row d-flex flex-wrap g-4 justify-content-center align-content-center payment-cards"
+>
   @for (card of cards; track $index) {
   <app-payment-method-card
     [card]="card"
@@ -9,7 +11,7 @@
     <img src="assets/icons/add_card.svg" alt="No Cards" class="no-cards-img" />
     <h3>No Payment Methods</h3>
     <p>You haven't added any payment cards yet.</p>
-    <button class="add-card-btn">Add New Card</button>
+    <app-primary-button [onClick]="addCard" [col]="'col-3'"></app-primary-button>
   </div>
 
   }

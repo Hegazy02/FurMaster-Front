@@ -4,11 +4,12 @@ import { PaymentMethod } from '../../../../../core/interfaces/payment-method.int
 import { PaymetMethodsService } from '../../../../../core/services/paymet-methods.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { Status, StatusType } from '../../../../../core/util/status';
+import { PrimaryButtonComponent } from "../../../../../shared/primary-button/primary-button.component";
 
 @Component({
   selector: 'app-payment-methods',
   standalone: true,
-  imports: [PaymentMethodCardComponent],
+  imports: [PaymentMethodCardComponent, PrimaryButtonComponent],
   templateUrl: './payment-methods.component.html',
   styleUrl: './payment-methods.component.css',
 })
@@ -31,4 +32,5 @@ export class PaymentMethodsComponent implements OnInit {
       },
     });
   }
+  addCard() {}
 }

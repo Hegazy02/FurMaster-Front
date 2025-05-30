@@ -38,18 +38,3 @@
     color: #777;
     margin-bottom: 20px;
 }
-
-.add-card-btn {
-    padding: 10px 20px;
-    border: none;
-    background: var(--primary-color);
-    color: white;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.add-card-btn:hover {
-    background: #3b40a4;
-}
