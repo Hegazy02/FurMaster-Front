@@ -1,5 +1,6 @@
 <div
-  class="row d-flex flex-wrap g-4 justify-content-center align-content-center payment-cards"
+  class="row d-flex flex-wrap g-4 justify-content-center payment-cards"
+  [ngClass]="{ 'align-content-center': status.type != StatusType.Success }"
 >
   @if (status.type==StatusType.Loading) {
   <div class="loader w-25"></div>

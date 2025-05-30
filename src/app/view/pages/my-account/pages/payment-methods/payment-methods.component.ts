@@ -5,11 +5,12 @@ import { PaymetMethodsService } from '../../../../../core/services/paymet-method
 import { Status, StatusType } from '../../../../../core/util/status';
 import { PrimaryButtonComponent } from '../../../../../shared/primary-button/primary-button.component';
 import { ErrorComponent } from "../../../../../shared/error/error.component";
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-payment-methods',
   standalone: true,
-  imports: [PaymentMethodCardComponent, PrimaryButtonComponent, ErrorComponent],
+  imports: [PaymentMethodCardComponent, PrimaryButtonComponent, ErrorComponent,NgClass],
   templateUrl: './payment-methods.component.html',
   styleUrl: './payment-methods.component.css',
 })
@@ -24,8 +25,8 @@ export class PaymentMethodsComponent implements OnInit {
     this.paymetMethodsService.getPaymentMethods()?.subscribe({
       next: (data) => {
         console.log('cards', data);
-        this.status.type = StatusType.Success;
-        // this.cards = data;
+        this.status.type = StatusType.Error;
+        this.cards = data;
       },
       error: (err) => {
         this.status.type = StatusType.Error;
