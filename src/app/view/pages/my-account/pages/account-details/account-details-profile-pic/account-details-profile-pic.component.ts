@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { AccountDetailsService } from '../../../services/account-details.service';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { UserService } from '../../../../../../core/services/user.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 @Component({
@@ -11,10 +11,11 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 })
 export class AccountDetailsProfilePicComponent {
   faCamera = faCamera;
-  accountDetailsService = inject(AccountDetailsService);
+  accountDetailsService = inject(UserService);
   image =
     this.accountDetailsService.user.image ??
     'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+  @Output() imageFile = new EventEmitter<File>();
 
   onImageSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -24,7 +25,7 @@ export class AccountDetailsProfilePicComponent {
         this.image = reader.result as string;
       };
       reader.readAsDataURL(file);
-      this.accountDetailsService.file = file;
+      this.imageFile.emit(file);
     }
   }
 }
