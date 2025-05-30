@@ -1,0 +1,24 @@
+<div class="payment-card">
+  <div class="logo-wrapper">
+    <img
+      [src]="
+        card.brand === 'Visa'
+          ? 'assets/icons/visa_logo.svg'
+          : 'assets/icons/mastercard_logo.svg'
+      "
+      alt="Card Logo"
+      class="card-logo"
+    />
+  </div>
+  <div class="card-number">**** **** **** {{ card.last4 }}</div>
+  <div class="card-details">
+    <div>
+      <label>Card Holder</label>
+      <div class="card-name">John Doe</div>
+    </div>
+    <div>
+      <label>Expires</label>
+      <div class="card-expiry">{{ card.expMonth }}/{{ card.expYear }}</div>
+    </div>
+  </div>
+</div>

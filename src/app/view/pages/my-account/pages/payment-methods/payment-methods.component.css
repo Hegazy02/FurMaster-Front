@@ -1,0 +1,55 @@
+.payment-cards {
+    height: 100vh;
+}
+
+.no-cards-wrapper {
+    width: 100%;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-cards-content {
+    text-align: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.no-cards-img {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.no-cards-content h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.no-cards-content p {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.add-card-btn {
+    padding: 10px 20px;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-card-btn:hover {
+    background: #3b40a4;
+}

@@ -1,0 +1,45 @@
+.payment-card {
+  width: 320px;
+  height: 200px;
+  border-radius: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-logo {
+  font-size: 20px;
+  font-weight: bold;
+  width: 45px;
+}
+.logo-wrapper {
+  text-align: right;
+}
+.card-number {
+  font-size: 24px;
+  letter-spacing: 2px;
+  margin: 10px 0;
+}
+
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.card-details label {
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.card-name,
+.card-expiry {
+  font-weight: bold;
+  margin-top: 4px;
+}
