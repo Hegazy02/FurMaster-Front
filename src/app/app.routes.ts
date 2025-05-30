@@ -25,6 +25,13 @@ export const routes: Routes = [
             './view/pages/my-account/pages/account-details/account-details.component'
           ).then((m) => m.AccountDetailsComponent),
       },
+      {
+        path: 'payment-methods',
+        loadComponent: () =>
+          import(
+            './view/pages/my-account/pages/payment-methods/payment-methods.component'
+          ).then((m) => m.PaymentMethodsComponent),
+      },
     ],
   },
 ];
