@@ -1,0 +1,34 @@
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 150px; /* adjust size as needed */
+  height: 150px;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* circular image */
+  border: 2px solid #ccc;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.image-overlay:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.image-overlay i {
+  font-size: 18px;
+}

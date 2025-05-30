@@ -3,8 +3,11 @@
     --secondary-color: #f99500;
     --grey: #f7f7f7;
     --dark-grey: #e4e4e4;
+    --label-color: #888e95;
 }
 
 * {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
