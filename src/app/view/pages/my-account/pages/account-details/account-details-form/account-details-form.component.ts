@@ -1,7 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AccountDetailsFormInputComponent } from './account-details-form-input/account-details-form-input.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AccountDetailsService } from '../../../services/account-details.service';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { UserService } from '../../../../../../core/services/user.service';
 
 @Component({
   selector: 'app-account-details-form',
@@ -11,5 +17,45 @@ import { AccountDetailsService } from '../../../services/account-details.service
   styleUrl: './account-details-form.component.css',
 })
 export class AccountDetailsFormComponent {
-  accountDetailsService = inject(AccountDetailsService);
+  accountDetailsService = inject(UserService);
+  userService = inject(UserService);
+  @Output() accountDetailsFormSubmit = new EventEmitter<FormGroup>();
+  accountDetailsForm = new FormGroup({
+    firstName: new FormControl(this.userService.user.firstName, [
+      Validators.required,
+    ]),
+    lastName: new FormControl(this.userService.user.lastName, [
+      Validators.required,
+    ]),
+    email: new FormControl({
+      value: this.userService.user.email,
+      disabled: true,
+    }),
+    gender: new FormControl(this.userService.user.gender),
+    phoneNumber: new FormControl(this.userService.user.phoneNumber),
+    city: new FormControl(this.userService.user.city),
+    street: new FormControl(this.userService.user.street),
+    address: new FormControl(this.userService.user.address),
+  });
+
+  isInvalid(control: AbstractControl): boolean {
+    const data = control.invalid && control.touched;
+    return data;
+  }
+  getFormControl(
+    name:
+      | 'firstName'
+      | 'lastName'
+      | 'email'
+      | 'gender'
+      | 'phoneNumber'
+      | 'city'
+      | 'street'
+      | 'address'
+  ): FormControl {
+    return this.accountDetailsForm.controls[name] as FormControl;
+  }
+  onSubmit() {
+    this.accountDetailsFormSubmit.emit(this.accountDetailsForm);
+  }
 }

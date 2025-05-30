@@ -1,39 +1,31 @@
-<form [formGroup]="accountDetailsService.accountDetailsForm" class="row g-4">
+<form [formGroup]="accountDetailsForm" class="row g-4">
   <div class="personal-details">
     <h3>Personal Details</h3>
     <div class="row g-5 mb-2">
       <app-account-details-form-input
-        [formControl]="accountDetailsService.getFormControl('firstName')"
+        [formControl]="getFormControl('firstName')"
         [label]="'First Name'"
         [required]="true"
-        [isInvalid]="
-          accountDetailsService.isInvalid(
-            accountDetailsService.getFormControl('firstName')
-          )
-        "
+        [isInvalid]="isInvalid(getFormControl('firstName'))"
         class="col-6"
       ></app-account-details-form-input>
       <app-account-details-form-input
-        [formControl]="accountDetailsService.getFormControl('lastName')"
+        [formControl]="getFormControl('lastName')"
         [label]="'Last Name'"
         [required]="true"
         class="col-6"
-         [isInvalid]="
-          accountDetailsService.isInvalid(
-            accountDetailsService.getFormControl('lastName')
-          )
-        "
+        [isInvalid]="isInvalid(getFormControl('lastName'))"
       ></app-account-details-form-input>
     </div>
     <div class="row g-5">
       <app-account-details-form-input
-        [formControl]="accountDetailsService.getFormControl('email')"
+        [formControl]="getFormControl('email')"
         [label]="'Email'"
         [required]="true"
         class="col-6"
       ></app-account-details-form-input
       ><app-account-details-form-input
-        [formControl]="accountDetailsService.getFormControl('phoneNumber')"
+        [formControl]="getFormControl('phoneNumber')"
         [label]="'Phone number'"
         class="col-6"
       ></app-account-details-form-input>
@@ -50,7 +42,7 @@
             name="gender"
             id="male"
             [value]="1"
-            [formControl]="accountDetailsService.getFormControl('gender')"
+            [formControl]="getFormControl('gender')"
           />
           <label class="form-check-label" for="male"> Male </label>
         </div>
@@ -61,7 +53,7 @@
             name="gender"
             id="female"
             [value]="2"
-            [formControl]="accountDetailsService.getFormControl('gender')"
+            [formControl]="getFormControl('gender')"
           />
           <label class="form-check-label" for="female"> Female </label>
         </div>
@@ -72,19 +64,28 @@
     <h3>Address Details</h3>
     <div class="row g-5 mb-2">
       <app-account-details-form-input
-        [formControl]="accountDetailsService.getFormControl('city')"
+        [formControl]="getFormControl('city')"
         [label]="'city'"
         class="col-6"
       ></app-account-details-form-input>
       <app-account-details-form-input
-        [formControl]="accountDetailsService.getFormControl('street')"
+        [formControl]="getFormControl('street')"
         [label]="'street'"
         class="col-6"
       ></app-account-details-form-input>
     </div>
     <app-account-details-form-input
-      [formControl]="accountDetailsService.getFormControl('address')"
+      [formControl]="getFormControl('address')"
       [label]="'address'"
     ></app-account-details-form-input>
   </div>
 </form>
+<div class="d-flex justify-content-center">
+  <button
+    class="btn col-12 col-sm-3 custom-btn p-2 mt-4"
+    type="button"
+    (click)="onSubmit()"
+  >
+    Submit
+  </button>
+</div>
