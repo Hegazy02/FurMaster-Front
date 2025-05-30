@@ -1,0 +1,21 @@
+<div class="row flex-column">
+  @if (label) {
+  <div>
+    <label>{{ label }}</label>
+    @if (required) {
+    <span class="required"> *</span>
+    }
+  </div>
+
+  }
+
+  <input
+    class="form-control"
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value"
+    (input)="handleInput($event)"
+    [disabled]="isDisabled"
+    [ngClass]="{ 'is-invalid': isInvalid }"
+  />
+</div>

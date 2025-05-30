@@ -1,0 +1,23 @@
+<app-account-details-profile-pic></app-account-details-profile-pic>
+<app-account-details-form></app-account-details-form>
+<div class="d-flex justify-content-center">
+  <button
+    class="btn col-12 col-sm-3 custom-btn p-2 mt-4"
+    type="button"
+    (click)="onSubmit()"
+  >
+    Submit
+  </button>
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<app-error-message
+  message="Could not update user"
+  [show]="isError"
+></app-error-message>
