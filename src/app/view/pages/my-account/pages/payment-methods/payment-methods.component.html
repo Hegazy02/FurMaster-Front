@@ -1,18 +1,25 @@
 <div
   class="row d-flex flex-wrap g-4 justify-content-center align-content-center payment-cards"
 >
-  @for (card of cards; track $index) {
+  @if (status.type==StatusType.Loading) {
+  <div class="loader w-25"></div>
+  }@else if(status.type==StatusType.Error) {
+  <app-error></app-error>
+  } @else { @for (card of cards; track $index) {
   <app-payment-method-card
     [card]="card"
     class="col-12 col-md-6 col-lg-4"
   ></app-payment-method-card>
   }@empty {
   <div class="no-cards-content">
-    <img src="assets/icons/add_card.svg" alt="No Cards" class="no-cards-img" />
+    <img src="assets/images/add_card.svg" alt="No Cards" class="no-cards-img" />
     <h3>No Payment Methods</h3>
     <p>You haven't added any payment cards yet.</p>
-    <app-primary-button [onClick]="addCard" [col]="'col-3'"></app-primary-button>
+    <app-primary-button
+      [text]="'Add Card'"
+      [onClick]="addCard"
+      [col]="'col-3'"
+    ></app-primary-button>
   </div>
-
-  }
+  } }
 </div>
