@@ -1,31 +1,37 @@
 <div
-  class="row d-flex flex-wrap g-4 justify-content-center payment-cards"
+  class="row d-flex flex-wrap g-4 justify-content-left payment-cards"
   [ngClass]="{
-    'align-content-center': getPaymentMethodsStatus.type != StatusType.Success
+    'align-content-center': getPaymentMethodsStatus.type != StatusType.Success,
+    'justify-content-center': cards.length == 0
   }"
 >
   @if (getPaymentMethodsStatus.type==StatusType.Loading) {
   <div class="loader w-25"></div>
   }@else if(getPaymentMethodsStatus.type==StatusType.Error) {
   <app-error></app-error>
-  } @else { @for (card of cards; track $index) {
+  } @else { @for (card of cards; track $index) { @if($index==0){
+  <app-add-payment-method-card
+    [onClick]="addCard"
+    [subtitle]="'Add a new card to your account'"
+    [imageSize]="120"
+    [contentPadding]="20"
+    class="col-12 col-md-6 col-lg-4 align-content-center"
+  ></app-add-payment-method-card>
+  }
   <app-payment-method-card
     [card]="card"
     (setDefault)="onSetAsDefault($event)"
     (delete)="onDelete($event)"
-    class="col-12 col-md-6 col-lg-4"
+    class="col-12 col-md-6 col-lg-4 align-content-center"
   ></app-payment-method-card>
   }@empty {
-  <div class="no-cards-content">
-    <img src="assets/images/add_card.svg" alt="No Cards" class="no-cards-img" />
-    <h3>No Payment Methods</h3>
-    <p>You haven't added any payment cards yet.</p>
-    <app-primary-button
-      [text]="'Add Card'"
-      [onClick]="addCard"
-      [col]="'col-3'"
-    ></app-primary-button>
-  </div>
+  <app-add-payment-method-card
+    [onClick]="addCard"
+    [title]="'No Payment Methods'"
+    [buttonText]="'Add Card'"
+    [subtitle]="'You haven\'t added any payment cards yet.'"
+    class="col-12 col-md-6 col-lg-4 align-content-center"
+  ></app-add-payment-method-card>
   } }
 </div>
 

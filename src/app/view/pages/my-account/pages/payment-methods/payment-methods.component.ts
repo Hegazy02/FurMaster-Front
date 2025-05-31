@@ -3,29 +3,28 @@ import { PaymentMethodCardComponent } from './payment-method-card/payment-method
 import { PaymentMethod } from '../../../../../core/interfaces/payment-method.interface';
 import { PaymetMethodsService } from '../../../../../core/services/paymet-methods.service';
 import { Status, StatusType } from '../../../../../core/util/status';
-import { PrimaryButtonComponent } from '../../../../../shared/primary-button/primary-button.component';
 import { ErrorComponent } from '../../../../../shared/error/error.component';
 import { NgClass } from '@angular/common';
 import {
   FloatingMessageComponent,
   MessageType,
 } from '../../../../../shared/floating-message/floating-message.component';
+import { AddPaymentMethodCardComponent } from './add-payment-method-card/add-payment-method-card.component';
 
 @Component({
   selector: 'app-payment-methods',
   standalone: true,
   imports: [
     PaymentMethodCardComponent,
-    PrimaryButtonComponent,
     ErrorComponent,
     NgClass,
     FloatingMessageComponent,
+    AddPaymentMethodCardComponent,
   ],
   templateUrl: './payment-methods.component.html',
   styleUrl: './payment-methods.component.css',
 })
 export class PaymentMethodsComponent implements OnInit {
-  // In your component
   constructor(private cdr: ChangeDetectorRef) {}
 
   paymetMethodsService = inject(PaymetMethodsService);
@@ -51,7 +50,9 @@ export class PaymentMethodsComponent implements OnInit {
       },
     });
   }
-  addCard() {}
+  addCard() {
+    console.log('add cardddd');
+  }
   onSetAsDefault(card: PaymentMethod) {
     this.setDefaultStatus = new Status(StatusType.Loading);
     this.cdr.detectChanges(); // Force change detection
