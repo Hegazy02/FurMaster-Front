@@ -11,7 +11,7 @@
   <p>{{ subtitle }}</p>
   <app-primary-button
     [text]="'Add Card'"
-    [onClick]="onClick"
+    (onClickChange)="onClick()"
     [col]="'col-3'"
   ></app-primary-button>
 </div>

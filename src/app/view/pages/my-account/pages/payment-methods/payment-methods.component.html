@@ -12,7 +12,7 @@
   <app-error></app-error>
   } @else { @for (card of cards; track $index) { @if($index==0){
   <app-add-payment-method-card
-    [onClick]="addCard"
+    (onClickChange)="addCard()"
     [subtitle]="'Add a new card to your account'"
     [imageSize]="120"
     [contentPadding]="20"
@@ -27,7 +27,7 @@
   ></app-payment-method-card>
   }@empty {
   <app-add-payment-method-card
-    [onClick]="addCard"
+    (onClickChange)="addCard()"
     [title]="'No Payment Methods'"
     [buttonText]="'Add Card'"
     [subtitle]="'You haven\'t added any payment cards yet.'"
