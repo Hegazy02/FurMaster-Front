@@ -4,7 +4,7 @@ import { PaymentMethod } from '../../../../../core/interfaces/payment-method.int
 import { PaymetMethodsService } from '../../../../../core/services/paymet-methods.service';
 import { Status, StatusType } from '../../../../../core/util/status';
 import { ErrorComponent } from '../../../../../shared/error/error.component';
-import { NgClass } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import {
   FloatingMessageComponent,
   MessageType,
@@ -18,6 +18,7 @@ import { AddPaymentMethodCardComponent } from './add-payment-method-card/add-pay
     PaymentMethodCardComponent,
     ErrorComponent,
     NgClass,
+    NgStyle,
     FloatingMessageComponent,
     AddPaymentMethodCardComponent,
   ],

@@ -1,8 +1,9 @@
 <div
-  class="row d-flex flex-wrap g-4 justify-content-left payment-cards"
+  class="row d-flex flex-wrap g-4 justify-content-left payment-cards align-content-start"
   [ngClass]="{
     'align-content-center': getPaymentMethodsStatus.type != StatusType.Success,
-    'justify-content-center': cards.length == 0
+    'justify-content-center': cards.length == 0,
+    'payment-cards-sm': cards.length == 0
   }"
 >
   @if (getPaymentMethodsStatus.type==StatusType.Loading) {
