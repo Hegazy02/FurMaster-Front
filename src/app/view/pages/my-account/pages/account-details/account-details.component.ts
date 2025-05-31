@@ -5,7 +5,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import {
   FloatingMessageComponent,
   MessageType,
-} from '../../../../../shared/error-message/floating-message.component';
+} from '../../../../../shared/floating-message/floating-message.component';
 import { Observable } from 'rxjs/internal/Observable';
 import { FormGroup } from '@angular/forms';
 import { UserService } from '../../../../../core/services/user.service';
@@ -35,6 +35,8 @@ export class AccountDetailsComponent {
   }
 
   onSubmit(accountDetailsForm: FormGroup) {
+    console.log("acac", accountDetailsForm);
+    
     this.spinner.show();
     this.isError = false;
     this.isSuccess = false;

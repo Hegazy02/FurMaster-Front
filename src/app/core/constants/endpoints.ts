@@ -11,6 +11,6 @@ export class Endpoints {
   public static CATEGORIES = `${Endpoints.BASE_URL}/categories`;
   public static CART = `${Endpoints.BASE_URL}/cart`;
   public static CHECKOUT = `${Endpoints.BASE_URL}/checkout`;
-  public static PAYMENT = `${Endpoints.BASE_URL}/payment-methods`;
+  public static PAYMENT_METHODS = `${Endpoints.BASE_URL}/payment-methods`;
 
 }

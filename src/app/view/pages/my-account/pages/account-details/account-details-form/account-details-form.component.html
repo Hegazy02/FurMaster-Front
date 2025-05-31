@@ -80,12 +80,4 @@
     ></app-account-details-form-input>
   </div>
 </form>
-<div class="d-flex justify-content-center">
-  <button
-    class="btn col-12 col-sm-3 custom-btn p-2 mt-4"
-    type="button"
-    (click)="onSubmit()"
-  >
-    Submit
-  </button>
-</div>
+<app-primary-button (onClickChange)="onSubmit()"></app-primary-button>

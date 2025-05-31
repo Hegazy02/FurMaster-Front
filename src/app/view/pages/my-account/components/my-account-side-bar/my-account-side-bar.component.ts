@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './my-account-side-bar.component.css',
 })
 export class MyAccountSideBarComponent {
-  sideBarContent = ['Orders', 'Account-Details', 'Logout'];
+  sideBarContent = ['Orders', 'Account-Details', 'Payment-Methods','Logout'];
   selectedItem = 1;
   onClick(index: number) {
     this.selectedItem = index;

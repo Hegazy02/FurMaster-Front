@@ -1,0 +1,8 @@
+.payment-cards {
+    height: 100vh;
+}
+@media (max-width: 768px) {
+    .payment-cards-sm {
+        height: 40vh;
+    }
+}
