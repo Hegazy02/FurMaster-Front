@@ -1,4 +1,22 @@
 <div class="payment-card">
+  <div class="overlay">
+    <fa-icon
+      [icon]="faTrash"
+      alt="Delete Card"
+      class="icon"
+      (click)="onDelete()"
+    ></fa-icon>
+    <fa-icon
+      [icon]="faCheck"
+      alt="set as default Card"
+      class="icon"
+      (click)="onSetAsDefault()"
+    ></fa-icon>
+  </div>
+  @if (card.isDefault) {
+  <span class="default">Default</span>
+  }
+
   <div class="logo-wrapper">
     <img
       [src]="

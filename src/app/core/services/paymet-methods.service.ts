@@ -12,4 +12,20 @@ export class PaymetMethodsService {
   getPaymentMethods(): Observable<PaymentMethod[]> | null {
     return this.http.get<PaymentMethod[]>(Endpoints.PAYMENT_METHODS);
   }
+  updatePaymentMethod(
+    cardId: string,
+    data: any
+  ): Observable<PaymentMethod[]> | null {
+    console.log('id', cardId);
+
+    return this.http.patch<PaymentMethod[]>(
+      Endpoints.PAYMENT_METHODS + `/${cardId}`,
+      data
+    );
+  }
+  deletePaymentMethod(cardId: string): Observable<PaymentMethod> | null {
+    return this.http.delete<PaymentMethod>(
+      Endpoints.PAYMENT_METHODS + `/${cardId}`
+    );
+  }
 }

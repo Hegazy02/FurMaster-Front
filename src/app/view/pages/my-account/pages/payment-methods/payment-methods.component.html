@@ -1,14 +1,18 @@
 <div
   class="row d-flex flex-wrap g-4 justify-content-center payment-cards"
-  [ngClass]="{ 'align-content-center': status.type != StatusType.Success }"
+  [ngClass]="{
+    'align-content-center': getPaymentMethodsStatus.type != StatusType.Success
+  }"
 >
-  @if (status.type==StatusType.Loading) {
+  @if (getPaymentMethodsStatus.type==StatusType.Loading) {
   <div class="loader w-25"></div>
-  }@else if(status.type==StatusType.Error) {
+  }@else if(getPaymentMethodsStatus.type==StatusType.Error) {
   <app-error></app-error>
   } @else { @for (card of cards; track $index) {
   <app-payment-method-card
     [card]="card"
+    (setDefault)="onSetAsDefault($event)"
+    (delete)="onDelete($event)"
     class="col-12 col-md-6 col-lg-4"
   ></app-payment-method-card>
   }@empty {
@@ -24,3 +28,28 @@
   </div>
   } }
 </div>
+
+<app-floating-message
+  [message]="setDefaultStatus.message"
+  [show]="
+    setDefaultStatus.type == StatusType.Success ||
+    setDefaultStatus.type == StatusType.Error
+  "
+  [type]="
+    setDefaultStatus.type == StatusType.Success
+      ? MessageType.Success
+      : MessageType.Error
+  "
+></app-floating-message>
+<app-floating-message
+  [message]="deleteStatus.message"
+  [show]="
+    deleteStatus.type == StatusType.Success ||
+    deleteStatus.type == StatusType.Error
+  "
+  [type]="
+    deleteStatus.type == StatusType.Success
+      ? MessageType.Success
+      : MessageType.Error
+  "
+></app-floating-message>

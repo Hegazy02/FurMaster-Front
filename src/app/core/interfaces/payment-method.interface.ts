@@ -1,5 +1,5 @@
 export interface PaymentMethod {
-  id: string;
+  _id: string;
   userId: string;
   provider: string;
   methodId: string;
