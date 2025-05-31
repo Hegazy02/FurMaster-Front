@@ -57,8 +57,6 @@ export class AccountDetailsFormComponent {
     return this.accountDetailsForm.controls[name] as FormControl;
   }
   onSubmit() {
-    console.log("aweqwewq");
-    
     this.accountDetailsFormSubmit.emit(this.accountDetailsForm);
   }
 }
