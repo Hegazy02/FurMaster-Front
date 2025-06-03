@@ -35,8 +35,6 @@ export class AccountDetailsComponent {
   }
 
   onSubmit(accountDetailsForm: FormGroup) {
-    console.log("acac", accountDetailsForm);
-    
     this.spinner.show();
     this.isError = false;
     this.isSuccess = false;
