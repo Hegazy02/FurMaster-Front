@@ -1,8 +1,8 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { PaymentMethod } from '../../../../../../core/interfaces/payment-method.interface';
+import { PaymentMethod } from '../../../../../../../core/interfaces/payment-method.interface';
 import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { PaymetMethodsService } from '../../../../../../core/services/paymet-methods.service';
+import { PaymetMethodsService } from '../../../../../../../core/services/paymet-methods.service';
 
 @Component({
   selector: 'app-payment-method-card',
