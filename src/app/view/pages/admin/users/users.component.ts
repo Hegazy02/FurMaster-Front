@@ -10,6 +10,7 @@ import { EmptyDataComponent } from '../../../../shared/empty-data/empty-data.com
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 
 @Component({
   selector: 'app-users',
@@ -39,11 +40,13 @@ export class UsersComponent implements OnInit, OnDestroy {
   page: number = 1;
   limit: number = 10;
   searchbyEmail: string = '';
+  searchInput = new Subject<string>();
   createdAt: string = '';
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
     this.getUsers();
+    this.subScribeToSearchInput();
   }
 
   getUsers() {
@@ -68,11 +71,19 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.getUsers();
   }
   onSearch(value: string) {
-    this.searchbyEmail = value;
-    this.page = 1;
-    this.setQueryParamsToUrl({ page: this.page.toString(), email: value });
-    this.paginator.firstPage();
-    this.getUsers();
+    this.searchInput.next(value);
+  }
+  subScribeToSearchInput() {
+    this.searchInput
+      .pipe(takeUntil(this.destroy$))
+      .pipe(debounceTime(1000))
+      .subscribe((value) => {
+        this.searchbyEmail = value;
+        this.page = 1;
+        this.setQueryParamsToUrl({ page: this.page.toString(), email: value });
+        this.paginator.firstPage();
+        this.getUsers();
+      });
   }
   private getQueryParamsFromUrl() {
     this.activatedRoute.queryParams
