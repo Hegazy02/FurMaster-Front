@@ -6,15 +6,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { PaymentMethodCardComponent } from './payment-method-card/payment-method-card.component';
-import { PaymentMethod } from '../../../../../core/interfaces/payment-method.interface';
-import { PaymetMethodsService } from '../../../../../core/services/paymet-methods.service';
-import { Status, StatusType } from '../../../../../core/util/status';
-import { ErrorComponent } from '../../../../../shared/error/error.component';
+import { PaymentMethod } from '../../../../../../core/interfaces/payment-method.interface';
+import { PaymetMethodsService } from '../../../../../../core/services/paymet-methods.service';
+import { Status, StatusType } from '../../../../../../core/util/status';
+import { ErrorComponent } from '../../../../../../shared/error/error.component';
 import { NgClass } from '@angular/common';
 import {
   FloatingMessageComponent,
   MessageType,
-} from '../../../../../shared/floating-message/floating-message.component';
+} from '../../../../../../shared/floating-message/floating-message.component';
 import { AddPaymentMethodCardComponent } from './add-payment-method-card/add-payment-method-card.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 

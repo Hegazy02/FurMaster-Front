@@ -7,8 +7,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../../../../../../core/services/user.service';
-import { PrimaryButtonComponent } from '../../../../../../shared/primary-button/primary-button.component';
+import { UserService } from '../../../../../../../core/services/user.service';
+import { PrimaryButtonComponent } from '../../../../../../../shared/primary-button/primary-button.component';
 
 @Component({
   selector: 'app-account-details-form',

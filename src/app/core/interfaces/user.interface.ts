@@ -4,9 +4,10 @@ export interface User {
   firstName: string;
   lastName: string;
   gender: number;
-  image: string;
   phoneNumber: string;
-  city: string;
-  street: string;
-  address: string;
+  image?: string;
+  city?: string;
+  street?: string;
+  address?: string;
+  createdAt: Date;
 }
