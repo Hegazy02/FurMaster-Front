@@ -28,7 +28,7 @@
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #6c757d;
+    color: var(--dark-label-color);
     font-size: 16px;
     pointer-events: none;
 }

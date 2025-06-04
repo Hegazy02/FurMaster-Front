@@ -1,9 +1,36 @@
-<app-search-input
-  [searchBy]="'email'"
-  (searchChange)="onSearch($event)"
-  [search]="searchbyEmail"
-></app-search-input>
+<div class="users-options d-flex">
+  <app-search-input
+    [searchBy]="'email'"
+    (searchChange)="onSearch($event)"
+    [search]="searchbyEmail"
+  ></app-search-input>
 
+  <div class="dropdown">
+    <button
+      class="custom-dropdown-button dropdown-toggle"
+      type="button"
+      id="dropdownMenuButton1"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      {{
+        createdAt == ""
+          ? "Created"
+          : createdAt === "desc"
+          ? "Descending"
+          : "Ascending"
+      }}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li>
+        <a class="dropdown-item" (click)="onSortChange('desc')">Descending</a>
+      </li>
+      <li>
+        <a class="dropdown-item" (click)="onSortChange('asc')">Ascending</a>
+      </li>
+    </ul>
+  </div>
+</div>
 <app-primary-table [columnNames]="columnNames" [isEmpty]="users.length == 0">
   @for(user of users; track $index) {
   <app-primary-table-row>
@@ -25,7 +52,9 @@
     <p [ngClass]="'col-' + 12 / columnNames.length">
       {{ user.createdAt | date : "dd/MM/yyyy" }}
     </p>
-    <p [ngClass]="'col-' + 12 / columnNames.length">Edit</p>
+    <p [ngClass]="'col-' + 12 / columnNames.length">
+      {{ user.city ?? "N/A" }}
+    </p>
   </app-primary-table-row>
   }@empty {
   <app-empty-data

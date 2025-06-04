@@ -32,13 +32,14 @@ export class UsersComponent implements OnInit, OnDestroy {
   userService = inject(UserService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  columnNames: string[] = ['name', 'phone number', 'created', 'action'];
+  columnNames: string[] = ['name', 'phone number', 'created', 'city'];
   users: User[] = [];
   totalPages: number = 0;
   total: number = 0;
   page: number = 1;
   limit: number = 10;
   searchbyEmail: string = '';
+  createdAt: string = '';
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
@@ -47,7 +48,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   getUsers() {
     this.userService
-      .getUsers(this.page, this.limit, this.searchbyEmail)
+      .getUsers(this.page, this.limit, this.searchbyEmail, this.createdAt)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
@@ -80,6 +81,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.page = params['page'] ?? 1;
         this.limit = params['limit'] ?? 10;
         this.searchbyEmail = params['email'] ?? '';
+        this.createdAt = params['sort'] ?? '';
       });
   }
   setQueryParamsToUrl(params: { [key: string]: string }) {
@@ -88,6 +90,11 @@ export class UsersComponent implements OnInit, OnDestroy {
       queryParams: params,
       queryParamsHandling: 'merge',
     });
+  }
+  onSortChange(value: string) {
+    this.createdAt = value;
+    this.setQueryParamsToUrl({ sort: this.createdAt });
+    this.getUsers();
   }
   onEdit(user: User) {}
   ngOnDestroy(): void {
