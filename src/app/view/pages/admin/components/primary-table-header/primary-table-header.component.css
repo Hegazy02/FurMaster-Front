@@ -1,0 +1,21 @@
+ .header-container {
+     padding: 16px;
+     background-color: white;
+     border-bottom: 1px solid var(--dark-grey);
+     position: sticky;
+     top: 0;
+     z-index: 1;
+     margin: 20px 0 0 0;
+
+
+ }
+
+ th {
+     text-align: left;
+     background-color: white;
+     color: var(--label-color);
+     font-weight: 400;
+     text-transform: uppercase;
+     z-index: 2;
+
+ }

@@ -4,13 +4,18 @@
     --grey: #f7f7f7;
     --dark-grey: #e4e4e4;
     --label-color: #888e95;
+    --admin-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 * {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 ;
     box-sizing: border-box;
+}
+
+body {
+    background-color: #fafafa !important;
 }
 
 /* HTML: <div class="loader"></div> */
@@ -52,3 +57,5 @@
         bottom: .1%
     }
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

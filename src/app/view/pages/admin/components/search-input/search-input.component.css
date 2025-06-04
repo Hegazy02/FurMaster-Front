@@ -1,0 +1,39 @@
+:host {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+    background-color: white;
+    box-shadow: var(--admin-shadow);
+    border-radius: 5px;
+
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px 37px 8px 8px;
+    border: 2px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.search-input:focus+.search-icon,
+.search-input:focus~.search-icon {
+    color: var(--primary-color);
+}
