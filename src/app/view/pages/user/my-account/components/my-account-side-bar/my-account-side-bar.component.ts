@@ -9,15 +9,10 @@ import { Component } from '@angular/core';
   styleUrl: './my-account-side-bar.component.css',
 })
 export class MyAccountSideBarComponent {
-  sideBarContent = [
-    { title: 'Orders', content: 'Orders content' },
-    { title: 'Account-Details', content: 'Account Details content' },
-    { title: 'Logout', content: 'Logout content' },
-  ];
-  selectedItem = 0;
+  sideBarContent = ['Orders', 'Account-Details', 'Payment-Methods','Logout'];
+  selectedItem = 1;
   onClick(index: number) {
     this.selectedItem = index;
     console.log(this.selectedItem);
-    
   }
 }
