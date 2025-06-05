@@ -28,6 +28,7 @@
         [formControl]="getFormControl('phoneNumber')"
         [label]="'Phone number'"
         class="col-6"
+        [isInvalid]="isInvalid(getFormControl('phoneNumber'))"
       ></app-account-details-form-input>
     </div>
 
