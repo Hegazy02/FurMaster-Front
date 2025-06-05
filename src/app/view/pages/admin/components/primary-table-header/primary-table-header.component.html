@@ -1,0 +1,5 @@
+<div class="header-container rounded row">
+  @for (colName of columnNames; track $index) {
+  <th [ngClass]="'col-' + 12 / columnNames.length">{{ colName }}</th>
+  }
+</div>

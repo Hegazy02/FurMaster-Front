@@ -1,0 +1,12 @@
+<app-primary-table-header
+  [columnNames]="columnNames"
+></app-primary-table-header>
+<div
+  class="table-content"
+  [ngClass]="{
+    'align-items-center': isEmpty,
+    'justify-content-center': isEmpty
+  }"
+>
+  <ng-content></ng-content>
+</div>

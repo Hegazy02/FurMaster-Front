@@ -5,10 +5,10 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import {
   FloatingMessageComponent,
   MessageType,
-} from '../../../../../shared/floating-message/floating-message.component';
+} from '../../../../../../shared/floating-message/floating-message.component';
 import { Observable } from 'rxjs/internal/Observable';
 import { FormGroup } from '@angular/forms';
-import { UserService } from '../../../../../core/services/user.service';
+import { UserService } from '../../../../../../core/services/user.service';
 
 @Component({
   selector: 'app-account-details',

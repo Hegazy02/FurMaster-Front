@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PrimaryButtonComponent } from '../../../../../../shared/primary-button/primary-button.component';
+import { PrimaryButtonComponent } from '../../../../../../../shared/primary-button/primary-button.component';
 import { NgStyle } from '@angular/common';
 
 @Component({

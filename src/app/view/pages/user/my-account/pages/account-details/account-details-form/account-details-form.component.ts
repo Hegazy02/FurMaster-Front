@@ -7,18 +7,21 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../../../../../../core/services/user.service';
-import { PrimaryButtonComponent } from "../../../../../../shared/primary-button/primary-button.component";
+import { UserService } from '../../../../../../../core/services/user.service';
+import { PrimaryButtonComponent } from '../../../../../../../shared/primary-button/primary-button.component';
 
 @Component({
   selector: 'app-account-details-form',
   standalone: true,
-  imports: [AccountDetailsFormInputComponent, ReactiveFormsModule, PrimaryButtonComponent],
+  imports: [
+    AccountDetailsFormInputComponent,
+    ReactiveFormsModule,
+    PrimaryButtonComponent,
+  ],
   templateUrl: './account-details-form.component.html',
   styleUrl: './account-details-form.component.css',
 })
 export class AccountDetailsFormComponent {
-  accountDetailsService = inject(UserService);
   userService = inject(UserService);
   @Output() accountDetailsFormSubmit = new EventEmitter<FormGroup>();
   accountDetailsForm = new FormGroup({
