@@ -1,14 +1,15 @@
 import { Routes } from '@angular/router';
-import { CartComponent } from './cart/cart.component';
+import { CartComponent } from './view/pages/user/cart/cart.component';
 
 export const routes: Routes = [
-  { path: 'cart', component: CartComponent },
 
   {
     path: '',
     redirectTo: 'admin/customers',
     pathMatch: 'full',
   },
+  { path: 'cart', component: CartComponent },
+
   {
     path: 'my-account',
     loadComponent: () =>

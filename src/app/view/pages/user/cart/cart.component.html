@@ -1,7 +1,7 @@
 <div class="max-w-4xl mx-auto py-12 px-4" >
   <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">🛒 Your Shopping Cart</h2>
 <div *ngIf="cartItem.length === 0" class="text-center text-gray-500 py-10 text-lg">
-  Cart is empty
+ <app-empty-data  [title]="'No Items'" subtitle="''"></app-empty-data>
 </div>
   <div class="bg-white shadow-lg rounded-xl overflow-hidden">
     <div *ngFor="let item of cartItem; let i = index" class="border-b last:border-none">
