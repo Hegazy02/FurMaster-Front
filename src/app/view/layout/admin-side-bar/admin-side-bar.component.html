@@ -1,0 +1,44 @@
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <!-- Header -->
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-icon">
+        <span class="logo-text">F</span>
+      </div>
+      @if(!isCollapsed) {
+      <span class="logo-title">FurMaster</span>
+      }
+    </div>
+    <!-- <button class="toggle-btn" (click)="toggleSidebar()">
+      <i class="material-icons">{{
+        isCollapsed ? "chevron_right" : "chevron_left"
+      }}</i>
+    </button> -->
+  </div>
+
+  <!-- Menu Sections -->
+  <div class="sidebar-content">
+    <div class="menu-section">
+      @for(section of menuSections; track $index) { @if(section.title) {
+      <div class="section-title">{{ section.title }}</div>
+      }
+      <ul class="menu-items">
+        @for(item of section.items ; track $index) {
+        <li
+          class="menu-item"
+          [class.active]="item.active"
+          (click)="navigateTo(item.route)"
+        >
+          <div class="menu-link">
+            <i class="material-icons menu-icon">{{ item.icon }}</i>
+            @if(!isCollapsed) {
+            <span class="menu-label">{{ item.label }}</span>
+            }
+          </div>
+        </li>
+        }
+      </ul>
+      }
+    </div>
+  </div>
+</div>
