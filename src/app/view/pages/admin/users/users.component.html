@@ -31,43 +31,49 @@
     </ul>
   </div>
 </div>
-<app-primary-table [columnNames]="columnNames" [isEmpty]="users.length == 0">
-  @for(user of users; track $index) {
-  <app-primary-table-row>
-    <div class="user-cell d-flex" [ngClass]="'col-' + 12 / columnNames.length">
-      <img
-        [src]="
-          user.image ?? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
-        "
-        alt="User"
-      />
-      <div class="user-cell-text d-flex flex-column justify-content-center">
-        <p class="fw-bold">
-          {{ user.firstName + " " + user.lastName | slice : 0 : 20 }}
-        </p>
-        <p class="user-email">{{ user.email | slice : 0 : 20 }}</p>
+<div class="table-container">
+  <app-primary-table [columnNames]="columnNames" [isEmpty]="users.length == 0">
+    @for(user of users; track $index) {
+    <app-primary-table-row>
+      <div
+        class="user-cell d-flex"
+        [ngClass]="'col-' + 12 / columnNames.length"
+      >
+        <img
+          [src]="
+            user.image ??
+            'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+          "
+          alt="User"
+        />
+        <div class="user-cell-text d-flex flex-column justify-content-center">
+          <p class="fw-bold">
+            {{ user.firstName + " " + user.lastName | slice : 0 : 20 }}
+          </p>
+          <p class="user-email">{{ user.email | slice : 0 : 20 }}</p>
+        </div>
       </div>
-    </div>
-    <p [ngClass]="'col-' + 12 / columnNames.length">{{ user.phoneNumber }}</p>
-    <p [ngClass]="'col-' + 12 / columnNames.length">
-      {{ user.createdAt | date : "dd/MM/yyyy" }}
-    </p>
-    <p [ngClass]="'col-' + 12 / columnNames.length">
-      {{ user.city ?? "N/A" }}
-    </p>
-  </app-primary-table-row>
-  }@empty {
-  <app-empty-data
-    [title]="'No Users'"
-    [subtitle]="'There are no users to display'"
-  ></app-empty-data>
-  }
-</app-primary-table>
-<mat-paginator
-  [length]="total"
-  [pageSize]="limit"
-  [pageSizeOptions]="[10]"
-  (page)="onPageChange($event)"
-  aria-label="Select page"
->
-</mat-paginator>
+      <p [ngClass]="'col-' + 12 / columnNames.length">{{ user.phoneNumber }}</p>
+      <p [ngClass]="'col-' + 12 / columnNames.length">
+        {{ user.createdAt | date : "dd/MM/yyyy" }}
+      </p>
+      <p [ngClass]="'col-' + 12 / columnNames.length">
+        {{ user.city ?? "N/A" }}
+      </p>
+    </app-primary-table-row>
+    }@empty {
+    <app-empty-data
+      [title]="'No Users'"
+      [subtitle]="'There are no users to display'"
+    ></app-empty-data>
+    }
+  </app-primary-table>
+  <mat-paginator
+    [length]="total"
+    [pageSize]="limit"
+    [pageSizeOptions]="[10]"
+    (page)="onPageChange($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>
