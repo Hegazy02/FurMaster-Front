@@ -1,10 +1,11 @@
 :host {
     position: relative;
-    display: inline-block;
     width: 300px;
     background-color: white;
     box-shadow: var(--admin-shadow);
     border-radius: 5px;
+    display: flex;
+    align-items: center;
 
 }
 

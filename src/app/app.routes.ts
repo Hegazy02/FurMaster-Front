@@ -1,11 +1,15 @@
 import { Routes } from '@angular/router';
+import { CartComponent } from './view/pages/user/cart/cart.component';
 
 export const routes: Routes = [
+
   {
     path: '',
-    redirectTo: 'admin/users',
+    redirectTo: 'admin/customers',
     pathMatch: 'full',
   },
+  { path: 'cart', component: CartComponent },
+
   {
     path: 'my-account',
     loadComponent: () =>
@@ -36,13 +40,18 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    loadComponent: () =>
+      import('./view/pages/admin/admin.component').then(
+        (m) => m.AdminComponent
+      ),
     children: [
       {
-        path: 'users',
+        path: 'customers',
         loadComponent: () =>
           import('./view/pages/admin/users/users.component').then(
             (m) => m.UsersComponent
           ),
+        data: { title: 'Customers' },
       },
     ],
   },

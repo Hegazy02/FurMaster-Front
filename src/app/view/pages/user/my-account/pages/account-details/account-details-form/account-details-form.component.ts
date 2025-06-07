@@ -27,16 +27,21 @@ export class AccountDetailsFormComponent {
   accountDetailsForm = new FormGroup({
     firstName: new FormControl(this.userService.user.firstName, [
       Validators.required,
+      Validators.pattern('[A-Za-z][A-Za-z0-9]{2,}'),
     ]),
     lastName: new FormControl(this.userService.user.lastName, [
       Validators.required,
+      Validators.pattern('[A-Za-z][A-Za-z0-9]{2,}'),
     ]),
     email: new FormControl({
       value: this.userService.user.email,
       disabled: true,
     }),
     gender: new FormControl(this.userService.user.gender),
-    phoneNumber: new FormControl(this.userService.user.phoneNumber),
+    phoneNumber: new FormControl(this.userService.user.phoneNumber, [
+      Validators.required,
+      Validators.pattern('[0-9]{11}'),
+    ]),
     city: new FormControl(this.userService.user.city),
     street: new FormControl(this.userService.user.street),
     address: new FormControl(this.userService.user.address),
