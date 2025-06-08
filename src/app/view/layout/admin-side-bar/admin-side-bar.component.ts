@@ -41,7 +41,7 @@ export class AdminSidebarComponent implements OnInit {
         },
         { icon: 'local_offer', label: 'Coupon Code', route: '/coupons' },
         { icon: 'category', label: 'Categories', route: '/admin/categories' },
-        { icon: 'receipt', label: 'Transaction', route: '/transactions' },
+        // { icon: 'receipt', label: 'Transaction', route: '/transactions' },
         { icon: 'star', label: 'Brand', route: '/brands' },
       ],
     },
@@ -51,7 +51,7 @@ export class AdminSidebarComponent implements OnInit {
         {
           icon: 'add_circle',
           label: 'Add Products',
-          route: '/admin/products/add',
+          route: '/admin/add-product',
         },
         { icon: 'inventory', label: 'Product List', route: '/admin/products' },
       ],
@@ -72,7 +72,15 @@ export class AdminSidebarComponent implements OnInit {
   ngOnInit(): void {
     this.menuSections.forEach((section) => {
       section.items.forEach((item) => {
-        if (this.router.url.includes(item.route)) {
+        if (!this.router.url.includes(item.route)) {
+          return;
+        }
+        const QuestionIndex = this.router.url.indexOf('?');
+        let temp = this.router.url;
+        if (QuestionIndex > 0) {
+          temp = this.router.url.slice(0, QuestionIndex);
+        }
+        if (temp === item.route) {
           item.active = true;
         }
       });

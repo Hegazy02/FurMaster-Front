@@ -51,6 +51,8 @@ export const routes: Routes = [
       // },
       {
         path: 'customers',
+        pathMatch: 'full',
+
         loadComponent: () =>
           import('./view/pages/admin/users/users.component').then(
             (m) => m.UsersComponent
@@ -59,11 +61,22 @@ export const routes: Routes = [
       },
       {
         path: 'products',
+        pathMatch: 'full',
+
         loadComponent: () =>
           import('./view/pages/admin/products/products.component').then(
             (m) => m.ProductsComponent
           ),
         data: { title: 'Products' },
+      },
+      {
+        path: 'add-product',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./view/pages/admin/add-product/add-product.component').then(
+            (m) => m.AddProductComponent
+          ),
+        data: { title: 'Add Product' },
       },
     ],
   },
