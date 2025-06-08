@@ -1,0 +1,86 @@
+<div class="d-flex">
+  <app-search-input
+    [searchBy]="'name'"
+    (searchChange)="onSearch($event)"
+    [search]="searchbyTitle"
+  ></app-search-input>
+  <app-primary-drop-down
+    [buttonText]="sortBy.value == '' ? 'Sort By' : sortBy.value"
+    [options]="dropDownOptions"
+  ></app-primary-drop-down>
+</div>
+
+<div class="table-container">
+  <app-primary-table
+    [columnNames]="columnNames"
+    [isEmpty]="
+      productsResponse?.data?.length == 0 || productsResponse?.data == null
+    "
+  >
+    @for(product of productsResponse?.data; track $index) {
+    <app-primary-table-row>
+      <div class="user-cell d-flex" [ngClass]="getColumnClass()">
+        <img
+          [src]="product.colors[0].image ?? 'https://i.imgur.com/EJLFNOw.png'"
+          alt="product"
+        />
+        <div class="user-cell-text d-flex flex-column justify-content-center">
+          <p class="fw-bold">
+            {{ product.title | slice : 0 : 20 }}
+          </p>
+          <p class="product-category">
+            {{ product.category.name | slice : 0 : 20 }}
+          </p>
+        </div>
+      </div>
+      <p [ngClass]="getColumnClass()">{{ product.price }}</p>
+
+      <p [ngClass]="getColumnClass()">
+        @for (item of product.colors; track $index) {
+        <span
+          [ngStyle]="{ 'background-color': item?.hex }"
+          [ngClass]="'color-circle'"
+        ></span>
+        }
+        <!-- {{ getColors(product.colors) }} -->
+      </p>
+      <div [ngClass]="getColumnClass()">
+        @if (getQuantity(product.colors)>0) {
+        <p>{{ getQuantity(product.colors) }}</p>
+        }@else {
+        <p class="out-of-stock">Out of stock</p>
+        }
+      </div>
+
+      <!-- @for (item of product.colors; track $index) {
+        <span
+          [ngClass]="{
+            'text-danger': item.stock < 1,
+            'fw-bold': item.stock < 1
+          }"
+          >{{ item.stock }}
+        </span>
+        @if($index + 1 != product.colors.length) {<span>/</span>} } -->
+      <div [ngClass]="getColumnClass()" class="d-flex rating">
+        <p>
+          {{ product.rating + " (" + product.ratingCounter + ")" }}
+        </p>
+        <i class="material-icons">star</i>
+      </div>
+    </app-primary-table-row>
+    }@empty {
+    <app-empty-data
+      [title]="'No Products'"
+      [subtitle]="'There are no products to display'"
+    ></app-empty-data>
+    }
+  </app-primary-table>
+  <mat-paginator
+    [length]="productsResponse?.total"
+    [pageSize]="limit"
+    [pageSizeOptions]="[10]"
+    (page)="onPageChange($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>

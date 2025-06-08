@@ -1,0 +1,18 @@
+<div class="dropdown">
+  <button
+    class="primary-dropdown-button dropdown-toggle"
+    type="button"
+    id="dropdownMenuButton1"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    {{ buttonText }}
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    @for (option of options; track $index) {
+    <li>
+      <a class="dropdown-item" (click)="option.onClick()">{{ option.title }}</a>
+    </li>
+    }
+  </ul>
+</div>

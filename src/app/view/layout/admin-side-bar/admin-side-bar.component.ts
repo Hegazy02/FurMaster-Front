@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 interface MenuItem {
@@ -20,23 +20,27 @@ interface MenuSection {
   templateUrl: './admin-side-bar.component.html',
   styleUrl: './admin-side-bar.component.css',
 })
-export class AdminSidebarComponent {
+export class AdminSidebarComponent implements OnInit {
   isCollapsed = false;
+  private router = inject(Router);
 
   menuSections: MenuSection[] = [
     {
       title: 'MAIN MENU',
       items: [
-        { icon: 'dashboard', label: 'Dashboard', route: '/dashboard' },
-        { icon: 'shopping_cart', label: 'Order Management', route: '/orders' },
+        { icon: 'dashboard', label: 'Dashboard', route: '/admin' },
+        {
+          icon: 'shopping_cart',
+          label: 'Order Management',
+          route: '/admin/orders',
+        },
         {
           icon: 'people',
           label: 'Customers',
-          route: '/customers',
-          active: true,
+          route: '/admin/customers',
         },
         { icon: 'local_offer', label: 'Coupon Code', route: '/coupons' },
-        { icon: 'category', label: 'Categories', route: '/categories' },
+        { icon: 'category', label: 'Categories', route: '/admin/categories' },
         { icon: 'receipt', label: 'Transaction', route: '/transactions' },
         { icon: 'star', label: 'Brand', route: '/brands' },
       ],
@@ -44,8 +48,12 @@ export class AdminSidebarComponent {
     {
       title: 'PRODUCTS',
       items: [
-        { icon: 'add_circle', label: 'Add Products', route: '/products/add' },
-        { icon: 'inventory', label: 'Product List', route: '/products' },
+        {
+          icon: 'add_circle',
+          label: 'Add Products',
+          route: '/admin/products/add',
+        },
+        { icon: 'inventory', label: 'Product List', route: '/admin/products' },
       ],
     },
     {
@@ -61,7 +69,15 @@ export class AdminSidebarComponent {
     },
   ];
 
-  constructor(private router: Router) {}
+  ngOnInit(): void {
+    this.menuSections.forEach((section) => {
+      section.items.forEach((item) => {
+        if (this.router.url.includes(item.route)) {
+          item.active = true;
+        }
+      });
+    });
+  }
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
