@@ -1,8 +1,15 @@
-<app-search-input
-  [searchBy]="'name'"
-  (searchChange)="onSearch($event)"
-  [search]="searchbyTitle"
-></app-search-input>
+<div class="d-flex">
+  <app-search-input
+    [searchBy]="'name'"
+    (searchChange)="onSearch($event)"
+    [search]="searchbyTitle"
+  ></app-search-input>
+  <app-primary-drop-down
+    [buttonText]="sortBy.value == '' ? 'Sort By' : sortBy.value"
+    [options]="dropDownOptions"
+  ></app-primary-drop-down>
+</div>
+
 <div class="table-container">
   <app-primary-table
     [columnNames]="columnNames"

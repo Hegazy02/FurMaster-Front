@@ -14,13 +14,13 @@ export class ProductsService {
     page: number,
     limit: number,
     searchbyTitle: string,
-    sort: string
+    sortBy: string
   ): Observable<ApiResponse<AdminProduct[]>> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString())
       .set('title', searchbyTitle)
-      .set('sort', sort);
+      .set('sortBy', sortBy);
     return this.http.get<ApiResponse<AdminProduct[]>>(
       Endpoints.ADMIN_PRODUCTS,
       { params }

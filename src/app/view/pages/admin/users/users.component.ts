@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
 
 @Component({
   selector: 'app-users',
@@ -24,6 +25,7 @@ import { debounceTime } from 'rxjs/internal/operators/debounceTime';
     SlicePipe,
     MatPaginator,
     EmptyDataComponent,
+    PrimaryDropDownComponent,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
@@ -43,11 +45,16 @@ export class UsersComponent implements OnInit, OnDestroy {
   searchInput = new Subject<string>();
   createdAt: string = '';
   private destroy$ = new Subject<void>();
+  dropDownOptions = [
+    { title: 'Ascending', onClick: () => this.onSortChange('asc') },
+    { title: 'Descending', onClick: () => this.onSortChange('desc') },
+  ];
   ngOnInit(): void {
+    this.getQueryParamsFromUrl();
     this.subScribeToSearchInput();
   }
   ngAfterViewInit(): void {
-    this.getQueryParamsFromUrl();
+    this.paginator.pageIndex = this.page - 1;
     this.getUsers();
   }
   getUsers() {

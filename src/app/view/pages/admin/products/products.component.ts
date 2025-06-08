@@ -13,6 +13,7 @@ import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
 import { ApiResponse } from '../../../../core/interfaces/api-response.interface';
+import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
 
 @Component({
   selector: 'app-products',
@@ -26,6 +27,7 @@ import { ApiResponse } from '../../../../core/interfaces/api-response.interface'
     NgStyle,
     EmptyDataComponent,
     MatPaginator,
+    PrimaryDropDownComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -39,6 +41,16 @@ export class ProductsComponent implements AfterViewInit {
     'rating',
     'actions',
   ];
+  dropDownOptions = [
+    { title: 'Heigh price', onClick: () => this.onSortChange('price_desc') },
+    { title: 'Low price', onClick: () => this.onSortChange('price_asc') },
+    { title: 'A-Z', onClick: () => this.onSortChange('title_asc') },
+    { title: 'Z-A', onClick: () => this.onSortChange('title_desc') },
+    { title: 'Latest', onClick: () => this.onSortChange('createdAt_desc') },
+    { title: 'Oldest', onClick: () => this.onSortChange('createdAt_asc') },
+    { title: 'Popularity', onClick: () => this.onSortChange('popularity') },
+    { title: 'Out of stock', onClick: () => this.onSortChange('out_of_stock') },
+  ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   productsService = inject(ProductsService);
   private readonly activatedRoute = inject(ActivatedRoute);
@@ -47,14 +59,15 @@ export class ProductsComponent implements AfterViewInit {
   limit = 10;
   page = 1;
   searchbyTitle: string = '';
-  createdAt: string = '';
+  sortBy = { value: '', apiValue: '' };
   searchInput = new Subject<string>();
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
+    this.getQueryParamsFromUrl();
     this.subScribeToSearchInput();
   }
   ngAfterViewInit(): void {
-    this.getQueryParamsFromUrl();
+    this.paginator.pageIndex = this.page - 1;
     this.getProducts();
   }
   getProducts() {
@@ -63,11 +76,13 @@ export class ProductsComponent implements AfterViewInit {
         this.page,
         this.limit,
         this.searchbyTitle,
-        this.createdAt
+        this.sortBy.apiValue
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
+          console.log('data', data);
+          
           this.productsResponse = data;
         },
         error: (err) => console.error(err),
@@ -101,10 +116,14 @@ export class ProductsComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
         this.page = parseInt(params['page']) ?? 1;
-        this.paginator.pageIndex = this.page - 1;
         this.limit = params['limit'] ?? 10;
         this.searchbyTitle = params['name'] ?? '';
-        this.createdAt = params['sort'] ?? '';
+        if (params['sortBy']) {
+          this.sortBy = {
+            value: this.derivedOption(params['sortBy']),
+            apiValue: params['sortBy'],
+          };
+        }
       });
   }
   setQueryParamsToUrl(params: { [key: string]: string }) {
@@ -114,6 +133,11 @@ export class ProductsComponent implements AfterViewInit {
       queryParamsHandling: 'merge',
     });
   }
+  onSortChange(value: string) {
+    this.sortBy = { value: this.derivedOption(value), apiValue: value };
+    this.setQueryParamsToUrl({ sortBy: value });
+    this.getProducts();
+  }
   getColumnClass(): string {
     const length = this.columnNames?.length || 1;
     const colSize = Math.floor(12 / length);
@@ -122,5 +146,30 @@ export class ProductsComponent implements AfterViewInit {
 
   getQuantity(colors: AdminProductColor[]): number {
     return colors.reduce((acc, color) => acc + color.stock, 0);
+  }
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
+  }
+  derivedOption(value: string) {
+    switch (value) {
+      case 'price_desc':
+        return 'High price';
+      case 'price_asc':
+        return 'Low price';
+      case 'title_asc':
+        return 'A-Z';
+      case 'title_desc':
+        return 'Z-A';
+      case 'createdAt_desc':
+        return 'Latest';
+      case 'createdAt_asc':
+        return 'Oldest';
+      case 'popularity':
+        return 'Popularity';
+      case 'out_of_stock':
+        return 'Out of stock';
+      default:
+        return 'Sort By';
+    }
   }
 }
