@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   limit: number = 10;
   searchbyEmail: string = '';
   searchInput = new Subject<string>();
-  createdAt: string = '';
+  sortBy = { value: '', apiValue: '' };
   private destroy$ = new Subject<void>();
   dropDownOptions = [
     { title: 'Ascending', onClick: () => this.onSortChange('asc') },
@@ -59,7 +59,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
   getUsers() {
     this.userService
-      .getUsers(this.page, this.limit, this.searchbyEmail, this.createdAt)
+      .getUsers(this.page, this.limit, this.searchbyEmail, this.sortBy.apiValue)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
@@ -100,7 +100,12 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.page = parseInt(params['page']) ?? 1;
         this.limit = params['limit'] ?? 10;
         this.searchbyEmail = params['email'] ?? '';
-        this.createdAt = params['sort'] ?? '';
+        if (params['sort']) {
+          this.sortBy = {
+            value: this.derivedOption(params['sort']),
+            apiValue: params['sort'],
+          };
+        }
       });
   }
   setQueryParamsToUrl(params: { [key: string]: string }) {
@@ -111,11 +116,21 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
   onSortChange(value: string) {
-    this.createdAt = value;
-    this.setQueryParamsToUrl({ sort: this.createdAt });
+    this.sortBy = { value: this.derivedOption(value), apiValue: value };
+    this.setQueryParamsToUrl({ sort: this.sortBy.apiValue });
     this.getUsers();
   }
   onEdit(user: User) {}
+  derivedOption(value: string) {
+    switch (value) {
+      case 'desc':
+        return 'Descending';
+      case 'asc':
+        return 'Ascending';
+      default:
+        return 'Sort By';
+    }
+  }
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();
   }

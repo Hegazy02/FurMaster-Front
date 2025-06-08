@@ -5,7 +5,7 @@
     [search]="searchbyEmail"
   ></app-search-input>
   <app-primary-drop-down
-    [buttonText]="createdAt == '' ? 'Sort By' : createdAt"
+    [buttonText]="sortBy.value == '' ? 'Sort By' : sortBy.value"
     [options]="dropDownOptions"
   ></app-primary-drop-down>
 </div>
