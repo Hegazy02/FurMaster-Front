@@ -41,7 +41,7 @@ export class AdminSidebarComponent implements OnInit {
         },
         { icon: 'local_offer', label: 'Coupon Code', route: '/coupons' },
         { icon: 'category', label: 'Categories', route: '/admin/categories' },
-        { icon: 'receipt', label: 'Transaction', route: '/transactions' },
+        // { icon: 'receipt', label: 'Transaction', route: '/transactions' },
         { icon: 'star', label: 'Brand', route: '/brands' },
       ],
     },
