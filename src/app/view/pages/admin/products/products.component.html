@@ -13,7 +13,9 @@
 <div class="table-container">
   <app-primary-table
     [columnNames]="columnNames"
-    [isEmpty]="productsResponse?.data?.length == 0"
+    [isEmpty]="
+      productsResponse?.data?.length == 0 || productsResponse?.data == null
+    "
   >
     @for(product of productsResponse?.data; track $index) {
     <app-primary-table-row>
