@@ -106,7 +106,7 @@ export class ProductsComponent implements AfterViewInit {
       .subscribe((value) => {
         this.searchbyTitle = value;
         this.page = 1;
-        this.setQueryParamsToUrl({ page: this.page.toString(), title: value });
+        this.setQueryParamsToUrl({ page: this.page.toString(), name: value });
         this.paginator.firstPage();
         this.getProducts();
       });
@@ -117,7 +117,7 @@ export class ProductsComponent implements AfterViewInit {
       .subscribe((params) => {
         this.page = parseInt(params['page']) ?? 1;
         this.limit = params['limit'] ?? 10;
-        this.searchbyTitle = params['title'] ?? '';
+        this.searchbyTitle = params['name'] ?? '';
         if (params['sortBy']) {
           this.sortBy = {
             value: this.derivedOption(params['sortBy']),
