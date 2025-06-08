@@ -82,7 +82,7 @@ export class ProductsComponent implements AfterViewInit {
       .subscribe({
         next: (data) => {
           console.log('data', data);
-          
+
           this.productsResponse = data;
         },
         error: (err) => console.error(err),
@@ -106,7 +106,7 @@ export class ProductsComponent implements AfterViewInit {
       .subscribe((value) => {
         this.searchbyTitle = value;
         this.page = 1;
-        this.setQueryParamsToUrl({ page: this.page.toString(), name: value });
+        this.setQueryParamsToUrl({ page: this.page.toString(), title: value });
         this.paginator.firstPage();
         this.getProducts();
       });
@@ -117,7 +117,7 @@ export class ProductsComponent implements AfterViewInit {
       .subscribe((params) => {
         this.page = parseInt(params['page']) ?? 1;
         this.limit = params['limit'] ?? 10;
-        this.searchbyTitle = params['name'] ?? '';
+        this.searchbyTitle = params['title'] ?? '';
         if (params['sortBy']) {
           this.sortBy = {
             value: this.derivedOption(params['sortBy']),
@@ -138,10 +138,10 @@ export class ProductsComponent implements AfterViewInit {
     this.setQueryParamsToUrl({ sortBy: value });
     this.getProducts();
   }
-  getColumnClass(): string {
-    const length = this.columnNames?.length || 1;
+  getColumnClass(increaseBy: number = 0): string {
+    const length = this.columnNames.length || 1;
     const colSize = Math.floor(12 / length);
-    return `col-${colSize}`;
+    return `col-${colSize + increaseBy}`;
   }
 
   getQuantity(colors: AdminProductColor[]): number {
