@@ -42,14 +42,14 @@ export class ProductsComponent implements AfterViewInit {
     'actions',
   ];
   dropDownOptions = [
-    { title: 'Heigh price', onClick: () => this.onSortChange('price_desc') },
-    { title: 'Low price', onClick: () => this.onSortChange('price_asc') },
-    { title: 'A-Z', onClick: () => this.onSortChange('title_asc') },
-    { title: 'Z-A', onClick: () => this.onSortChange('title_desc') },
-    { title: 'Latest', onClick: () => this.onSortChange('createdAt_desc') },
-    { title: 'Oldest', onClick: () => this.onSortChange('createdAt_asc') },
-    { title: 'Popularity', onClick: () => this.onSortChange('popularity') },
-    { title: 'Out of stock', onClick: () => this.onSortChange('out_of_stock') },
+    { title: 'Heigh price', apiValue: 'price_desc' },
+    { title: 'Low price', apiValue: 'price_asc' },
+    { title: 'A-Z', apiValue: 'title_asc' },
+    { title: 'Z-A', apiValue: 'title_desc' },
+    { title: 'Latest', apiValue: 'createdAt_desc' },
+    { title: 'Oldest', apiValue: 'createdAt_asc' },
+    { title: 'Popularity', apiValue: 'popularity' },
+    { title: 'Out of stock', apiValue: 'out_of_stock' },
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   productsService = inject(ProductsService);
@@ -133,9 +133,10 @@ export class ProductsComponent implements AfterViewInit {
       queryParamsHandling: 'merge',
     });
   }
-  onSortChange(value: string) {
-    this.sortBy = { value: this.derivedOption(value), apiValue: value };
-    this.setQueryParamsToUrl({ sortBy: value });
+
+  onSortChange(data: { value: string; apiValue: string }) {
+    this.sortBy = data;
+    this.setQueryParamsToUrl({ sortBy: data.apiValue });
     this.getProducts();
   }
   getColumnClass(increaseBy: number = 0): string {

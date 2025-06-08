@@ -4,7 +4,7 @@ import { CartComponent } from './view/pages/user/cart/cart.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin/customers',
+    redirectTo: 'admin/add-product',
     pathMatch: 'full',
   },
   { path: 'cart', component: CartComponent },

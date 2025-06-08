@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-primary-drop-down',
@@ -9,5 +9,11 @@ import { Component, Input } from '@angular/core';
 })
 export class PrimaryDropDownComponent {
   @Input() buttonText: string = '';
-  @Input() options: { title: string; onClick: () => any }[] = [];
+  @Input() options: { title: string; apiValue: string }[] = [];
+  @Output() onClickChange = new EventEmitter();
+  @Input() classes: string = '';
+
+  onClick(data: any) {
+    this.onClickChange.emit(data);
+  }
 }

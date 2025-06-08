@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { PrimaryFormInputComponent } from '../../../../../../../shared/primary-form-input/primary-form-input.component';
+import { PrimaryFormInputComponent } from './primary-form-input/primary-form-input.component';
 import {
   AbstractControl,
   FormControl,

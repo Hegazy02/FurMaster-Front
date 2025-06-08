@@ -46,8 +46,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   sortBy = { value: '', apiValue: '' };
   private destroy$ = new Subject<void>();
   dropDownOptions = [
-    { title: 'Ascending', onClick: () => this.onSortChange('asc') },
-    { title: 'Descending', onClick: () => this.onSortChange('desc') },
+    { title: 'Ascending', apiValue: 'asc' },
+    { title: 'Descending', apiValue: 'desc' },
   ];
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
