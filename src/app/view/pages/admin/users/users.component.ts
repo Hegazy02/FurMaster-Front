@@ -44,11 +44,12 @@ export class UsersComponent implements OnInit, OnDestroy {
   createdAt: string = '';
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
-    this.getQueryParamsFromUrl();
-    this.getUsers();
     this.subScribeToSearchInput();
   }
-
+  ngAfterViewInit(): void {
+    this.getQueryParamsFromUrl();
+    this.getUsers();
+  }
   getUsers() {
     this.userService
       .getUsers(this.page, this.limit, this.searchbyEmail, this.createdAt)
@@ -89,7 +90,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
-        this.page = params['page'] ?? 1;
+        this.page = parseInt(params['page']) ?? 1;
         this.limit = params['limit'] ?? 10;
         this.searchbyEmail = params['email'] ?? '';
         this.createdAt = params['sort'] ?? '';

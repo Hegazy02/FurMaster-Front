@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { CartComponent } from './view/pages/user/cart/cart.component';
 
 export const routes: Routes = [
-
   {
     path: '',
     redirectTo: 'admin/customers',
@@ -45,6 +44,11 @@ export const routes: Routes = [
         (m) => m.AdminComponent
       ),
     children: [
+      // {
+      //   path: '',
+      //   pathMatch: 'full',
+      //   data: { title: 'Dashboard' },
+      // },
       {
         path: 'customers',
         loadComponent: () =>
@@ -52,6 +56,14 @@ export const routes: Routes = [
             (m) => m.UsersComponent
           ),
         data: { title: 'Customers' },
+      },
+      {
+        path: 'products',
+        loadComponent: () =>
+          import('./view/pages/admin/products/products.component').then(
+            (m) => m.ProductsComponent
+          ),
+        data: { title: 'Products' },
       },
     ],
   },
