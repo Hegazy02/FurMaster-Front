@@ -82,7 +82,7 @@ export class ProductsComponent implements AfterViewInit {
       .subscribe({
         next: (data) => {
           console.log('data', data);
-          
+
           this.productsResponse = data;
         },
         error: (err) => console.error(err),
@@ -138,10 +138,10 @@ export class ProductsComponent implements AfterViewInit {
     this.setQueryParamsToUrl({ sortBy: value });
     this.getProducts();
   }
-  getColumnClass(): string {
-    const length = this.columnNames?.length || 1;
+  getColumnClass(increaseBy: number = 0): string {
+    const length = this.columnNames.length || 1;
     const colSize = Math.floor(12 / length);
-    return `col-${colSize}`;
+    return `col-${colSize + increaseBy}`;
   }
 
   getQuantity(colors: AdminProductColor[]): number {

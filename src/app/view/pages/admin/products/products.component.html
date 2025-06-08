@@ -13,13 +13,14 @@
 <div class="table-container">
   <app-primary-table
     [columnNames]="columnNames"
+    [customSizes]="['col-3', 'col-2', 'col-2', 'col-2', 'col-2']"
     [isEmpty]="
       productsResponse?.data?.length == 0 || productsResponse?.data == null
     "
   >
     @for(product of productsResponse?.data; track $index) {
     <app-primary-table-row>
-      <div class="user-cell d-flex" [ngClass]="getColumnClass()">
+      <div class="user-cell d-flex" [ngClass]="getColumnClass(1)">
         <img
           [src]="product.colors[0].image ?? 'https://i.imgur.com/EJLFNOw.png'"
           alt="product"
@@ -33,12 +34,19 @@
           </p>
         </div>
       </div>
-      <p [ngClass]="getColumnClass()">{{ product.price }}</p>
+      <div [ngClass]="getColumnClass()">
+        @if (product.offerPrice) {
+        <span class="me-2 text-decoration-line-through text-secondary">${{ product.price }}</span>
+        <span class="fw-bold">${{ product.offerPrice }}</span>
+        }@else {
+        <p class="fw-bold">${{ product.price }}</p>
+        }
+      </div>
 
       <p [ngClass]="getColumnClass()">
         @for (item of product.colors; track $index) {
         <span
-          [ngStyle]="{ 'background-color': item?.hex }"
+          [ngStyle]="{ 'background-color': item?.hex, 'z-index': $index + 1 }"
           [ngClass]="'color-circle'"
         ></span>
         }
