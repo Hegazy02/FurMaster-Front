@@ -1,0 +1,3 @@
+.add-product-content>* {
+    box-shadow: var(--admin-shadow);
+}

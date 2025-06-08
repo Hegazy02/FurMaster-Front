@@ -1,1 +1,12 @@
-<p>add-product works!</p>
+<div class="add-product-content d-flex gap-4">
+  <form [formGroup]="addProductForm" class="col-6 bg-white p-4 rounded">
+    <app-primary-form-input
+      [formControlName]="'title'"
+      [label]="'Title'"
+      [required]="true"
+      [isInvalid]="isInvalid(getFormControl('title'))"
+      class="col-6"
+    ></app-primary-form-input>
+  </form>
+  <div class="col-6 bg-white p-4 rounded"></div>
+</div>

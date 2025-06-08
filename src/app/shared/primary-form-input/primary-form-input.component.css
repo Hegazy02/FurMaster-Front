@@ -4,7 +4,7 @@
 }
 
 input {
-    border-radius: 5px;
+    border-radius: 10px;
     border: 2px solid var(--dark-grey);
     padding: 10px;
     display: block;

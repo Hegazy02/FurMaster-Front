@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { AccountDetailsFormInputComponent } from './account-details-form-input/account-details-form-input.component';
+import { PrimaryFormInputComponent } from '../../../../../../../shared/primary-form-input/primary-form-input.component';
 import {
   AbstractControl,
   FormControl,
@@ -14,7 +14,7 @@ import { PrimaryButtonComponent } from '../../../../../../../shared/primary-butt
   selector: 'app-account-details-form',
   standalone: true,
   imports: [
-    AccountDetailsFormInputComponent,
+    PrimaryFormInputComponent,
     ReactiveFormsModule,
     PrimaryButtonComponent,
   ],
