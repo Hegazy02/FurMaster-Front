@@ -34,17 +34,20 @@
     font-size: 14px;
     width: fit-content;
 }
-app-primary-table-row{
+
+app-primary-table-row {
     font-size: 14px;
 }
+
 .color-circle {
     display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    margin-right: 5px;
+    margin-left: -10px;
 }
-.product-title{
+
+.product-title {
     font-size: 14px;
     font-weight: 600;
 }

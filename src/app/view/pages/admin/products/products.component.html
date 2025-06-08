@@ -46,7 +46,7 @@
       <p [ngClass]="getColumnClass()">
         @for (item of product.colors; track $index) {
         <span
-          [ngStyle]="{ 'background-color': item?.hex }"
+          [ngStyle]="{ 'background-color': item?.hex, 'z-index': $index + 1 }"
           [ngClass]="'color-circle'"
         ></span>
         }
