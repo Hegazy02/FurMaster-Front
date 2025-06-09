@@ -1,12 +1,13 @@
 <div
   class="searchable-dropdown"
   [class.disabled]="disabled"
-  [class.open]="isOpen"
+  [class.isopen]="isOpen"
 >
   <!-- Main dropdown button -->
   <div
-    class="custom-dropdown-toggle d-flex align-items-center justify-content-between"
+    class="dropdown-button d-flex align-items-center justify-content-between"
     [class.is-invalid]="false"
+    [class.is-open]="isOpen"
     (click)="toggleDropdown($event)"
   >
     <span class="selected-text">
@@ -39,7 +40,7 @@
 
   <!-- Dropdown menu -->
   <div
-    class="dropdown-menu"
+    class="custom-dropdown-menu dropdown-options"
     [class.show]="isOpen"
     [style.max-height]="maxHeight"
   >
