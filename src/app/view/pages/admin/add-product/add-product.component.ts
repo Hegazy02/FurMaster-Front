@@ -48,14 +48,8 @@ export class AddProductComponent {
       Validators.minLength(3),
       Validators.maxLength(500),
     ]),
-    price: new FormControl('', [
-      Validators.required,
-      Validators.pattern('[0-9]+'),
-    ]),
-    offerPrice: new FormControl('', [
-      Validators.required,
-      Validators.pattern('[0-9]+'),
-    ]),
+    price: new FormControl('', [Validators.required, Validators.min(0)]),
+    offerPrice: new FormControl('', [Validators.min(0)]),
     categoryId: new FormControl('', [Validators.required]),
     colors: new FormArray([]),
   });
@@ -163,8 +157,7 @@ export class AddProductComponent {
             label: category.name,
             value: category._id,
           }));
-          console.log("categories", this.categories);
-          
+          console.log('categories', this.categories);
         },
         error: (error) => {
           if (error.status === 404) {
