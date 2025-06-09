@@ -5,7 +5,7 @@
 >
   <!-- Main dropdown button -->
   <div
-    class="dropdown-toggle d-flex align-items-center justify-content-between"
+    class="custom-dropdown-toggle d-flex align-items-center justify-content-between"
     [class.is-invalid]="false"
     (click)="toggleDropdown($event)"
   >
@@ -31,10 +31,9 @@
       </div>
 
       <!-- Dropdown arrow -->
-      <i
-        class="fas fa-chevron-down dropdown-arrow ms-2"
-        [class.rotated]="isOpen"
-      ></i>
+      <i class="material-icons ms-2" [class.rotated]="isOpen"
+        >keyboard_arrow_down</i
+      >
     </div>
   </div>
 
