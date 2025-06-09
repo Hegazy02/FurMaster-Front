@@ -34,7 +34,16 @@ import { AddProduct } from '../../../../core/interfaces/admin-product.interface'
     SearchableDropdownComponent,
     PrimaryButtonComponent,
   ],
+  imports: [
+    ReactiveFormsModule,
+    PrimaryFormInputComponent,
+    NgClass,
+    ColorSelectorComponent,
+    SearchableDropdownComponent,
+    PrimaryButtonComponent,
+  ],
   templateUrl: './add-product.component.html',
+  styleUrl: './add-product.component.css',
   styleUrl: './add-product.component.css',
 })
 export class AddProductComponent {
