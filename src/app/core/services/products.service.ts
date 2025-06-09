@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../interfaces/api-response.interface';
@@ -7,6 +7,7 @@ import {
   AddProduct,
 } from '../interfaces/admin-product.interface';
 import { Endpoints } from '../constants/endpoints';
+import { SHOULD_TRACK_LOADING } from '../interceptors/loading.interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,9 @@ export class ProductsService {
   }
   addProduct(product: AddProduct): Observable<AdminProduct> {
     const formData = this.parseFormData(product);
-    return this.http.post<AdminProduct>(Endpoints.ADMIN_PRODUCTS, formData);
+    return this.http.post<AdminProduct>(Endpoints.ADMIN_PRODUCTS, formData, {
+      context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
+    });
   }
 
   private parseFormData(product: AddProduct) {

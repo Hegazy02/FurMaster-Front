@@ -198,7 +198,8 @@ export class AddProductComponent {
         ?.pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (data) => {
-            console.log('Success', data);
+            this.resetData();
+          
           },
           error: (err) => console.error(err),
         });
@@ -207,6 +208,13 @@ export class AddProductComponent {
       this.markAllAsDirty();
     }
   }
+  private resetData() {
+    this.addProductForm.reset();
+    this.imagePreviewUrls = [];
+    this.colorsArray.clear();
+    this.addColorVariant();
+  }
+
   private parseForm(): AddProduct {
     return {
       title: this.addProductForm.value.title!,
