@@ -1,4 +1,4 @@
-import { Category, Color } from './product.model';
+import { Category } from './product.model';
 
 export interface AdminProduct {
   _id: string;
@@ -19,4 +19,17 @@ export interface AdminProductColor {
   hex?: string;
   stock: number;
   image?: string;
+}
+export interface AddProduct {
+  title: string;
+  price: number;
+  offerPrice?: number;
+  description: string;
+  categoryId: string;
+  colors: AddProductVariant[];
+}
+export interface AddProductVariant {
+  colorId: string;
+  stock: number;
+  image: File;
 }

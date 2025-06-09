@@ -110,7 +110,12 @@
             />
           </label>
           }@else {
-          <label class="file-input-label">
+          <label
+            class="file-input-label"
+            [ngClass]="{
+              'is-invalid': isVariantControlInvalid($index, 'image')
+            }"
+          >
             <i class="material-icons">image</i>
             <input
               type="file"

@@ -20,6 +20,8 @@ import {
 } from './searchable-dropdown/searchable-dropdown.component';
 import { CategoriesService } from '../../../../core/services/categories.service';
 import { PrimaryButtonComponent } from '../../../../shared/primary-button/primary-button.component';
+import { ProductsService } from '../../../../core/services/products.service';
+import { AddProduct } from '../../../../core/interfaces/admin-product.interface';
 
 @Component({
   selector: 'app-add-product',
@@ -32,13 +34,23 @@ import { PrimaryButtonComponent } from '../../../../shared/primary-button/primar
     SearchableDropdownComponent,
     PrimaryButtonComponent,
   ],
+  imports: [
+    ReactiveFormsModule,
+    PrimaryFormInputComponent,
+    NgClass,
+    ColorSelectorComponent,
+    SearchableDropdownComponent,
+    PrimaryButtonComponent,
+  ],
   templateUrl: './add-product.component.html',
+  styleUrl: './add-product.component.css',
   styleUrl: './add-product.component.css',
 })
 export class AddProductComponent {
   fb = inject(FormBuilder);
   colorsSerice = inject(ColorsService);
   categoriesService = inject(CategoriesService);
+  productsService = inject(ProductsService);
   addProductForm = new FormGroup({
     title: new FormControl('', [
       Validators.required,
@@ -47,7 +59,7 @@ export class AddProductComponent {
     ]),
     description: new FormControl('', [
       Validators.required,
-      Validators.minLength(3),
+      Validators.minLength(10),
       Validators.maxLength(500),
     ]),
     price: new FormControl('', [Validators.required, Validators.min(0)]),
@@ -99,7 +111,7 @@ export class AddProductComponent {
         '',
         [Validators.required, Validators.min(0), Validators.pattern('[0-9]+')],
       ],
-      image: [null as File | null],
+      image: [null as File | null, [Validators.required]],
     });
   }
   trackByVariantId(item: AbstractControl): string {
@@ -123,15 +135,7 @@ export class AddProductComponent {
   getColorGroup(index: number): FormGroup {
     return this.colorsArray.at(index) as FormGroup;
   }
-  onSubmit() {
-    if (this.addProductForm.valid) {
-      console.log(this.addProductForm.value);
-    } else {
-      console.log('invalid');
-      this.addProductForm.markAllAsTouched();
-      this.markAllAsDirty();
-    }
-  }
+
   markAllAsDirty() {
     Object.keys(this.addProductForm.controls).forEach((key) => {
       const control = this.addProductForm.get(key);
@@ -195,6 +199,44 @@ export class AddProductComponent {
   onSearchCategory(name: string) {
     this.categorySearchInput.next(name);
   }
+  onSubmit() {
+    if (this.addProductForm.valid) {
+      const addProductData: AddProduct = this.parseForm();
+      this.productsService
+        .addProduct(addProductData)
+        ?.pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (data) => {
+            this.resetData();
+          
+          },
+          error: (err) => console.error(err),
+        });
+    } else {
+      this.addProductForm.markAllAsTouched();
+      this.markAllAsDirty();
+    }
+  }
+  private resetData() {
+    this.addProductForm.reset();
+    this.imagePreviewUrls = [];
+    this.colorsArray.clear();
+    this.addColorVariant();
+  }
+
+  private parseForm(): AddProduct {
+    return {
+      title: this.addProductForm.value.title!,
+      description: this.addProductForm.value.description!,
+      price: parseFloat(this.addProductForm.value.price!),
+      offerPrice: this.addProductForm.value.offerPrice
+        ? parseFloat(this.addProductForm.value.offerPrice)
+        : undefined,
+      categoryId: this.addProductForm.value.categoryId!,
+      colors: this.addProductForm.value.colors!,
+    };
+  }
+
   ngOnDestroy() {
     this.destroy$.unsubscribe();
   }
