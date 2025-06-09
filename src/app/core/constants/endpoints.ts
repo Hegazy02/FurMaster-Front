@@ -7,6 +7,7 @@ export class Endpoints {
   public static LOGOUT = `${Endpoints.BASE_URL}/logout`;
   public static USER = `${Endpoints.BASE_URL}/users/me`;
   public static ORDERS = `${Endpoints.BASE_URL}/orders`;
+  public static COLORS = `${Endpoints.BASE_URL}/colors`;
   public static PRODUCTS = `${Endpoints.BASE_URL}/products`;
   public static ADMIN_PRODUCTS = `${Endpoints.BASE_URL}/admin/products`;
   public static CATEGORIES = `${Endpoints.BASE_URL}/categories`;
@@ -15,5 +16,4 @@ export class Endpoints {
   public static PAYMENT_METHODS = `${Endpoints.BASE_URL}/payment-methods`;
   //admin
   public static USERS = `${Endpoints.BASE_URL}/admin/users`;
-
 }
