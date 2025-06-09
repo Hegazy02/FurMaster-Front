@@ -7,6 +7,10 @@
     opacity: 0.6;
   }
 
+  .dropdown-button.is-invalid {
+    border: 1px solid red;
+  }
+
   /* .custom-dropdown-toggle {
     background-color: #fff;
     border: 1px solid #ced4da;
@@ -67,9 +71,10 @@
       }
     }
   } */
-.selected-text{
-  color: var(--light-primary-color);
-}
+  .selected-text {
+    color: var(--light-primary-color);
+  }
+
   .custom-dropdown-menu {
     position: absolute;
     top: 100%;

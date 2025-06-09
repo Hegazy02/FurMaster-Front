@@ -48,6 +48,7 @@ export class SearchableDropdownComponent
   @Input() loading: boolean = false;
   @Input() notFoundText: string = 'No options found';
   @Input() allowCustomValue: boolean = false;
+  @Input() invalid: boolean = false;
 
   @Output() selectionChange = new EventEmitter<any>();
   @Output() searchChange = new EventEmitter<string>();

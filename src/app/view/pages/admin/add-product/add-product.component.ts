@@ -19,6 +19,7 @@ import {
   SearchableDropdownComponent,
 } from './searchable-dropdown/searchable-dropdown.component';
 import { CategoriesService } from '../../../../core/services/categories.service';
+import { PrimaryButtonComponent } from '../../../../shared/primary-button/primary-button.component';
 
 @Component({
   selector: 'app-add-product',
@@ -29,6 +30,7 @@ import { CategoriesService } from '../../../../core/services/categories.service'
     NgClass,
     ColorSelectorComponent,
     SearchableDropdownComponent,
+    PrimaryButtonComponent,
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css',
@@ -78,7 +80,7 @@ export class AddProductComponent {
     this.colorsArray.controls[index].get('colorId')?.setValue(color._id);
   }
   getFormControl(
-    name: 'title' | 'description' | 'price' | 'offerPrice'
+    name: 'title' | 'description' | 'price' | 'offerPrice' | 'categoryId'
   ): FormControl {
     return this.addProductForm.controls[name] as FormControl;
   }
@@ -91,6 +93,7 @@ export class AddProductComponent {
   }
   createColorFormGroup(): FormGroup {
     return this.fb.group({
+      id: crypto.randomUUID(),
       colorId: ['', [Validators.required]],
       stock: [
         '',
@@ -98,6 +101,9 @@ export class AddProductComponent {
       ],
       image: [null as File | null],
     });
+  }
+  trackByVariantId(item: AbstractControl): string {
+    return item.get('id')?.value;
   }
   get colorsArray(): FormArray {
     return this.addProductForm.get('colors') as FormArray;
@@ -109,10 +115,9 @@ export class AddProductComponent {
 
   // Remove a color variant
   removeColorVariant(index: number) {
-    console.log('inxdex', index);
-
     if (this.colorsArray.length > 1) {
       this.colorsArray.removeAt(index);
+      this.imagePreviewUrls.splice(index, 1);
     }
   }
   getColorGroup(index: number): FormGroup {
@@ -121,8 +126,30 @@ export class AddProductComponent {
   onSubmit() {
     if (this.addProductForm.valid) {
       console.log(this.addProductForm.value);
+    } else {
+      console.log('invalid');
+      this.addProductForm.markAllAsTouched();
+      this.markAllAsDirty();
     }
   }
+  markAllAsDirty() {
+    Object.keys(this.addProductForm.controls).forEach((key) => {
+      const control = this.addProductForm.get(key);
+      control?.markAsDirty();
+    });
+    this.markAllColorsAsDirty();
+  }
+  private markAllColorsAsDirty() {
+    const colorsControls = this.colorsArray.controls;
+    for (let i = 0; i < colorsControls.length; i++) {
+      const colorGroup = this.getColorGroup(i);
+      Object.keys(colorGroup.controls).forEach((key) => {
+        const control = colorGroup.get(key);
+        control?.markAsDirty();
+      });
+    }
+  }
+
   isVariantControlInvalid(index: number, controlName: string): boolean {
     return (
       this.getColorGroup(index).get(controlName)!.invalid &&
@@ -157,7 +184,6 @@ export class AddProductComponent {
             label: category.name,
             value: category._id,
           }));
-          console.log('categories', this.categories);
         },
         error: (error) => {
           if (error.status === 404) {
