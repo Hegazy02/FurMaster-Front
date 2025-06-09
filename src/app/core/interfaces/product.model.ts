@@ -23,5 +23,5 @@ export interface Category {
 export interface Color {
   _id: string;
   name: string;
-  hexCode?: string;
+  hex?: string;
 }

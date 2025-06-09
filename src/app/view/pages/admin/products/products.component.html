@@ -1,4 +1,4 @@
-<div class="d-flex">
+<div class="d-flex gap-3">
   <app-search-input
     [searchBy]="'title'"
     (searchChange)="onSearch($event)"
@@ -6,6 +6,7 @@
   ></app-search-input>
   <app-primary-drop-down
     [buttonText]="sortBy.value == '' ? 'Sort By' : sortBy.value"
+    (onClickChange)="onSortChange($event)"
     [options]="dropDownOptions"
   ></app-primary-drop-down>
 </div>
