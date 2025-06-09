@@ -67,7 +67,9 @@
       }
     }
   } */
-
+.selected-text{
+  color: var(--light-primary-color);
+}
   .custom-dropdown-menu {
     position: absolute;
     top: 100%;

@@ -3,11 +3,9 @@
     position: relative;
 }
 
-.form-label {
-    display: block;
-    margin-bottom: 0.5rem;
+.form-label label {
     font-weight: 500;
-    color: #374151;
+    color: var(--label-color);
 }
 
 .custom-dropdown-container {
@@ -16,7 +14,9 @@
 }
 
 
-
+.required {
+    color: red;
+}
 
 
 .dropdown-button:disabled {
@@ -44,8 +44,7 @@
 }
 
 .selected-text {
-    color: #374151;
-    font-weight: 500;
+    color: var(--light-primary-color);
 }
 
 .dropdown-button:disabled .selected-text {

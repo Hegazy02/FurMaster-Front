@@ -45,6 +45,7 @@
         [placeholder]="'Price'"
         [formControlName]="'price'"
         [label]="'Price'"
+        [type]="'number'"
         [required]="true"
         [isInvalid]="isInvalid(getFormControl('price'))"
       ></app-primary-form-input>
@@ -53,6 +54,7 @@
         [placeholder]="'Offer price'"
         [formControlName]="'offerPrice'"
         [label]="'Offer price'"
+        [type]="'number'"
         [required]="false"
         [isInvalid]="isInvalid(getFormControl('offerPrice'))"
       ></app-primary-form-input>
@@ -71,7 +73,8 @@
           <!-- Color -->
           <app-color-selector
             [colors]="colors"
-            [label]="'Select Product Color'"
+            [label]="'Color'"
+            [required]="true"
             [isInvalid]="isVariantControlInvalid($index, 'colorId')"
             (colorSelected)="onColorSelected($event, $index)"
           >
@@ -83,6 +86,7 @@
             [placeholder]="'Quantity'"
             [formControlName]="'stock'"
             [label]="'Quantity'"
+            [type]="'number'"
             [required]="true"
             [isInvalid]="isVariantControlInvalid($index, 'stock')"
           ></app-primary-form-input>

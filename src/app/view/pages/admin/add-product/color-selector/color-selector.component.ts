@@ -47,6 +47,7 @@ export class ColorSelectorComponent implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() isInvalid: boolean = false;
   @Input() disabled: boolean = false;
+  @Input() required: boolean = false;
   @Output() colorSelected = new EventEmitter<Color>();
 
   selectedColorId: string | null = null;

@@ -1,5 +1,10 @@
 <div class="color-selector">
-  <label *ngIf="label" class="form-label" [for]="dropdownId">{{ label }}</label>
+  <div class="form-label">
+    <label *ngIf="label" [for]="dropdownId">{{ label }}</label>
+    @if (required) {
+    <span class="required"> *</span>
+    }
+  </div>
 
   <div class="custom-dropdown-container">
     <!-- Custom Dropdown Button -->
@@ -20,7 +25,7 @@
           [style.background-color]="selectedColor.hex"
         ></div>
         <span class="selected-text">
-          {{ selectedColor ? selectedColor.name : "Select a color..." }}
+          {{ selectedColor ? selectedColor.name : "Select a color" }}
         </span>
       </div>
       <div class="dropdown-arrow" [class.rotated]="isOpen">

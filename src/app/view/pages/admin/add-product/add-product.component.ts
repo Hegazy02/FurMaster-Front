@@ -89,7 +89,7 @@ export class AddProductComponent {
     return this.addProductForm.controls[name] as FormControl;
   }
   isInvalid(control: AbstractControl): boolean {
-    const data = control.invalid && control.touched;
+    const data = control.invalid && control.touched && control.dirty;
     return data;
   }
   onSelectCategory(data: DropdownOption) {
