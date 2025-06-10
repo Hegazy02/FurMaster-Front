@@ -35,7 +35,6 @@ import { ToastrService } from 'ngx-toastr';
     SearchableDropdownComponent,
     PrimaryButtonComponent,
   ],
-
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css',
 })
