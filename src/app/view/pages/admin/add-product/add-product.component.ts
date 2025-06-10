@@ -22,6 +22,7 @@ import { CategoriesService } from '../../../../core/services/categories.service'
 import { PrimaryButtonComponent } from '../../../../shared/primary-button/primary-button.component';
 import { ProductsService } from '../../../../core/services/products.service';
 import { AddProduct } from '../../../../core/interfaces/admin-product.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-product',
@@ -34,19 +35,11 @@ import { AddProduct } from '../../../../core/interfaces/admin-product.interface'
     SearchableDropdownComponent,
     PrimaryButtonComponent,
   ],
-  imports: [
-    ReactiveFormsModule,
-    PrimaryFormInputComponent,
-    NgClass,
-    ColorSelectorComponent,
-    SearchableDropdownComponent,
-    PrimaryButtonComponent,
-  ],
   templateUrl: './add-product.component.html',
-  styleUrl: './add-product.component.css',
   styleUrl: './add-product.component.css',
 })
 export class AddProductComponent {
+  toastr = inject(ToastrService);
   fb = inject(FormBuilder);
   colorsSerice = inject(ColorsService);
   categoriesService = inject(CategoriesService);
@@ -68,7 +61,7 @@ export class AddProductComponent {
     colors: new FormArray([]),
   });
   categories: DropdownOption[] = [];
-  colors: Color[] = [{ _id: '1', name: 'Red', hex: '#FF0000' }];
+  colors: Color[] = [];
   imagePreviewUrls: string[] = [];
   categorySearchInput = new Subject<string>();
 
@@ -207,14 +200,18 @@ export class AddProductComponent {
         ?.pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (data) => {
+            this.toastr.success('Product added successfully');
             this.resetData();
-          
           },
-          error: (err) => console.error(err),
+          error: (err) => {
+            this.toastr.error(err.error.message);
+            console.error(err);
+          },
         });
     } else {
       this.addProductForm.markAllAsTouched();
       this.markAllAsDirty();
+      this.toastr.error('Please fill all the required fields');
     }
   }
   private resetData() {
