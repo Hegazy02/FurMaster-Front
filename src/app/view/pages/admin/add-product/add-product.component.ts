@@ -45,15 +45,10 @@ export class AddProductComponent {
   categoriesService = inject(CategoriesService);
   productsService = inject(ProductsService);
   addProductForm = new FormGroup({
-    title: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(200),
-    ]),
+    title: new FormControl('', [Validators.required, Validators.minLength(3)]),
     description: new FormControl('', [
       Validators.required,
       Validators.minLength(10),
-      Validators.maxLength(500),
     ]),
     price: new FormControl('', [Validators.required, Validators.min(0)]),
     offerPrice: new FormControl('', [Validators.min(0)]),
