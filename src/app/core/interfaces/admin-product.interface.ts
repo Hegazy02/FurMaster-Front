@@ -15,6 +15,7 @@ export interface AdminProduct {
 
 export interface AdminProductColor {
   _id: string;
+  colorId: string;
   name: string;
   hex?: string;
   stock: number;
