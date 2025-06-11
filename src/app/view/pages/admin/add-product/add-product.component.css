@@ -30,7 +30,7 @@ h2 {
 }
 
 .add::selection,
-.delete-variant::selection {
+.variant-option::selection {
     background-color: transparent;
 }
 
@@ -43,7 +43,7 @@ h2 {
     transform: scale(0.9);
 }
 
-.delete-variant {
+.variant-option {
     cursor: pointer;
     color: red;
     font-size: 1.5rem;
@@ -52,10 +52,23 @@ h2 {
     transition: all 0.2s ease;
     height: fit-content;
 }
+.variant-option:hover {
+    color: white;
+}
+
+.delete-variant {
+    color: red;
+}
 
 .delete-variant:hover {
     background-color: red;
-    color: white;
+}
+.set-variant {
+    color: green;
+}
+
+.set-variant:hover {
+    background-color: green;
 }
 
 .file-input {

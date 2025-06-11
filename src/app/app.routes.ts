@@ -70,6 +70,16 @@ export const routes: Routes = [
         data: { title: 'Products' },
       },
       {
+        path: 'products/:id',
+        pathMatch: 'full',
+
+        loadComponent: () =>
+          import('./view/pages/admin/add-product/add-product.component').then(
+            (m) => m.AddProductComponent
+          ),
+        data: { title: 'Update Product' },
+      },
+      {
         path: 'add-product',
         pathMatch: 'full',
         loadComponent: () =>

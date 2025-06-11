@@ -11,7 +11,6 @@ import {
 import { PrimaryFormInputComponent } from '../../user/my-account/pages/account-details/account-details-form/primary-form-input/primary-form-input.component';
 import { NgClass } from '@angular/common';
 import { ColorSelectorComponent } from './color-selector/color-selector.component';
-import { Color } from '../../../../core/interfaces/product.model';
 import { ColorsService } from '../../../../core/services/colors.service';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import {
@@ -21,8 +20,15 @@ import {
 import { CategoriesService } from '../../../../core/services/categories.service';
 import { PrimaryButtonComponent } from '../../../../shared/primary-button/primary-button.component';
 import { ProductsService } from '../../../../core/services/products.service';
-import { AddProduct } from '../../../../core/interfaces/admin-product.interface';
+import {
+  AddProduct,
+  AdminProduct,
+  AdminProductVariant,
+  VariantColor,
+} from '../../../../core/interfaces/admin-product.interface';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
+import { Category } from '../../../../core/interfaces/product.model';
 
 @Component({
   selector: 'app-add-product',
@@ -56,28 +62,77 @@ export class AddProductComponent {
     colors: new FormArray([]),
   });
   categories: DropdownOption[] = [];
-  colors: Color[] = [];
+  colors: VariantColor[] = [];
   imagePreviewUrls: string[] = [];
   categorySearchInput = new Subject<string>();
-
+  private readonly activatedRoute = inject(ActivatedRoute);
+  productId: string | null = null;
+  initialCategory: DropdownOption | null = null;
   private destroy$ = new Subject<void>();
 
   ngOnInit() {
+    this.getProduct();
     this.getColors();
     this.getCategories();
     this.addColorVariant();
     this.subScribeToCategorySearchInput();
   }
+  getProduct() {
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((param) => {
+        this.productId = param.get('id');
+        if (!this.productId) {
+          return;
+        }
+
+        this.productsService
+          .getProduct(this.productId)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (result) => {
+              this.setProductData(result.data);
+            },
+          });
+      });
+  }
+  private setProductData(data: AdminProduct) {
+    this.initialCategory = {
+      label: data.category.name,
+      value: data.category._id,
+    };
+    this.addProductForm.patchValue({
+      title: data.title,
+      description: data.description,
+      price: data.price.toString(),
+      offerPrice: data.offerPrice?.toString(),
+      categoryId: data.category._id,
+    });
+
+    this.colorsArray.clear();
+    data.colors.forEach((color) => {
+      this.colorsArray.push(this.createColorFormGroup(color));
+      color.image && this.imagePreviewUrls.push(color.image);
+    });
+  }
+
   getColors() {
     this.colorsSerice
       .getColors()
       ?.pipe(takeUntil(this.destroy$))
       .subscribe((result) => {
-        this.colors = result.data;
+        this.colors = result.data.map((color) => {
+          return {
+            colorId: color._id,
+            name: color.name,
+            hex: color.hex,
+          };
+        });
       });
   }
-  onColorSelected(color: Color, index: number) {
-    this.colorsArray.controls[index].get('colorId')?.setValue(color._id);
+  onColorSelected(color: VariantColor, index: number) {
+    console.log('color', color);
+    this.colorsArray.controls[index].get('colorId')?.setValue(color.colorId);
   }
   getFormControl(
     name: 'title' | 'description' | 'price' | 'offerPrice' | 'categoryId'
@@ -91,19 +146,23 @@ export class AddProductComponent {
   onSelectCategory(data: DropdownOption) {
     this.addProductForm.get('categoryId')?.setValue(data.value);
   }
-  createColorFormGroup(): FormGroup {
+  createColorFormGroup(color?: AdminProductVariant): FormGroup {
     return this.fb.group({
-      id: crypto.randomUUID(),
-      colorId: ['', [Validators.required]],
+      _id: color?._id,
+      idForHtml: crypto.randomUUID(),
+      colorId: [color?.colorId ?? '', [Validators.required]],
       stock: [
-        '',
+        color?.stock ?? '',
         [Validators.required, Validators.min(0), Validators.pattern('[0-9]+')],
       ],
-      image: [null as File | null, [Validators.required]],
+      image: [
+        color?.image ?? (null as File | null | string),
+        [Validators.required],
+      ],
     });
   }
   trackByVariantId(item: AbstractControl): string {
-    return item.get('id')?.value;
+    return item.get('idForHtml')?.value;
   }
   get colorsArray(): FormArray {
     return this.addProductForm.get('colors') as FormArray;
@@ -113,12 +172,73 @@ export class AddProductComponent {
     this.colorsArray.push(colorGroup);
   }
 
-  // Remove a color variant
-  removeColorVariant(index: number) {
+  removeVariant(index: number) {
+    if (this.colorsArray.controls[index].get('_id')?.value) {
+      this.deleteProductVariant(index);
+    }
     if (this.colorsArray.length > 1) {
       this.colorsArray.removeAt(index);
       this.imagePreviewUrls.splice(index, 1);
     }
+  }
+  setVariant(index: number) {
+    if (!this.colorsArray.controls[index].valid) {
+      this.colorsArray.controls[index].markAllAsTouched();
+      this.markAllAsDirty();
+      return;
+    }
+    const variantId = this.colorsArray.controls[index].get('_id')?.value;
+    if (variantId) {
+      console.log('update Variant', variantId);
+      this.updateProductVariant(index);
+    } else {
+      this.addProductVariant(index);
+    }
+  }
+  addProductVariant(index: number) {
+    this.productsService
+      .addProductVariant(this.productId!, this.getColorGroup(index).value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Variant added successfully');
+        },
+        error: (err) => {
+          this.toastr.error(err.error.message);
+          console.error(err);
+        },
+      });
+  }
+  updateProductVariant(index: number) {
+    this.productsService
+      .updateProductVariant(this.productId!, this.getColorGroup(index).value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Variant updated successfully');
+        },
+        error: (err) => {
+          this.toastr.error(err.error.message);
+          console.error(err);
+        },
+      });
+  }
+  deleteProductVariant(index: number) {
+    this.productsService
+      .deleteProductVariant(
+        this.productId!,
+        this.getColorGroup(index).value._id!
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Variant deleted successfully');
+        },
+        error: (err) => {
+          this.toastr.error(err.error.message);
+          console.error(err);
+        },
+      });
   }
   getColorGroup(index: number): FormGroup {
     return this.colorsArray.at(index) as FormGroup;
@@ -188,27 +308,48 @@ export class AddProductComponent {
     this.categorySearchInput.next(name);
   }
   onSubmit() {
-    if (this.addProductForm.valid) {
-      const addProductData: AddProduct = this.parseForm();
-      this.productsService
-        .addProduct(addProductData)
-        ?.pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (data) => {
-            this.toastr.success('Product added successfully');
-            this.resetData();
-          },
-          error: (err) => {
-            this.toastr.error(err.error.message);
-            console.error(err);
-          },
-        });
-    } else {
+    if (!this.addProductForm.valid) {
       this.addProductForm.markAllAsTouched();
       this.markAllAsDirty();
       this.toastr.error('Please fill all the required fields');
     }
+    const productData = this.parseForm();
+    if (this.productId) {
+      this.updateProduct(productData);
+    } else {
+      this.addProduct(productData);
+    }
   }
+  addProduct(productData: AddProduct) {
+    this.productsService
+      .addProduct(productData)
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Product added successfully');
+          this.resetData();
+        },
+        error: (err) => {
+          this.toastr.error(err.error.message);
+          console.error(err);
+        },
+      });
+  }
+  updateProduct(productData: AddProduct) {
+    this.productsService
+      .updateProduct(this.productId!, productData)
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Product updated successfully');
+        },
+        error: (err) => {
+          this.toastr.error(err.error.message);
+          console.error(err);
+        },
+      });
+  }
+
   private resetData() {
     this.addProductForm.reset();
     this.imagePreviewUrls = [];
@@ -227,6 +368,11 @@ export class AddProductComponent {
       categoryId: this.addProductForm.value.categoryId!,
       colors: this.addProductForm.value.colors!,
     };
+  }
+  getInitialColor(color: AbstractControl) {
+    return (
+      this.colors.find((c) => c.colorId === color.get('colorId')?.value) || null
+    );
   }
 
   ngOnDestroy() {
