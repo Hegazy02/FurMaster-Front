@@ -7,10 +7,12 @@ import {
   forwardRef,
   HostListener,
   ElementRef,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Color } from '../../../../../core/interfaces/product.model';
+import { VariantColor } from '../../../../../core/interfaces/admin-product.interface';
 
 @Component({
   selector: 'app-color-selector',
@@ -26,32 +28,16 @@ import { Color } from '../../../../../core/interfaces/product.model';
     },
   ],
 })
-export class ColorSelectorComponent implements ControlValueAccessor {
-  @Input() colors: Color[] = [
-    {
-      _id: '1',
-      name: 'Red',
-      hex: '#FF0000',
-    },
-    {
-      _id: '2',
-      name: 'Green',
-      hex: '#00FF00',
-    },
-    {
-      _id: '3',
-      name: 'Blue',
-      hex: '#0000FF',
-    },
-  ];
+export class ColorSelectorComponent implements ControlValueAccessor, OnChanges {
+  @Input() colors: VariantColor[] = [];
   @Input() label: string = '';
   @Input() isInvalid: boolean = false;
   @Input() disabled: boolean = false;
   @Input() required: boolean = false;
-  @Output() colorSelected = new EventEmitter<Color>();
+  @Output() colorSelected = new EventEmitter<VariantColor>();
 
   selectedColorId: string | null = null;
-  selectedColor: Color | null = null;
+  @Input() selectedColor: VariantColor | null = null;
   dropdownId: string = `color-dropdown-${Math.random()
     .toString(36)
     .substr(2, 9)}`;
@@ -63,6 +49,11 @@ export class ColorSelectorComponent implements ControlValueAccessor {
   public onTouched = () => {};
 
   constructor(private elementRef: ElementRef) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.selectedColor) {
+      this.selectedColorId = this.selectedColor.colorId;
+    }
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
@@ -94,10 +85,10 @@ export class ColorSelectorComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  selectColor(color: Color) {
+  selectColor(color: VariantColor) {
     if (this.disabled) return;
 
-    this.selectedColorId = color._id;
+    this.selectedColorId = color.colorId;
     this.selectedColor = color;
     this.onChange(color._id);
     this.colorSelected.emit(color);

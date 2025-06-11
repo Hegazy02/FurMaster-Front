@@ -51,3 +51,7 @@ app-primary-table-row {
     font-size: 14px;
     font-weight: 600;
 }
+
+.actions img {
+    cursor: pointer;
+}

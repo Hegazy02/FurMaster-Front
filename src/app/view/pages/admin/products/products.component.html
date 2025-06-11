@@ -14,14 +14,14 @@
 <div class="table-container">
   <app-primary-table
     [columnNames]="columnNames"
-    [customSizes]="['col-3', 'col-2', 'col-2', 'col-2', 'col-2']"
+    [customSizes]="['col-3', 'col-2', 'col-2', 'col-2', 'col-2', 'col-1']"
     [isEmpty]="
       productsResponse?.data?.length == 0 || productsResponse?.data == null
     "
   >
     @for(product of productsResponse?.data; track $index) {
     <app-primary-table-row>
-      <div class="user-cell d-flex" [ngClass]="getColumnClass(1)">
+      <div class="user-cell d-flex" [ngClass]="getColumnClass(3)">
         <img
           [src]="product.colors[0].image ?? 'https://i.imgur.com/EJLFNOw.png'"
           alt="product"
@@ -37,7 +37,9 @@
       </div>
       <div [ngClass]="getColumnClass()">
         @if (product.offerPrice) {
-        <span class="me-2 text-decoration-line-through text-secondary">${{ product.price }}</span>
+        <span class="me-2 text-decoration-line-through text-secondary"
+          >${{ product.price }}</span
+        >
         <span class="fw-bold">${{ product.offerPrice }}</span>
         }@else {
         <p class="fw-bold">${{ product.price }}</p>
@@ -75,6 +77,10 @@
           {{ product.rating + " (" + product.ratingCounter + ")" }}
         </p>
         <i class="material-icons">star</i>
+      </div>
+      <div [ngClass]="getColumnClass(1)" class="d-flex actions gap-4">
+        <img src="../../../../assets/icons/edit.svg" alt="Edit" [routerLink]="['/admin/products', product._id]">
+        <img src="../../../../assets/icons/delete.svg" alt="Delete">
       </div>
     </app-primary-table-row>
     }@empty {

@@ -10,10 +10,10 @@ export interface AdminProduct {
   category: Category;
   ratingCounter: number;
   rating: number;
-  colors: AdminProductColor[];
+  colors: AdminProductVariant[];
 }
 
-export interface AdminProductColor {
+export interface AdminProductVariant {
   _id: string;
   colorId: string;
   name: string;
@@ -33,4 +33,10 @@ export interface AddProductVariant {
   colorId: string;
   stock: number;
   image: File;
+}
+export interface VariantColor {
+  _id?: string;
+  colorId: string;
+  name: string;
+  hex: string;
 }

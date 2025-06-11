@@ -7,10 +7,10 @@ import { EmptyDataComponent } from '../../../../shared/empty-data/empty-data.com
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import {
   AdminProduct,
-  AdminProductColor,
+  AdminProductVariant,
 } from '../../../../core/interfaces/admin-product.interface';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
 import { ApiResponse } from '../../../../core/interfaces/api-response.interface';
 import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
@@ -28,6 +28,7 @@ import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/p
     EmptyDataComponent,
     MatPaginator,
     PrimaryDropDownComponent,
+    RouterLink
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -139,13 +140,13 @@ export class ProductsComponent implements AfterViewInit {
     this.setQueryParamsToUrl({ sortBy: data.apiValue });
     this.getProducts();
   }
-  getColumnClass(increaseBy: number = 0): string {
+  getColumnClass(cols?: number): string {
     const length = this.columnNames.length || 1;
     const colSize = Math.floor(12 / length);
-    return `col-${colSize + increaseBy}`;
+    return `col-${cols ?? colSize}`;
   }
 
-  getQuantity(colors: AdminProductColor[]): number {
+  getQuantity(colors: AdminProductVariant[]): number {
     return colors.reduce((acc, color) => acc + color.stock, 0);
   }
   ngOnDestroy(): void {
