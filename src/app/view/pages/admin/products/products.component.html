@@ -53,7 +53,6 @@
           [ngClass]="'color-circle'"
         ></span>
         }
-        <!-- {{ getColors(product.colors) }} -->
       </p>
       <div [ngClass]="getColumnClass()">
         @if (getQuantity(product.colors)>0) {
@@ -63,15 +62,6 @@
         }
       </div>
 
-      <!-- @for (item of product.colors; track $index) {
-        <span
-          [ngClass]="{
-            'text-danger': item.stock < 1,
-            'fw-bold': item.stock < 1
-          }"
-          >{{ item.stock }}
-        </span>
-        @if($index + 1 != product.colors.length) {<span>/</span>} } -->
       <div [ngClass]="getColumnClass()" class="d-flex rating">
         <p>
           {{ product.rating + " (" + product.ratingCounter + ")" }}
