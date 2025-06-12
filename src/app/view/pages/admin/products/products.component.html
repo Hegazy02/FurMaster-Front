@@ -79,8 +79,25 @@
         <i class="material-icons">star</i>
       </div>
       <div [ngClass]="getColumnClass(1)" class="d-flex actions gap-4">
-        <img src="../../../../assets/icons/edit.svg" alt="Edit" [routerLink]="['/admin/products', product._id]">
-        <img src="../../../../assets/icons/delete.svg" alt="Delete">
+        <img
+          src="../../../../assets/icons/edit.svg"
+          alt="Edit"
+          [routerLink]="['/admin/products', product._id]"
+        />
+
+        <app-primary-modal
+          [title]="'Delete Product'"
+          [body]="'Are you sure you want to delete this product?'"
+          [buttonText]="'Delete'"
+          [buttonTextColor]="'red'"
+          (clickButton)="deletePrdouct($index)"
+        >
+          <img
+            src="../../../../assets/icons/delete.svg"
+            alt="Delete"
+            #content
+          />
+        </app-primary-modal>
       </div>
     </app-primary-table-row>
     }@empty {
