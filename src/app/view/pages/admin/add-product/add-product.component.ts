@@ -28,7 +28,6 @@ import {
 } from '../../../../core/interfaces/admin-product.interface';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
-import { Category } from '../../../../core/interfaces/product.model';
 
 @Component({
   selector: 'app-add-product',

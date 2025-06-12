@@ -14,6 +14,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
 import { ApiResponse } from '../../../../core/interfaces/api-response.interface';
 import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
+import { ToastrService } from 'ngx-toastr';
+import { PrimaryModalComponent } from "../../../../shared/primary-modal/primary-modal.component";
 
 @Component({
   selector: 'app-products',
@@ -28,12 +30,18 @@ import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/p
     EmptyDataComponent,
     MatPaginator,
     PrimaryDropDownComponent,
-    RouterLink
-  ],
+    RouterLink,
+    PrimaryModalComponent
+],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
 export class ProductsComponent implements AfterViewInit {
+  toastr = inject(ToastrService);
+  productsService = inject(ProductsService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   columnNames: string[] = [
     'name',
     'price',
@@ -52,10 +60,6 @@ export class ProductsComponent implements AfterViewInit {
     { title: 'Popularity', apiValue: 'popularity' },
     { title: 'Out of stock', apiValue: 'out_of_stock' },
   ];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  productsService = inject(ProductsService);
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   productsResponse?: ApiResponse<AdminProduct[]>;
   limit = 10;
   page = 1;
@@ -148,6 +152,22 @@ export class ProductsComponent implements AfterViewInit {
 
   getQuantity(colors: AdminProductVariant[]): number {
     return colors.reduce((acc, color) => acc + color.stock, 0);
+  }
+  deletePrdouct(index: number) {
+    const product = this.productsResponse?.data[index];
+    this.productsService
+      .deleteProduct(product!._id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.productsResponse?.data.splice(index, 1);
+          this.toastr.success('Product deleted Successfully');
+        },
+        error: (err) => {
+          this.toastr.error(err);
+          console.error(err);
+        },
+      });
   }
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();

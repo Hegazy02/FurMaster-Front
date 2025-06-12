@@ -72,6 +72,11 @@ export class ProductsService {
       }
     );
   }
+  deleteProduct(id: string): Observable<AdminProduct> {
+    return this.http.delete<AdminProduct>(`${Endpoints.ADMIN_PRODUCTS}/${id}`, {
+      context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
+    });
+  }
   addProductVariant(
     productId: string,
     variant: AdminProductVariant
