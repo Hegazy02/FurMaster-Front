@@ -1,0 +1,34 @@
+<div class="auth-wrapper">
+  <!-- Left Side: Image and Logo -->
+  <div class="auth-left">
+    <img src="../../../../../assets/icons/Paste image.svg" alt="Login Image" />
+    <h1 class="logo">3legant.</h1>
+  </div>
+
+  <!-- Right Side: Login Form -->
+  <div class="auth-right">
+    <div class="form-container">
+      <h2>Sign in</h2>
+      <p class="subtext">Already have an account? <a href="/signup">Sign in</a></p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <ng-container *ngFor="let field of formFields">
+          <div class="form-item">
+            <app-primary-form-input
+              [label]="field.label"
+              [type]="field.type"
+              [placeholder]="field.placeholder"
+              [required]="true"
+              [isInvalid]="formControls[field.name].invalid && formControls[field.name].touched"
+              [formControlName]="field.name">
+            </app-primary-form-input>
+          </div>
+        </ng-container>
+
+        <button type="submit" >Login</button>
+
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+      </form>
+    </div>
+  </div>
+</div>

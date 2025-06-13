@@ -7,6 +7,27 @@ export const routes: Routes = [
     redirectTo: 'admin/add-product',
     pathMatch: 'full',
   },
+  {
+    path: 'signup',
+
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/signup/signup.component').then(
+        (m) => m.SignupComponent
+      ),
+  },
+
+  {
+    path: 'login',
+
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
+  },
+
+
   { path: 'cart', component: CartComponent },
 
   {
