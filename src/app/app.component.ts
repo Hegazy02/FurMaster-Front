@@ -4,6 +4,7 @@ import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { LoadingService } from './core/services/loading.service';
 import { AuthService } from './core/services/auth.service';
+import { UserRole } from './core/interfaces/user.interface';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.authService.getUser().subscribe({
       next: (user) => {
         this.authService.user = user;
-        if (user.role === 'admin') {
+        if (user.role === UserRole.Admin) {
           this.router.navigate(['/admin']);
         }
       },
