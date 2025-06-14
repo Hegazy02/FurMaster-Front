@@ -1,18 +1,20 @@
-
 <div class="auth-wrapper">
   <!-- Left Side: Image and Logo -->
   <div class="auth-left">
     <img src="../../../../../assets/icons/Paste image.svg" alt="Signup Image" />
-    <h1 class="logo">3legant.</h1>
+    <h1 class="logo">FurMaster</h1>
   </div>
 
   <!-- Right Side: Form -->
   <div class="auth-right">
-    <div class="form-container">
+    <div class="form-container container-fluid">
       <h2>Sign up</h2>
-      <p class="subtext">Already have an account? <a href="/login">log in</a></p>
+      <p class="subtext">
+        Already have an account?
+        <span class="link" [routerLink]="['/login']">Login</span>
+      </p>
 
-      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
+      <form [formGroup]="signupForm">
         <ng-container *ngFor="let field of formFields">
           <div class="form-item">
             <app-primary-form-input
@@ -20,29 +22,48 @@
               [type]="field.type"
               [placeholder]="field.placeholder"
               [required]="true"
-              [isInvalid]="formControls[field.name].invalid && formControls[field.name].touched"
-              [formControlName]="field.name">
+              [isInvalid]="isInvalid(signupForm.controls[field.name])"
+              [formControlName]="field.name"
+            >
             </app-primary-form-input>
+            <p *ngIf="isInvalid(signupForm.controls[field.name])" class="error-message">
+              {{ field.error }}
+            </p>
           </div>
         </ng-container>
 
         <!-- Gender -->
         <div class="form-item">
-          <label style="font-weight: 600; display: block; margin-bottom: 8px;">Gender</label>
+          <label style="font-weight: 600; display: block; margin-bottom: 8px"
+            >Gender</label
+          >
           <div class="gender-radio">
-            <label><input type="radio" formControlName="gender" [value]="0" /> Male</label>
-            <label><input type="radio" formControlName="gender" [value]="1" /> Female</label>
+            <label
+              ><input type="radio" formControlName="gender" [value]="0" />
+              Male</label
+            >
+            <label
+              ><input type="radio" formControlName="gender" [value]="1" />
+              Female</label
+            >
           </div>
-          <div *ngIf="formControls['gender']?.invalid && formControls['gender']?.touched" class="error-message">
+          <div
+            *ngIf="
+              formControls['gender']?.invalid && formControls['gender']?.touched
+            "
+            class="error-message"
+          >
             Gender is required
           </div>
         </div>
 
-        <button type="submit">Register</button>
+        <app-primary-button
+          (onClickChange)="onSubmit()"
+          [col]="'col-12'"
+        ></app-primary-button>
 
         <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
       </form>
     </div>
   </div>
 </div>
-

@@ -1,16 +1,29 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { PrimaryFormInputComponent } from '../../user/my-account/pages/account-details/account-details-form/primary-form-input/primary-form-input.component';
 import { AuthService } from '../../../../core/services/auth.service';
+import { PrimaryButtonComponent } from '../../../../shared/primary-button/primary-button.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PrimaryFormInputComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PrimaryFormInputComponent,
+    PrimaryButtonComponent,
+    RouterLink,
+  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -32,8 +45,18 @@ export class LoginComponent {
   }
 
   formFields = [
-    { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email' },
-    { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter your password' }
+    {
+      name: 'email',
+      label: 'Email',
+      type: 'email',
+      placeholder: 'Enter your email',
+    },
+    {
+      name: 'password',
+      label: 'Password',
+      type: 'password',
+      placeholder: 'Enter your password',
+    },
   ];
 
   onSubmit() {
@@ -51,7 +74,11 @@ export class LoginComponent {
       },
       error: (err) => {
         this.errorMessage = err.error.message || 'Login failed.';
-      }
+      },
     });
+  }
+  isInvalid(control: AbstractControl): boolean {
+    const data = control.invalid && control.touched;
+    return data;
   }
 }
