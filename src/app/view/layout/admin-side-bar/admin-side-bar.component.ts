@@ -31,7 +31,7 @@ export class AdminSidebarComponent implements OnInit {
         { icon: 'dashboard', label: 'Dashboard', route: '/admin' },
         {
           icon: 'shopping_cart',
-          label: 'Order Management',
+          label: 'Orders Management',
           route: '/admin/orders',
         },
         {
@@ -53,7 +53,7 @@ export class AdminSidebarComponent implements OnInit {
           label: 'Add Products',
           route: '/admin/add-product',
         },
-        { icon: 'inventory', label: 'Product List', route: '/admin/products' },
+        { icon: 'inventory', label: 'Products', route: '/admin/products' },
       ],
     },
     {

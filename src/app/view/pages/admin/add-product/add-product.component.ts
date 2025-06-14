@@ -90,6 +90,7 @@ export class AddProductComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (result) => {
+              
               this.setProductData(result.data);
             },
           });
@@ -130,7 +131,6 @@ export class AddProductComponent {
       });
   }
   onColorSelected(color: VariantColor, index: number) {
-    console.log('color', color);
     this.colorsArray.controls[index].get('colorId')?.setValue(color.colorId);
   }
   getFormControl(
@@ -188,7 +188,6 @@ export class AddProductComponent {
     }
     const variantId = this.colorsArray.controls[index].get('_id')?.value;
     if (variantId) {
-      console.log('update Variant', variantId);
       this.updateProductVariant(index);
     } else {
       this.addProductVariant(index);
@@ -223,6 +222,7 @@ export class AddProductComponent {
       });
   }
   deleteProductVariant(index: number) {
+    
     this.productsService
       .deleteProductVariant(
         this.productId!,
