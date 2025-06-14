@@ -3,20 +3,20 @@ import { ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'app-account-details-form-input',
+  selector: 'app-primary-form-input',
   standalone: true,
-  templateUrl: './account-details-form-input.component.html',
-  styleUrls: ['./account-details-form-input.component.css'],
+  templateUrl: './primary-form-input.component.html',
+  styleUrls: ['./primary-form-input.component.css'],
   imports: [NgClass],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => AccountDetailsFormInputComponent),
+      useExisting: forwardRef(() => PrimaryFormInputComponent),
       multi: true,
     },
   ],
 })
-export class AccountDetailsFormInputComponent implements ControlValueAccessor {
+export class PrimaryFormInputComponent implements ControlValueAccessor {
   constructor(private cdr: ChangeDetectorRef) {}
 
   @Input() label: string = '';

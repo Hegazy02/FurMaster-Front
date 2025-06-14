@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { UserService } from '../../../../../../../core/services/user.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../../../../../../../core/services/auth.service';
 @Component({
   selector: 'app-account-details-profile-pic',
   standalone: true,
@@ -11,9 +12,9 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 })
 export class AccountDetailsProfilePicComponent {
   faCamera = faCamera;
-  accountDetailsService = inject(UserService);
+  authService = inject(AuthService);
   image =
-    this.accountDetailsService.user.image ??
+    this.authService.user?.image ??
     'https://cdn-icons-png.flaticon.com/512/149/149071.png';
   @Output() imageFile = new EventEmitter<File>();
 

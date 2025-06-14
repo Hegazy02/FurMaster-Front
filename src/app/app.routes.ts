@@ -1,11 +1,32 @@
 import { Routes } from '@angular/router';
+import { CartComponent } from './view/pages/user/cart/cart.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin/customers',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
+  {
+    path: 'signup',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/signup/signup.component').then(
+        (m) => m.SignupComponent
+      ),
+  },
+
+  {
+    path: 'login',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
+  },
+
+  { path: 'cart', component: CartComponent },
+
   {
     path: 'my-account',
     loadComponent: () =>
@@ -41,13 +62,59 @@ export const routes: Routes = [
         (m) => m.AdminComponent
       ),
     children: [
+      // {
+      //   path: '',
+      //   pathMatch: 'full',
+      //   data: { title: 'Dashboard' },
+      // },
+      {
+        path: 'orders',
+        pathMatch: 'full',
+
+        loadComponent: () =>
+          import('./view/pages/admin/admin-orders/admin-orders.component').then(
+            (m) => m.AdminOrdersComponent
+          ),
+        data: { title: 'Orders Management' },
+      },
       {
         path: 'customers',
+        pathMatch: 'full',
+
         loadComponent: () =>
           import('./view/pages/admin/users/users.component').then(
             (m) => m.UsersComponent
           ),
         data: { title: 'Customers' },
+      },
+      {
+        path: 'products',
+        pathMatch: 'full',
+
+        loadComponent: () =>
+          import('./view/pages/admin/products/products.component').then(
+            (m) => m.ProductsComponent
+          ),
+        data: { title: 'Products' },
+      },
+      {
+        path: 'products/:id',
+        pathMatch: 'full',
+
+        loadComponent: () =>
+          import('./view/pages/admin/add-product/add-product.component').then(
+            (m) => m.AddProductComponent
+          ),
+        data: { title: 'Update Product' },
+      },
+      {
+        path: 'add-product',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./view/pages/admin/add-product/add-product.component').then(
+            (m) => m.AddProductComponent
+          ),
+        data: { title: 'Add Product' },
       },
     ],
   },
