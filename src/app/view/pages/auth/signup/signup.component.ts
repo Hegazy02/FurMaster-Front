@@ -6,13 +6,13 @@ import {
   FormGroup,
   Validators,
   AbstractControl,
-  FormControl,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { PrimaryFormInputComponent } from '../../user/my-account/pages/account-details/account-details-form/primary-form-input/primary-form-input.component';
 import { AuthService } from '../../../../core/services/auth.service';
 import { SignupBody } from '../../../../core/interfaces/auth.interface';
 import { PrimaryButtonComponent } from '../../../../shared/primary-button/primary-button.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -30,6 +30,7 @@ import { PrimaryButtonComponent } from '../../../../shared/primary-button/primar
 export class SignupComponent {
   signupForm: FormGroup;
   errorMessage: string = '';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +52,7 @@ export class SignupComponent {
         [
           Validators.required,
           Validators.pattern(
-            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
           ),
         ],
       ],
@@ -66,15 +67,19 @@ export class SignupComponent {
       return;
     }
     const signupData: SignupBody = this.signupForm.value;
-    this.authService.signup(signupData).subscribe({
-      next: (res) => {
-        this.authService.saveToken(res.data);
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        this.errorMessage = err.error.message || 'Signup failed.';
-      },
-    });
+    this.authService
+      .signup(signupData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.authService.user = res.data;
+          this.authService.saveToken(res.token);
+          this.router.navigate(['/admin']);
+        },
+        error: (err) => {
+          this.errorMessage = err.error.message || 'Signup failed.';
+        },
+      });
   }
 
   get formControls() {
@@ -118,9 +123,10 @@ export class SignupComponent {
     },
   ];
   isInvalid(control: AbstractControl): boolean {
-    const data = control.invalid && control.touched;
-    console.log('control', control.errors);
+    return control.invalid && control.touched;
+  }
 
-    return data;
+  ngOnDestroy() {
+    this.destroy$.unsubscribe();
   }
 }

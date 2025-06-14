@@ -11,6 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 import { PrimaryFormInputComponent } from '../../user/my-account/pages/account-details/account-details-form/primary-form-input/primary-form-input.component';
 import { AuthService } from '../../../../core/services/auth.service';
 import { PrimaryButtonComponent } from '../../../../shared/primary-button/primary-button.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ import { PrimaryButtonComponent } from '../../../../shared/primary-button/primar
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -67,18 +69,25 @@ export class LoginComponent {
 
     const loginData = this.loginForm.value;
 
-    this.authService.login(loginData).subscribe({
-      next: (res) => {
-        this.authService.saveToken(res.data);
-        this.router.navigate(['/my-account']);
-      },
-      error: (err) => {
-        this.errorMessage = err.error.message || 'Login failed.';
-      },
-    });
+    this.authService
+      .login(loginData)
+      .pipe(takeUntil(this.destroy$))
+
+      .subscribe({
+        next: (res) => {
+          this.authService.user = res.data;
+          this.authService.saveToken(res.token);
+          this.router.navigate(['/admin']);
+        },
+        error: (err) => {
+          this.errorMessage = err.error.message || 'Login failed.';
+        },
+      });
   }
   isInvalid(control: AbstractControl): boolean {
-    const data = control.invalid && control.touched;
-    return data;
+    return control.invalid && control.touched;
+  }
+  ngOnDestroy() {
+    this.destroy$.unsubscribe();
   }
 }

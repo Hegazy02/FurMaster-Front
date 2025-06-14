@@ -3,20 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Endpoints } from '../constants/endpoints';
-import { AuthResponse, LoginBody, LoginResponse, SignupBody } from '../interfaces/auth.interface';
-
+import {
+  AuthResponse,
+  LoginBody,
+  SignupBody,
+} from '../interfaces/auth.interface';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
-
-
+  user?: User;
   signup(userData: SignupBody): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(Endpoints.REGISTER, userData);
   }
-
+  login(data: LoginBody): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(Endpoints.LOGIN, data);
+  }
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
@@ -27,10 +32,5 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-  }
-
-  /////////////////////////////////////////////////////////////
-  login(data: LoginBody): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(Endpoints.LOGIN, data);
   }
 }
