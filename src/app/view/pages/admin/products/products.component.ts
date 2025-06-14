@@ -15,7 +15,7 @@ import { ProductsService } from '../../../../core/services/products.service';
 import { ApiResponse } from '../../../../core/interfaces/api-response.interface';
 import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
 import { ToastrService } from 'ngx-toastr';
-import { PrimaryModalComponent } from "../../../../shared/primary-modal/primary-modal.component";
+import { PrimaryModalComponent } from '../../../../shared/primary-modal/primary-modal.component';
 
 @Component({
   selector: 'app-products',
@@ -31,8 +31,8 @@ import { PrimaryModalComponent } from "../../../../shared/primary-modal/primary-
     MatPaginator,
     PrimaryDropDownComponent,
     RouterLink,
-    PrimaryModalComponent
-],
+    PrimaryModalComponent,
+  ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
@@ -66,6 +66,7 @@ export class ProductsComponent implements AfterViewInit {
   searchbyTitle: string = '';
   sortBy = { value: '', apiValue: '' };
   searchInput = new Subject<string>();
+  selectedDeletedProductId: string = '';
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
@@ -153,8 +154,10 @@ export class ProductsComponent implements AfterViewInit {
   getQuantity(colors: AdminProductVariant[]): number {
     return colors.reduce((acc, color) => acc + color.stock, 0);
   }
-  deletePrdouct(index: number) {
-    const product = this.productsResponse?.data[index];
+  deletePrdouct(id: string) {
+    const index = this.productsResponse?.data.findIndex((p) => p._id === id)!;
+    const product = this.productsResponse?.data.find((p) => p._id === id);
+
     this.productsService
       .deleteProduct(product!._id)
       .pipe(takeUntil(this.destroy$))

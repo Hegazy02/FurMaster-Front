@@ -80,11 +80,12 @@
           [body]="'Are you sure you want to delete this product?'"
           [buttonText]="'Delete'"
           [buttonTextColor]="'red'"
-          (clickButton)="deletePrdouct($index)"
+          (clickButton)="deletePrdouct(selectedDeletedProductId)"
         >
           <img
             src="../../../../assets/icons/delete.svg"
             alt="Delete"
+            (click)="selectedDeletedProductId = product._id"
             #content
           />
         </app-primary-modal>

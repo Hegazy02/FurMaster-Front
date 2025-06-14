@@ -4,7 +4,7 @@ import { CartComponent } from './view/pages/user/cart/cart.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin/add-product',
+    redirectTo: 'admin/orders',
     pathMatch: 'full',
   },
   { path: 'cart', component: CartComponent },
@@ -49,6 +49,16 @@ export const routes: Routes = [
       //   pathMatch: 'full',
       //   data: { title: 'Dashboard' },
       // },
+      {
+        path: 'orders',
+        pathMatch: 'full',
+
+        loadComponent: () =>
+          import('./view/pages/admin/admin-orders/admin-orders.component').then(
+            (m) => m.AdminOrdersComponent
+          ),
+        data: { title: 'Orders Management' },
+      },
       {
         path: 'customers',
         pathMatch: 'full',
