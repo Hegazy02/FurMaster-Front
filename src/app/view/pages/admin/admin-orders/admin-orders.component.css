@@ -1,0 +1,22 @@
+.label {
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: fit-content;
+}
+
+.pending {
+    color: #FFC600;
+    background-color: #fff6d6;
+}
+
+.completed {
+    color: #22883a;
+    background-color: #caf8d5;
+}
+
+.cancelled {
+    background-color: #ffdcdc;
+    color: #ff0000;
+
+}
