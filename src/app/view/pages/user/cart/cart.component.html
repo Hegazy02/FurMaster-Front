@@ -1,0 +1,66 @@
+<div class="max-w-4xl mx-auto py-12 px-4" >
+  <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">🛒 Your Shopping Cart</h2>
+<div *ngIf="cartItem.length === 0" class="text-center text-gray-500 py-10 text-lg">
+ <app-empty-data  [title]="'No Items'" subtitle="''"></app-empty-data>
+</div>
+  <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+    <div *ngFor="let item of cartItem; let i = index" class="border-b last:border-none">
+      <div class="flex flex-col sm:flex-row items-center justify-between p-6 gap-4">
+        <div class="flex items-center gap-4 w-full sm:w-2/3">
+          <img
+            [src]="item.product.image"
+            alt="Product"
+            class="w-24 h-24 object-cover rounded-lg border"
+          />
+          <div>
+            <h3 class="text-xl font-semibold text-gray-700">{{ item.product.name }}</h3>
+            <div class="flex items-baseline gap-2 mt-1">
+<span *ngIf="item.product.offerPrice" class="text-gray-400 line-through">${{ item.product.price }}</span>
+<span *ngIf="item.product.offerPrice" class="text-sm text-orange-500">
+  {{ getDiscountPercent(item.product) }}% OFF
+</span>
+<span class="text-green-600 font-bold">
+  ${{ sellingPrice(item.product) }}
+</span>
+            </div>
+            <div class="text-sm text-gray-600 mt-1">
+<span *ngIf="item.product">
+  Total: ${{ sellingPrice(item.product) * item.quantity }}
+</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="flex items-center border rounded px-2 py-1 text-gray-700">
+            <button class="px-2 text-xl font-bold hover:text-blue-600">−</button>
+            <span class="px-3">{{ item.quantity }}</span>
+            <button class="px-2 text-xl font-bold hover:text-blue-600">+</button>
+          </div>
+          <button class="text-red-500 hover:text-red-700">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M6 2a1 1 0 00-1 1v1H3a1 1 0 000 2h1v10a2 2 0 002 2h8a2 2 0 002-2V6h1a1 1 0 000-2h-2V3a1 1 0 00-1-1H6zm3 6a1 1 0 012 0v6a1 1 0 01-2 0V8zm4 0a1 1 0 00-2 0v6a1 1 0 002 0V8z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 bg-white shadow-lg rounded-xl p-6">
+    <h3 class="text-xl font-bold mb-4 text-gray-800">Cart Summary</h3>
+    <div class="flex justify-between items-center mb-4 text-lg">
+      <span>Total:</span>
+      <span class="font-bold text-green-700">{{ totalAmount }}$</span>
+    </div>
+    <div class="flex justify-end">
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+</div>

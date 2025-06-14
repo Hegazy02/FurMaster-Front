@@ -1,0 +1,149 @@
+<form [formGroup]="addProductForm" class="add-product-content d-flex gap-4">
+  <div class="info w-50 bg-white p-4 rounded d-flex flex-column gap-4">
+    <!-- Information -->
+    <h2>Information</h2>
+    <!-- Title -->
+    <app-primary-form-input
+      [formControlName]="'title'"
+      [label]="'Title'"
+      [required]="true"
+      [placeholder]="'Title'"
+      [isInvalid]="isInvalid(getFormControl('title'))"
+    ></app-primary-form-input>
+    <!-- Category -->
+    <div class="category">
+      <label>Category</label>
+      <span class="required"> *</span>
+      <app-searchable-dropdown
+        [options]="categories"
+        [formControlName]="'categoryId'"
+        [placeholder]="'Select a category'"
+        (searchChange)="onSearchCategory($event)"
+        (selectionChange)="onSelectCategory($event)"
+        [selectedOption]="initialCategory"
+        [invalid]="isInvalid(getFormControl('categoryId'))"
+      ></app-searchable-dropdown>
+    </div>
+    <!-- Description -->
+    <div class="description">
+      <div>
+        <label>Description</label>
+        <span class="required"> *</span>
+        <textarea
+          formControlName="description"
+          placeholder="Description"
+          class="form-control"
+          rows="4"
+          [ngClass]="{
+            'is-invalid': isInvalid(getFormControl('description'))
+          }"
+        ></textarea>
+      </div>
+    </div>
+    <!-- Prices -->
+    <div class="prices d-flex gap-4">
+      <app-primary-form-input
+        class="w-50"
+        [placeholder]="'Price'"
+        [formControlName]="'price'"
+        [label]="'Price'"
+        [type]="'number'"
+        [required]="true"
+        [isInvalid]="isInvalid(getFormControl('price'))"
+      ></app-primary-form-input>
+      <app-primary-form-input
+        class="w-50"
+        [placeholder]="'Offer price'"
+        [formControlName]="'offerPrice'"
+        [label]="'Offer price'"
+        [type]="'number'"
+        [required]="false"
+        [isInvalid]="isInvalid(getFormControl('offerPrice'))"
+      ></app-primary-form-input>
+    </div>
+    <app-primary-button
+      (onClickChange)="onSubmit()"
+      [text]="productId ? 'Update' : 'Submit'"
+      [col]="'col-12'"
+    ></app-primary-button>
+  </div>
+  <!-- Variants -->
+  <div class="w-50 bg-white p-4 rounded" formArrayName="colors">
+    <div class="variants-header d-flex justify-content-between gap-4 mb-4">
+      <h2>Variants</h2>
+      <i class="material-icons add" (click)="addColorVariant()">add</i>
+    </div>
+    <div class="variants-content d-flex flex-column gap-4">
+      @for (color of colorsArray.controls; track trackByVariantId(color)) {
+      <div class="variant-content d-flex gap-4 align-items-center">
+        <div class="variant-card flex-grow-1" [formGroupName]="$index">
+          <!-- Color -->
+          <app-color-selector
+            [colors]="colors"
+            [label]="'Color'"
+            [required]="true"
+            [isInvalid]="isVariantControlInvalid($index, 'colorId')"
+            (colorSelected)="onColorSelected($event, $index)"
+            [selectedColor]="getInitialColor(colorsArray.controls[$index])"
+          >
+          </app-color-selector>
+
+          <!-- Quantity -->
+          <app-primary-form-input
+            class="w-100"
+            [placeholder]="'Quantity'"
+            [formControlName]="'stock'"
+            [label]="'Quantity'"
+            [type]="'number'"
+            [required]="true"
+            [isInvalid]="isVariantControlInvalid($index, 'stock')"
+          ></app-primary-form-input>
+        </div>
+        <!-- Image -->
+        <div class="upload-image">
+          @if (colorsArray.controls[$index].get('image')?.value) {
+          <label class="file-input-image">
+            <img [src]="imagePreviewUrls[$index]" alt="profile-pic" />
+            <input
+              type="file"
+              class="file-input"
+              accept="image/*"
+              (change)="onSelectFile($event, $index)"
+            />
+          </label>
+          }@else {
+          <label
+            class="file-input-label"
+            [ngClass]="{
+              'is-invalid': isVariantControlInvalid($index, 'image')
+            }"
+          >
+            <i class="material-icons">image</i>
+            <input
+              type="file"
+              class="file-input"
+              accept="image/*"
+              (change)="onSelectFile($event, $index)"
+            />
+          </label>
+          }
+          <p>Max size 5mb</p>
+        </div>
+        @if (productId) {
+        <i
+          class="material-icons variant-option set-variant"
+          (click)="setVariant($index)"
+          >check</i
+        >
+        } @if (colorsArray.length > 1) {
+        <i
+          class="material-icons variant-option delete-variant"
+          (click)="removeVariant($index)"
+          >close</i
+        >
+        }
+      </div>
+      }
+    </div>
+  </div>
+</form>
