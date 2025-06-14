@@ -25,26 +25,26 @@ export class AccountDetailsFormComponent {
   authService = inject(AuthService);
   @Output() accountDetailsFormSubmit = new EventEmitter<FormGroup>();
   accountDetailsForm = new FormGroup({
-    firstName: new FormControl(this.authService.user!.firstName, [
+    firstName: new FormControl(this.authService.user?.firstName ?? '', [
       Validators.required,
       Validators.pattern('[A-Za-z][A-Za-z0-9]{2,}'),
     ]),
-    lastName: new FormControl(this.authService.user!.lastName, [
+    lastName: new FormControl(this.authService.user?.lastName ?? '', [
       Validators.required,
       Validators.pattern('[A-Za-z][A-Za-z0-9]{2,}'),
     ]),
     email: new FormControl({
-      value: this.authService.user!.email,
+      value: this.authService.user?.email ?? '',
       disabled: true,
     }),
-    gender: new FormControl(this.authService.user!.gender),
-    phoneNumber: new FormControl(this.authService.user!.phoneNumber, [
+    gender: new FormControl(this.authService.user?.gender ?? ''),
+    phoneNumber: new FormControl(this.authService.user?.phoneNumber ?? '', [
       Validators.required,
       Validators.pattern('[0-9]{11}'),
     ]),
-    city: new FormControl(this.authService.user!.city),
-    street: new FormControl(this.authService.user!.street),
-    address: new FormControl(this.authService.user!.address),
+    city: new FormControl(this.authService.user?.city),
+    street: new FormControl(this.authService.user?.street),
+    address: new FormControl(this.authService.user?.address),
   });
 
   isInvalid(control: AbstractControl): boolean {
