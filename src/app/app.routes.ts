@@ -26,7 +26,24 @@ export const routes: Routes = [
         (m) => m.LoginComponent
       ),
   },
+  {
+    path: 'forgot-password',
 
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
+      ),
+  },
+  {
+    path: 'reset-password',
+
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent
+      ),
+  },
 
   { path: 'cart', component: CartComponent },
 

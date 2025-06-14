@@ -29,3 +29,17 @@ export interface LoginResponse {
   data: string; // يفترض أنه التوكن
 }
 
+
+
+export interface ForgotPasswordResponse {
+  message: string;
+  email: string;
+  otp: string;
+  phone: string;
+  maskedPhone: string;
+}
+
+
+export interface ResetPasswordData {
+  message: string;
+}
