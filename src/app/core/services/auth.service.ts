@@ -34,7 +34,9 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
-
+  getUser(): Observable<User> {
+    return this.http.get<User>(Endpoints.USER);
+  }
   logout(): void {
     localStorage.removeItem('token');
   }

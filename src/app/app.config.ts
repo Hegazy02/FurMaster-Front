@@ -11,12 +11,13 @@ import {
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { provideToastr } from 'ngx-toastr';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
-    provideHttpClient(withInterceptors([loadingInterceptor])),
+    provideHttpClient(withInterceptors([AuthInterceptor, loadingInterceptor])),
     provideAnimationsAsync(),
     provideToastr({
       timeOut: 10000,
