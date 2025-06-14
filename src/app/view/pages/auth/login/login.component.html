@@ -2,16 +2,19 @@
   <!-- Left Side: Image and Logo -->
   <div class="auth-left">
     <img src="../../../../../assets/icons/Paste image.svg" alt="Login Image" />
-    <h1 class="logo">3legant.</h1>
+    <h1 class="logo">FurMaster</h1>
   </div>
 
   <!-- Right Side: Login Form -->
   <div class="auth-right">
     <div class="form-container">
-      <h2>Sign in</h2>
-      <p class="subtext">Already have an account? <a href="/signup">Sign in</a></p>
+      <h2>Login</h2>
+      <p>
+        Don't have an account?
+        <span class="link" [routerLink]="['/signup']">Sign up</span>
+      </p>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <ng-container *ngFor="let field of formFields">
           <div class="form-item">
             <app-primary-form-input
@@ -19,13 +22,17 @@
               [type]="field.type"
               [placeholder]="field.placeholder"
               [required]="true"
-              [isInvalid]="formControls[field.name].invalid && formControls[field.name].touched"
-              [formControlName]="field.name">
+              [isInvalid]="isInvalid(loginForm.controls[field.name])"
+              [formControlName]="field.name"
+            >
             </app-primary-form-input>
           </div>
         </ng-container>
 
-        <button type="submit" >Login</button>
+        <app-primary-button
+          (onClickChange)="onSubmit()"
+          [col]="'col-12'"
+        ></app-primary-button>
 
         <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
       </form>

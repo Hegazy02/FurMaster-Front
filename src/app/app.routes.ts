@@ -4,12 +4,11 @@ import { CartComponent } from './view/pages/user/cart/cart.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin/orders',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
     path: 'signup',
-
     pathMatch: 'full',
     loadComponent: () =>
       import('./view/pages/auth/signup/signup.component').then(
@@ -19,14 +18,12 @@ export const routes: Routes = [
 
   {
     path: 'login',
-
     pathMatch: 'full',
     loadComponent: () =>
       import('./view/pages/auth/login/login.component').then(
         (m) => m.LoginComponent
       ),
   },
-
 
   { path: 'cart', component: CartComponent },
 
