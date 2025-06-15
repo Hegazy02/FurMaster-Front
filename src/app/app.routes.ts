@@ -1,12 +1,32 @@
 import { Routes } from '@angular/router';
 import { CartComponent } from './view/pages/user/cart/cart.component';
+import { authGuard } from './core/guards/auth.guard';
+import { UserRole } from './core/interfaces/user.interface';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin/orders',
+    redirectTo: 'my-account',
     pathMatch: 'full',
   },
+  {
+    path: 'signup',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/signup/signup.component').then(
+        (m) => m.SignupComponent
+      ),
+  },
+
+  {
+    path: 'login',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
+  },
+
   { path: 'cart', component: CartComponent },
 
   {
@@ -15,6 +35,7 @@ export const routes: Routes = [
       import('./view/pages/user/my-account/my-account.component').then(
         (m) => m.MyAccountComponent
       ),
+    canActivate: [authGuard(UserRole.User)],
     children: [
       {
         path: '',
@@ -43,6 +64,7 @@ export const routes: Routes = [
       import('./view/pages/admin/admin.component').then(
         (m) => m.AdminComponent
       ),
+    canActivate: [authGuard(UserRole.Admin)],
     children: [
       // {
       //   path: '',
@@ -99,5 +121,12 @@ export const routes: Routes = [
         data: { title: 'Add Product' },
       },
     ],
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./view/pages/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
   },
 ];

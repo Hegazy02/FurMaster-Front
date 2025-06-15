@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface MenuItem {
   icon: string;
@@ -23,6 +24,7 @@ interface MenuSection {
 export class AdminSidebarComponent implements OnInit {
   isCollapsed = false;
   private router = inject(Router);
+  authService = inject(AuthService);
 
   menuSections: MenuSection[] = [
     {
@@ -64,7 +66,7 @@ export class AdminSidebarComponent implements OnInit {
           label: 'Manage Admins',
           route: '/admin/manage',
         },
-        { icon: 'settings', label: 'Admin Roles', route: '/admin/roles' },
+        { icon: 'logout', label: 'Logout', route: '/' },
       ],
     },
   ];
@@ -92,13 +94,15 @@ export class AdminSidebarComponent implements OnInit {
   }
 
   navigateTo(route: string) {
-    // Update active state
     this.menuSections.forEach((section) => {
       section.items.forEach((item) => {
         item.active = item.route === route;
       });
     });
 
+    if (route == '/') {
+      this.authService.logout();
+    }
     this.router.navigate([route]);
   }
 }

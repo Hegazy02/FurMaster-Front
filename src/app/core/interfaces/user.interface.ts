@@ -10,4 +10,10 @@ export interface User {
   street?: string;
   address?: string;
   createdAt: Date;
+  role: UserRole;
+  isActive: boolean;
+}
+export enum UserRole {
+  Admin = 'admin',
+  User = 'user',
 }

@@ -56,6 +56,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngAfterViewInit(): void {
     this.paginator.pageIndex = this.page - 1;
     this.getUsers();
+    this.subScribeToSearchInput();
   }
   getUsers() {
     this.userService
