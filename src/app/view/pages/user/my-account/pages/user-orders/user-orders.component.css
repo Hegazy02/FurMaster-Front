@@ -1,0 +1,97 @@
+.filters {
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filters input, .filters select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  min-width: 120px;
+}
+
+.order-card {
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .5rem;
+}
+
+.status {
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.in-progress {
+  background: orange;
+}
+
+.delivered {
+  background: #5cb85c;
+}
+
+.cancelled {
+  background: #d9534f;
+}
+
+.order-body {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.order-body img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.details {
+  flex-grow: 1;
+}
+
+.order-id {
+  font-weight: 600;
+  color: #b22222;
+}
+
+.desc {
+  color: #555;
+  margin: 4px 0;
+}
+
+.price {
+  font-weight: bold;
+  color: #000;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.empty-orders {
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+}
