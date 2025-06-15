@@ -1,0 +1,96 @@
+<div
+  class="searchable-dropdown"
+  [class.disabled]="disabled"
+  [class.isopen]="isOpen"
+>
+  <!-- Main dropdown button -->
+  <div
+    class="dropdown-button d-flex align-items-center justify-content-between"
+    [class.is-invalid]="invalid"
+    [class.is-open]="isOpen"
+    (click)="toggleDropdown($event)"
+  >
+    <span class="selected-text">
+      {{ selectedOption?.label || placeholder }}
+    </span>
+
+    <div class="dropdown-icons d-flex align-items-center">
+      <!-- Clear button -->
+      <i
+        *ngIf="clearable && selectedOption && !disabled"
+        class="fas fa-times clear-icon"
+        (click)="clearSelection($event)"
+      ></i>
+
+      <!-- Loading spinner -->
+      <div
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm ms-2"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+
+      <!-- Dropdown arrow -->
+      <i class="material-icons ms-2" [class.rotated]="isOpen"
+        >keyboard_arrow_down</i
+      >
+    </div>
+  </div>
+
+  <!-- Dropdown menu -->
+  <div
+    class="custom-dropdown-menu dropdown-options"
+    [class.show]="isOpen"
+    [style.max-height]="maxHeight"
+  >
+    <!-- Search input -->
+    <div class="dropdown-search-container p-2">
+      <div class="input-group input-group-sm">
+        <span class="input-group-text">
+          <i class="fas fa-search"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control dropdown-search"
+          [placeholder]="searchPlaceholder"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchInput($event)"
+          (keydown)="onSearchKeyDown($event)"
+          [disabled]="disabled"
+        />
+      </div>
+    </div>
+
+    <!-- Options list -->
+    <div class="options-container">
+      <div
+        *ngIf="filteredOptions.length === 0"
+        class="dropdown-item text-muted text-center py-3"
+      >
+        {{ notFoundText }}
+        <div *ngIf="allowCustomValue && searchTerm" class="mt-2">
+          <small>Press Enter to add "{{ searchTerm }}"</small>
+        </div>
+      </div>
+      @for (option of options; track $index) {
+
+      <a
+        class="dropdown-item"
+        [class.active]="selectedOption?.value === option.value"
+        [class.disabled]="option.disabled"
+        (click)="selectOption(option, $event)"
+      >
+        {{ option.label }}
+      </a>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Click outside handler -->
+<div
+  *ngIf="isOpen"
+  class="dropdown-backdrop"
+  (click)="onClickOutside($event)"
+></div>

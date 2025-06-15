@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  _id: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -10,4 +10,10 @@ export interface User {
   street?: string;
   address?: string;
   createdAt: Date;
+  role: UserRole;
+  isActive: boolean;
+}
+export enum UserRole {
+  Admin = 'admin',
+  User = 'user',
 }

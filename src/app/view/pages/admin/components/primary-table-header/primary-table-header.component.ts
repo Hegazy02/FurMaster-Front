@@ -10,4 +10,5 @@ import { Component, Input } from '@angular/core';
 })
 export class PrimaryTableHeaderComponent {
   @Input() columnNames: string[] = [];
+  @Input() customSizes: string[] = [];
 }

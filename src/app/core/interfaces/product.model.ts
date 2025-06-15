@@ -2,6 +2,7 @@ export interface Product {
 
   _id: string;
   title: string;
+  
   description: string;
   categoryId: string | Category;
   ratingCounter?: number;
@@ -26,5 +27,5 @@ export interface Category {
 export interface Color {
   _id: string;
   name: string;
-  hexCode?: string;
+  hex: string;
 }
