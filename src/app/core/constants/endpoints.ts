@@ -5,6 +5,8 @@ export class Endpoints {
   public static LOGIN = `${Endpoints.BASE_URL}/auth/login`;
   public static REGISTER = `${Endpoints.BASE_URL}/auth/sginup`;
   public static LOGOUT = `${Endpoints.BASE_URL}/auth/logout`;
+  public static FORGET = `${Endpoints.BASE_URL}/auth/forget-password`;
+  public static RESET = `${Endpoints.BASE_URL}/auth/reset-password`;
   public static USER = `${Endpoints.BASE_URL}/users/me`;
   public static ORDERS = `${Endpoints.BASE_URL}/orders`;
   public static COLORS = `${Endpoints.BASE_URL}/colors`;

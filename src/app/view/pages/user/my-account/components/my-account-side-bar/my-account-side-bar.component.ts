@@ -22,7 +22,9 @@ export class MyAccountSideBarComponent {
   selectedItem = 1;
   onClick(index: number) {
     this.selectedItem = index;
-    this.authService.logout();
+    if (this.sideBarContent[index].route === '/') {
+      this.authService.logout();
+    }
     this.router.navigate([this.sideBarContent[index].route]);
   }
 }

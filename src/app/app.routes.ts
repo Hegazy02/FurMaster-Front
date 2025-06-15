@@ -6,7 +6,7 @@ import { UserRole } from './core/interfaces/user.interface';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'my-account',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
@@ -24,6 +24,25 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./view/pages/auth/login/login.component').then(
         (m) => m.LoginComponent
+      ),
+  },
+
+  {
+    path: 'forgot-password',
+
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
+      ),
+  },
+  {
+    path: 'reset-password',
+
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent
       ),
   },
 

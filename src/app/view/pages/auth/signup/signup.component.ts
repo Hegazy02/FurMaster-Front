@@ -52,7 +52,7 @@ export class SignupComponent {
         [
           Validators.required,
           Validators.pattern(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+            /^(?![.\n])(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$/
           ),
         ],
       ],
