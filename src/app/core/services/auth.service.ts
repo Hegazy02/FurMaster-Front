@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 import { Endpoints } from '../constants/endpoints';
 import {
@@ -39,5 +39,12 @@ export class AuthService {
   }
   logout(): void {
     localStorage.removeItem('token');
+  }
+  getUserRole(): Observable<string | null> {
+    if (this.user) return of(<string>this.user.role);
+    return this.getUser().pipe(
+      map((user) => user.role),
+      catchError(() => of(null))
+    );
   }
 }

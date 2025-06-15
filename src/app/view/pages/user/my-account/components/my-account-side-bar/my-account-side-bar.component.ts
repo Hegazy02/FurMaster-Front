@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-my-account-side-bar',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class MyAccountSideBarComponent {
   router = inject(Router);
+  authService = inject(AuthService);
   sideBarContent = [
     { title: 'Orders', route: '/my-account/orders' },
     { title: 'Account Details', route: '/my-account/account-details' },
@@ -20,7 +22,7 @@ export class MyAccountSideBarComponent {
   selectedItem = 1;
   onClick(index: number) {
     this.selectedItem = index;
-    console.log(this.selectedItem);
+    this.authService.logout();
     this.router.navigate([this.sideBarContent[index].route]);
   }
 }
