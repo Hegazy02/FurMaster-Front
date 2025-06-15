@@ -1,0 +1,8 @@
+<div class="image-wrapper mb-2">
+  <img [src]="image" alt="profile-pic" />
+
+  <label class="image-overlay">
+    <fa-icon [icon]="faCamera"></fa-icon>
+    <input type="file" (change)="onImageSelected($event)" hidden />
+  </label>
+</div>

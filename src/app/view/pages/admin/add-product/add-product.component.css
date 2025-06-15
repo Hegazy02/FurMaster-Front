@@ -1,0 +1,122 @@
+.add-product-content>* {
+    box-shadow: var(--admin-shadow);
+}
+
+label {
+    color: var(--label-color);
+    margin-bottom: 5px;
+}
+
+.required {
+    color: red;
+}
+
+.is-invalid {
+    border: 1px solid red !important;
+}
+
+h2 {
+    padding: 0;
+    margin: 0;
+}
+
+.add {
+    cursor: pointer;
+    color: var(--primary-color);
+    font-size: 2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.add::selection,
+.variant-option::selection {
+    background-color: transparent;
+}
+
+.add:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.add:active {
+    transform: scale(0.9);
+}
+
+.variant-option {
+    cursor: pointer;
+    color: red;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    height: fit-content;
+}
+.variant-option:hover {
+    color: white;
+}
+
+.delete-variant {
+    color: red;
+}
+
+.delete-variant:hover {
+    background-color: red;
+}
+.set-variant {
+    color: green;
+}
+
+.set-variant:hover {
+    background-color: green;
+}
+
+.file-input {
+    display: none;
+
+}
+
+.file-input-label {
+    cursor: pointer;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    padding: 12px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+    border: 2px dashed var(--primary-color);
+}
+
+.file-input-label:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.file-input-label:active,
+.file-input-image:active {
+    transform: scale(0.9);
+}
+
+.file-input-label i {
+    font-size: 66px;
+}
+
+.file-input-image {
+    cursor: pointer;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+    border: 2px dashed var(--primary-color);
+}
+
+.upload-image p {
+    color: var(--label-color);
+    margin: 0;
+}
+
+.upload-image img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 5px;
+
+}

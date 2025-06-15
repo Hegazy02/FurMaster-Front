@@ -1,0 +1,13 @@
+<ul class="my-account-side-bar p-0">
+  @for (item of sideBarContent; track $index) {
+  <li
+    class=""
+    [ngClass]="{
+      'active-my-account-side-bar': selectedItem === $index
+    }"
+    (click)="onClick($index)"
+  >
+    {{ item.title }}
+  </li>
+  }
+</ul>

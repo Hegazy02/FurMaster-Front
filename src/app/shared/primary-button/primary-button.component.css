@@ -1,0 +1,5 @@
+.primary-btn {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}

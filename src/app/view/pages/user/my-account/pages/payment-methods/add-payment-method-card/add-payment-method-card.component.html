@@ -1,0 +1,17 @@
+<div class="no-cards-content" [ngStyle]="{ padding: contentPadding + 'px' }">
+  <img
+    src="assets/images/add_card.svg"
+    alt="No Cards"
+    class="no-cards-img"
+    [ngStyle]="{ width: imageSize + 'px', height: imageSize + 'px' }"
+  />
+  @if (title) {
+  <h3>{{ title }}</h3>
+  }
+  <p>{{ subtitle }}</p>
+  <app-primary-button
+    [text]="'Add Card'"
+    (onClickChange)="onClick()"
+    [col]="'col-3'"
+  ></app-primary-button>
+</div>
