@@ -4,6 +4,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { UserRole } from './core/interfaces/user.interface';
 
 export const routes: Routes = [
+<<<<<<< HEAD
   {
     path: '',
     redirectTo: 'my-account',
@@ -129,4 +130,7 @@ export const routes: Routes = [
         (m) => m.NotFoundComponent
       ),
   },
+=======
+  // Add your routes here
+>>>>>>> c77ee60 (making the first step of the homepage)
 ];
