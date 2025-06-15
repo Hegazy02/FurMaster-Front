@@ -54,7 +54,7 @@ export class SearchableDropdownComponent
   @Output() searchChange = new EventEmitter<string>();
   @Output() dropdownToggle = new EventEmitter<boolean>();
 
-  selectedOption: DropdownOption | null = null;
+  @Input() selectedOption: DropdownOption | null = null;
   searchTerm: string = '';
   isOpen: boolean = false;
   filteredOptions: DropdownOption[] = [];

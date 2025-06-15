@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
 import { CartComponent } from './view/pages/user/cart/cart.component';
+import { authGuard } from './core/guards/auth.guard';
+import { UserRole } from './core/interfaces/user.interface';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin/add-product',
+    redirectTo: 'my-account',
     pathMatch: 'full',
   },
   {
     path: 'signup',
-
     pathMatch: 'full',
     loadComponent: () =>
       import('./view/pages/auth/signup/signup.component').then(
@@ -19,13 +20,13 @@ export const routes: Routes = [
 
   {
     path: 'login',
-
     pathMatch: 'full',
     loadComponent: () =>
       import('./view/pages/auth/login/login.component').then(
         (m) => m.LoginComponent
       ),
   },
+
   {
     path: 'forgot-password',
 
@@ -53,6 +54,7 @@ export const routes: Routes = [
       import('./view/pages/user/my-account/my-account.component').then(
         (m) => m.MyAccountComponent
       ),
+    canActivate: [authGuard(UserRole.User)],
     children: [
       {
         path: '',
@@ -81,12 +83,23 @@ export const routes: Routes = [
       import('./view/pages/admin/admin.component').then(
         (m) => m.AdminComponent
       ),
+    canActivate: [authGuard(UserRole.Admin)],
     children: [
       // {
       //   path: '',
       //   pathMatch: 'full',
       //   data: { title: 'Dashboard' },
       // },
+      {
+        path: 'orders',
+        pathMatch: 'full',
+
+        loadComponent: () =>
+          import('./view/pages/admin/admin-orders/admin-orders.component').then(
+            (m) => m.AdminOrdersComponent
+          ),
+        data: { title: 'Orders Management' },
+      },
       {
         path: 'customers',
         pathMatch: 'full',
@@ -108,6 +121,16 @@ export const routes: Routes = [
         data: { title: 'Products' },
       },
       {
+        path: 'products/:id',
+        pathMatch: 'full',
+
+        loadComponent: () =>
+          import('./view/pages/admin/add-product/add-product.component').then(
+            (m) => m.AddProductComponent
+          ),
+        data: { title: 'Update Product' },
+      },
+      {
         path: 'add-product',
         pathMatch: 'full',
         loadComponent: () =>
@@ -117,5 +140,12 @@ export const routes: Routes = [
         data: { title: 'Add Product' },
       },
     ],
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./view/pages/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
   },
 ];

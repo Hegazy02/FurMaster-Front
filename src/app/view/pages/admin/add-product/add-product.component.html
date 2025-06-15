@@ -20,6 +20,7 @@
         [placeholder]="'Select a category'"
         (searchChange)="onSearchCategory($event)"
         (selectionChange)="onSelectCategory($event)"
+        [selectedOption]="initialCategory"
         [invalid]="isInvalid(getFormControl('categoryId'))"
       ></app-searchable-dropdown>
     </div>
@@ -62,7 +63,7 @@
     </div>
     <app-primary-button
       (onClickChange)="onSubmit()"
-      [text]="'Add'"
+      [text]="productId ? 'Update' : 'Submit'"
       [col]="'col-12'"
     ></app-primary-button>
   </div>
@@ -83,6 +84,7 @@
             [required]="true"
             [isInvalid]="isVariantControlInvalid($index, 'colorId')"
             (colorSelected)="onColorSelected($event, $index)"
+            [selectedColor]="getInitialColor(colorsArray.controls[$index])"
           >
           </app-color-selector>
 
@@ -110,7 +112,12 @@
             />
           </label>
           }@else {
-          <label class="file-input-label">
+          <label
+            class="file-input-label"
+            [ngClass]="{
+              'is-invalid': isVariantControlInvalid($index, 'image')
+            }"
+          >
             <i class="material-icons">image</i>
             <input
               type="file"
@@ -122,10 +129,16 @@
           }
           <p>Max size 5mb</p>
         </div>
-        @if (colorsArray.length > 1) {
+        @if (productId) {
         <i
-          class="material-icons delete-variant"
-          (click)="removeColorVariant($index)"
+          class="material-icons variant-option set-variant"
+          (click)="setVariant($index)"
+          >check</i
+        >
+        } @if (colorsArray.length > 1) {
+        <i
+          class="material-icons variant-option delete-variant"
+          (click)="removeVariant($index)"
           >close</i
         >
         }
