@@ -43,7 +43,10 @@ export class AuthService {
   getUserRole(): Observable<string | null> {
     if (this.user) return of(<string>this.user.role);
     return this.getUser().pipe(
-      map((user) => user.role),
+      map((user) => {
+        this.user = user;
+        return user.role;
+      }),
       catchError(() => of(null))
     );
   }
