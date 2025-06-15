@@ -6,7 +6,7 @@ import { UserRole } from './core/interfaces/user.interface';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'my-account',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {

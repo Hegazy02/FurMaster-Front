@@ -22,8 +22,21 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loadingSub = this.loadingService.loading$.subscribe((isLoading) => {
       isLoading ? this.spinner.show() : this.spinner.hide();
     });
+    this.getUser();
   }
-
+  getUser() {
+    return this.authService.getUser().subscribe({
+      next: (user) => {
+        this.authService.user = user;
+        if (user.role === 'admin') {
+          this.router.navigate(['/admin']);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching user:', error);
+      },
+    });
+  }
   ngOnDestroy(): void {
     this.loadingSub.unsubscribe();
   }

@@ -12,7 +12,6 @@ import {
 import { User } from '../interfaces/user.interface';
 import { SHOULD_TRACK_LOADING } from '../interceptors/loading.interceptor';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -29,7 +28,6 @@ export class AuthService {
       context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
     });
   }
-
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }

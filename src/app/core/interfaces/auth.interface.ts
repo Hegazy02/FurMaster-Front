@@ -1,5 +1,6 @@
 import { User } from "./user.interface";
 
+
 export interface SignupBody {
 
   firstName: string;
@@ -21,6 +22,7 @@ export interface LoginBody {
   password: string;
 }
 
+
 export interface LoginResponse {
   message: string;
   data: string;
@@ -39,3 +41,4 @@ export interface ForgotPasswordResponse {
 export interface ResetPasswordData {
   message: string;
 }
+
