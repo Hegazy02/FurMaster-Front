@@ -1,8 +1,7 @@
 export interface Product {
-      image?: string;
 
-  _id?: string;
-  name: string;
+  _id: string;
+  title: string;
   description: string;
   categoryId: string | Category;
   ratingCounter?: number;
@@ -14,6 +13,8 @@ export interface Product {
     colorId?: string | Color;
     stock?: number;
     image?: string;
+        variantId?: string;
+
   }[];
 }
 
