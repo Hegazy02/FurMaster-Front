@@ -31,10 +31,8 @@ export interface LoginResponse {
 
 export interface ForgotPasswordResponse {
   message: string;
-  email: string;
   otp: string;
-  phone: string;
-  maskedPhone: string;
+  lastTwoNumbersOfPhoneNumber: string;
 }
 
 

@@ -36,11 +36,9 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-
   logout(): void {
     localStorage.removeItem('token');
   }
-
 
   resetPassword(data: {
     email: string;
@@ -48,13 +46,20 @@ export class AuthService {
     userOtp: string;
     password: string;
   }): Observable<ResetPasswordData> {
-    return this.http.post<ResetPasswordData>(Endpoints.RESET, data);
+    return this.http.post<ResetPasswordData>(Endpoints.RESET, data, {
+      context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
+    });
   }
 
   forgetPassword(email: string): Observable<ForgotPasswordResponse> {
-    return this.http.post<ForgotPasswordResponse>(Endpoints.FORGET, { email });
+    return this.http.post<ForgotPasswordResponse>(
+      Endpoints.FORGET,
+      { email },
+      {
+        context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
+      }
+    );
   }
-
 
   getUser(): Observable<User> {
     return this.http.get<User>(Endpoints.USER);
@@ -69,5 +74,4 @@ export class AuthService {
       catchError(() => of(null))
     );
   }
-
 }

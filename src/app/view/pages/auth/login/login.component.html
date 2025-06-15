@@ -28,10 +28,12 @@
             </app-primary-form-input>
           </div>
         </ng-container>
+        <p>Forgot Password? <span class="link" [routerLink]="['/forgot-password']">Reset</span></p>
 
         <app-primary-button
           (onClickChange)="onSubmit()"
           [col]="'col-12'"
+          [text]="'Login'"
         ></app-primary-button>
 
         <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
