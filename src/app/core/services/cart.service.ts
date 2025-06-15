@@ -21,20 +21,25 @@ export class CartService {
 
 
 
-  addToCart(productId: string, quantity: number) {
-    return this.http.post(Endpoints.CART + productId, {
+  addToCart(productId: string,variantId: string, quantity: number) {
+    return this.http.post(Endpoints.CART + variantId, {
+      productId,
       quantity: quantity,
     });
   }
-  removeFromCart(productId: string) {
-    return this.http.delete(Endpoints.CART + productId);
+  removeFromCart(variantId: string) {
+    return this.http.delete(Endpoints.CART + variantId);
 
   }
 
+clearCart() {
+  return this.http.delete('http://localhost:3000/api/cart');
+}
 
   init() {
     return this.http.get<CartItem[]>(Endpoints.CART )
 
-      
+   
+  
 
 }}

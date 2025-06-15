@@ -1,0 +1,174 @@
+<div class="cancel-container">
+  <div class="cancel-card">
+    <div class="cancel-icon">
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" />
+      </svg>
+    </div>
+    <h1 class="cancel-title">Payment Cancelled <span class="pulse">❌</span></h1>
+    <p class="cancel-message">It seems you cancelled the payment process. You can try again later.</p>
+    <div class="button-group">
+      <a href="/cart" class="retry-button">
+        Retry Payment
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
+        </svg>
+      </a>
+      <a href="/" class="home-button">
+        Return Home
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+.cancel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffd8d8 100%);
+  padding: 20px;
+}
+
+.cancel-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  border-top: 4px solid #ff4444;
+  transform: scale(1);
+  animation: pulse-shadow 2s infinite;
+}
+
+.cancel-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  color: #ff4444;
+}
+
+.cancel-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cancel-title {
+  font-size: 2.2rem;
+  color: #d32f2f;
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cancel-message {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.retry-button, .home-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.retry-button {
+  background: linear-gradient(90deg, #ff4444, #d32f2f);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+}
+
+.home-button {
+  background: white;
+  color: #333;
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.retry-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 68, 68, 0.4);
+}
+
+.home-button:hover {
+  transform: translateY(-3px);
+  border-color: #ff4444;
+  color: #ff4444;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.retry-button:active, .home-button:active {
+  transform: translateY(1px);
+}
+
+.retry-button svg, .home-button svg {
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.retry-button:hover svg {
+  transform: rotate(360deg);
+}
+
+.home-button:hover svg {
+  transform: translateY(-3px);
+}
+
+.pulse {
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse-shadow {
+  0% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.1); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0); }
+}
+
+@media (max-width: 600px) {
+  .cancel-card {
+    padding: 30px 20px;
+  }
+  
+  .cancel-title {
+    font-size: 1.8rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .retry-button, .home-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
