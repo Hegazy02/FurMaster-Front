@@ -14,6 +14,8 @@ export interface Order {
     productId: string;
     variantId: string;
     _id: string;
+      image?: string;  
+
   }[];
   createdAt: string;
 }
