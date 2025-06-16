@@ -1,97 +1,244 @@
-.filters {
-  padding: 1rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
+/* حاوية الصفحة */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  overflow-x: hidden; /* منع السكرول الأفقي */
 }
 
-.filters input, .filters select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  min-width: 120px;
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
+/* ✅ كروت الطلب */
 .order-card {
-  background: #fff;
+  background-color: #fff;
   border-radius: 10px;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 16px;
+  margin: 16px auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 700px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
+/* رأس الطلب */
 .order-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: .5rem;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
+/* حالة الطلب */
 .status {
-  font-weight: bold;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  color: #fff;
-  text-transform: capitalize;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
-.in-progress {
-  background: orange;
+.status.in-progress {
+  background-color: #fef3dc;
+  color: #d67d00;
 }
 
-.delivered {
-  background: #5cb85c;
+.status.delivered {
+  background-color: #e6f4ea;
+  color: #198754;
 }
 
-.cancelled {
-  background: #d9534f;
+.status.cancelled {
+  background-color: #f8d7da;
+  color: #dc3545;
 }
 
 .order-body {
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   align-items: center;
-  gap: 1rem;
 }
 
 .order-body img {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   object-fit: cover;
   border-radius: 8px;
+  background-color: #eee;
 }
 
 .details {
-  flex-grow: 1;
+  flex: 1;
+  min-width: 200px;
 }
 
 .order-id {
-  font-weight: 600;
-  color: #b22222;
+  font-weight: bold;
+  color: #363434;
 }
 
 .desc {
+  font-size: 0.95rem;
   color: #555;
-  margin: 4px 0;
 }
 
 .price {
   font-weight: bold;
-  color: #000;
+  margin-top: 4px;
+    color: #701515;
+
 }
 
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px auto;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.filters select,
+.filters input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 100%;
+  max-width: 180px;
+  box-sizing: border-box;
+}
+
+/* ✅ Pagination */
 .pagination {
   display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  box-sizing: border-box;
 }
 
-.empty-orders {
-  text-align: center;
-  padding: 2rem;
-  color: #999;
+.pagination button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .order-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters select,
+  .filters input {
+    width: 100%;
+  }
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pagination {
+    flex-direction: column;
+  }
+
+  .order-card {
+    margin: 12px 12px;
+  }
+}
+
+/* ✅ جعل الصور لا تكسر التصميم */
+.order-body img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ✅ استخدام عرض مرن للبطاقات */
+.order-card {
+  width: 100%;
+  margin: 16px auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* ✅ توسيع التوافق مع الأجهزة اللوحية */
+@media (max-width: 900px) {
+  .order-body {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .details {
+    min-width: 150px;
+    flex: 1;
+  }
+}
+/*اااا*/
+.filters {
+  gap: 16px;
+  padding: 12px;
+  margin-bottom: 24px;
+}
+
+.filters select,
+.filters input {
+  flex: 1;
+  min-width: 140px;
+  max-width: 200px;
+  width: 100%;
+}
+
+@media (max-width: 400px) {
+  .order-card {
+    padding: 12px;
+  }
+
+  .filters select,
+  .filters input {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+
+  .status {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+  }
+
+  .price, .desc, .order-id {
+    font-size: 0.9rem;
+  }
 }
