@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 import { CartComponent } from './view/pages/user/cart/cart.component';
-<<<<<<< HEAD
 import { SuccessComponent } from './view/pages/user/success/success.component';
 import { CancelComponent } from './view/pages/user/cancel/cancel.component';
 import { UserOrdersComponent } from './view/pages/user/my-account/pages/user-orders/user-orders.component';
-=======
+import { SuccessComponent } from './view/pages/user/success/success.component';
+import { CancelComponent } from './view/pages/user/cancel/cancel.component';
+import { UserOrdersComponent } from './view/pages/user/my-account/pages/user-orders/user-orders.component';
 import { authGuard } from './core/guards/auth.guard';
 import { UserRole } from './core/interfaces/user.interface';
->>>>>>> ab47820be6256f523e57d5cb96f328be68db049a
 
 export const routes: Routes = [
 

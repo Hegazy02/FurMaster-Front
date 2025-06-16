@@ -53,6 +53,19 @@ export class UserOrdersComponent implements OnInit {
 
 
 
+getProductNames(products: any[]): string {
+  const maxNames = 3;
+  const names = products.map(p => p.name);
+  const displayedNames = names.slice(0, maxNames);
+  const remaining = names.length - maxNames;
+
+  if (remaining > 0) {
+    return `${displayedNames.join(', ')} and ${remaining} more items`;
+  } else {
+    return displayedNames.join(', ');
+  }
+}
+
 
 
 

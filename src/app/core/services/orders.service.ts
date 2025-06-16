@@ -7,19 +7,11 @@ import { Endpoints } from '../constants/endpoints';
 import { ApiResponse } from '../interfaces/api-response.interface';
 import { Order } from '../interfaces/order.interface';
 
-
-
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
   constructor(private http: HttpClient) { }
-
-
-
 
 
   getUserOrders(
@@ -43,7 +35,7 @@ export class OrdersService {
     if (dateFrom) params = params.set('dateFrom', dateFrom);
     if (dateTo) params = params.set('dateTo', dateTo);
 
-    return this.http.get<ApiResponse<Order[]>>(Endpoints.ORDER, { params });
+    return this.http.get<ApiResponse<Order[]>>('http://localhost:3000/api/orders', { params });
   }
 
 
