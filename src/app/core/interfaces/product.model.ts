@@ -25,3 +25,8 @@ export interface Color {
   name: string;
   hex: string;
 }
+
+export interface ColorResponse {
+  success: boolean;
+  data: Color[];
+}
