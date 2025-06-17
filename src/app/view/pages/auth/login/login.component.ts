@@ -12,6 +12,7 @@ import { PrimaryFormInputComponent } from '../../user/my-account/pages/account-d
 import { AuthService } from '../../../../core/services/auth.service';
 import { PrimaryButtonComponent } from '../../../../shared/primary-button/primary-button.component';
 import { Subject, takeUntil } from 'rxjs';
+import { UserRole } from '../../../../core/interfaces/user.interface';
 
 @Component({
   selector: 'app-login',
@@ -77,7 +78,7 @@ export class LoginComponent {
         next: (res) => {
           this.authService.user = res.data;
           this.authService.saveToken(res.token);
-          this.router.navigate(['/admin']);
+          this.navigateToPage(res.data.role);
         },
         error: (err) => {
           this.errorMessage = err.error.message || 'Login failed.';
@@ -86,6 +87,14 @@ export class LoginComponent {
   }
   isInvalid(control: AbstractControl): boolean {
     return control.invalid && control.touched;
+  }
+  navigateToPage(role: string) {
+    if (role == UserRole.Admin) {
+      this.router.navigate(['/admin']);
+    }
+    if (role == UserRole.User) {
+      this.router.navigate(['/']);
+    }
   }
   ngOnDestroy() {
     this.destroy$.unsubscribe();

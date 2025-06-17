@@ -26,6 +26,6 @@ export class RelatedProductComponent {
   }
 
   navigateToProduct(productId: string): void {
-    this.router.navigate(['/productss', productId]);
+    this.router.navigate(['/products', productId]);
   }
 }

@@ -1,11 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
+import { catchError, map, Observable, of } from 'rxjs';
 import { Endpoints } from '../constants/endpoints';
 import {
   AuthResponse,
+  ForgotPasswordResponse,
   LoginBody,
+  ResetPasswordData,
   SignupBody,
 } from '../interfaces/auth.interface';
 import { User } from '../interfaces/user.interface';
@@ -34,10 +35,43 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+
+  logout(): void {
+    localStorage.removeItem('token');
+  }
+
+  resetPassword(data: {
+    email: string;
+    otp: string;
+    userOtp: string;
+    password: string;
+  }): Observable<ResetPasswordData> {
+    return this.http.post<ResetPasswordData>(Endpoints.RESET, data, {
+      context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
+    });
+  }
+
+  forgetPassword(email: string): Observable<ForgotPasswordResponse> {
+    return this.http.post<ForgotPasswordResponse>(
+      Endpoints.FORGET,
+      { email },
+      {
+        context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
+      }
+    );
+  }
+
   getUser(): Observable<User> {
     return this.http.get<User>(Endpoints.USER);
   }
-  logout(): void {
-    localStorage.removeItem('token');
+  getUserRole(): Observable<string | null> {
+    if (this.user) return of(<string>this.user.role);
+    return this.getUser().pipe(
+      map((user) => {
+        this.user = user;
+        return user.role;
+      }),
+      catchError(() => of(null))
+    );
   }
 }

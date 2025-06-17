@@ -1,17 +1,21 @@
 export interface Product {
-  _id?: string;
-  name: string;
-  price?: number;
-  offerPrice?: number;
-  image?: string;
+
+  _id: string;
+  title: string;
+  
   description: string;
   categoryId: string | Category;
   ratingCounter?: number;
   rating?: number;
+  price?: number;
+  offerPrice?: number;
+
   colors?: {
     colorId?: string | Color;
     stock?: number;
     image?: string;
+        variantId?: string;
+
   }[];
 }
 

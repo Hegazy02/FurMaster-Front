@@ -1,12 +1,23 @@
 import { Routes } from '@angular/router';
 import { CartComponent } from './view/pages/user/cart/cart.component';
+import { SuccessComponent } from './view/pages/user/success/success.component';
+import { CancelComponent } from './view/pages/user/cancel/cancel.component';
+import { UserOrdersComponent } from './view/pages/user/my-account/pages/user-orders/user-orders.component';
+import { authGuard } from './core/guards/auth.guard';
+import { UserRole } from './core/interfaces/user.interface';
 
 export const routes: Routes = [
+
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
   },
+  { path: 'cart', component: CartComponent },
+  { path: 'success', component: SuccessComponent },
+  { path: 'cancel', component: CancelComponent },
+  { path: 'orders', component: UserOrdersComponent },
+
   {
     path: 'signup',
     pathMatch: 'full',
@@ -25,6 +36,25 @@ export const routes: Routes = [
       ),
   },
 
+  {
+    path: 'forgot-password',
+
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
+      ),
+  },
+  {
+    path: 'reset-password',
+
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./view/pages/auth/reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent
+      ),
+  },
+
   { path: 'cart', component: CartComponent },
 
   {
@@ -33,6 +63,7 @@ export const routes: Routes = [
       import('./view/pages/user/my-account/my-account.component').then(
         (m) => m.MyAccountComponent
       ),
+    canActivate: [authGuard(UserRole.User)],
     children: [
       {
         path: '',
@@ -53,6 +84,8 @@ export const routes: Routes = [
             './view/pages/user/my-account/pages/payment-methods/payment-methods.component'
           ).then((m) => m.PaymentMethodsComponent),
       },
+       
+       
     ],
   },
   {
@@ -61,6 +94,7 @@ export const routes: Routes = [
       import('./view/pages/admin/admin.component').then(
         (m) => m.AdminComponent
       ),
+    canActivate: [authGuard(UserRole.Admin)],
     children: [
       // {
       //   path: '',
@@ -120,15 +154,22 @@ export const routes: Routes = [
     ],
   },
    { 
-    path: 'productss', 
+    path: 'products', 
     loadComponent: () => import('./view/pages/user/products/products/product-listing.component').then(m => m.ProductListingComponent)
   },
   { 
-    path: 'productss/:id', 
+    path: 'products/:id', 
     loadComponent: () => import('./view/pages/user/products/product-detail/product-detail-page.component').then(m => m.ProductDetailPageComponent)
   },
   {
     path: 'categories',
     loadComponent: () => import('./view/pages/user/categories/categories/categories.component').then(m => m.CategoriesComponent)
+  },
+    {
+    path: '**',
+    loadComponent: () =>
+      import('./view/pages/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
   },
 ];
