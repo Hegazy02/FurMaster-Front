@@ -41,10 +41,10 @@ export class AdminSidebarComponent implements OnInit {
           label: 'Customers',
           route: '/admin/customers',
         },
-        { icon: 'local_offer', label: 'Coupon Code', route: '/coupons' },
-        { icon: 'category', label: 'Categories', route: '/admin/categories' },
-        // { icon: 'receipt', label: 'Transaction', route: '/transactions' },
-        { icon: 'star', label: 'Brand', route: '/brands' },
+        // { icon: 'local_offer', label: 'Coupon Code', route: '/coupons' },
+        // { icon: 'category', label: 'Categories', route: '/admin/categories' },
+        // // { icon: 'receipt', label: 'Transaction', route: '/transactions' },
+        // { icon: 'star', label: 'Brand', route: '/brands' },
       ],
     },
     {
@@ -61,11 +61,11 @@ export class AdminSidebarComponent implements OnInit {
     {
       title: 'ADMIN',
       items: [
-        {
-          icon: 'admin_panel_settings',
-          label: 'Manage Admins',
-          route: '/admin/manage',
-        },
+        // {
+        //   icon: 'admin_panel_settings',
+        //   label: 'Manage Admins',
+        //   route: '/admin/manage',
+        // },
         { icon: 'logout', label: 'Logout', route: '/' },
       ],
     },
