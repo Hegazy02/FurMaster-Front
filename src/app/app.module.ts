@@ -1,20 +1,32 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+// import { NgModule } from '@angular/core';
+// import { BrowserModule } from '@angular/platform-browser';
+// import { RouterModule, Routes } from '@angular/router';
+// import { HttpClientModule } from '@angular/common/http';
+// import { AppComponent } from './app.component';
+// import { HomeComponent } from './components/home/home.component';
+// import { HeaderComponent } from './components/header/header.component';
+// import { FooterComponent } from './components/footer/footer.component';
 
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
 
-@NgModule({
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([]),
-    AppComponent,
-    HeaderComponent,
-    FooterComponent
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { } 
+// const routes: Routes = [
+//   { path: '', component: HomeComponent },
+
+// ];
+
+// @NgModule({
+//   declarations: [
+//     AppComponent,
+//     HomeComponent,
+//     HeaderComponent,
+//     FooterComponent
+//   ],
+//   imports: [
+    
+//     HttpClientModule,
+//     BrowserModule,
+//     RouterModule.forRoot(routes)
+//   ],
+//   providers: [],
+//   bootstrap: [AppComponent]
+// })
+// export class AppModule { }

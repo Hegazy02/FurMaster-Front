@@ -2,14 +2,18 @@ import { Routes } from '@angular/router';
 import { CartComponent } from './view/pages/user/cart/cart.component';
 import { authGuard } from './core/guards/auth.guard';
 import { UserRole } from './core/interfaces/user.interface';
+import { HomeComponent } from './components/home/home.component'
 
 export const routes: Routes = [
-<<<<<<< HEAD
-  {
+    {
     path: '',
-    redirectTo: 'my-account',
-    pathMatch: 'full',
+    component: HomeComponent
   },
+  // {
+  //   path: '',
+  //   redirectTo: 'my-account',
+  //   pathMatch: 'full',
+  // },
   {
     path: 'signup',
     pathMatch: 'full',
@@ -130,7 +134,5 @@ export const routes: Routes = [
         (m) => m.NotFoundComponent
       ),
   },
-=======
   // Add your routes here
->>>>>>> c77ee60 (making the first step of the homepage)
 ];
