@@ -16,6 +16,7 @@ import { ApiResponse } from '../../../../core/interfaces/api-response.interface'
 import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
 import { ToastrService } from 'ngx-toastr';
 import { PrimaryModalComponent } from '../../../../shared/primary-modal/primary-modal.component';
+import { currency } from '../../../../core/constants/vairables';
 
 @Component({
   selector: 'app-products',
@@ -67,6 +68,7 @@ export class ProductsComponent implements AfterViewInit {
   sortBy = { value: '', apiValue: '' };
   searchInput = new Subject<string>();
   selectedDeletedProductId: string = '';
+  cureency = currency;
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.getQueryParamsFromUrl();

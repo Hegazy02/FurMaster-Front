@@ -8,6 +8,9 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { AdminOrder } from '../../../../core/interfaces/admin-order.interface';
+import { OrdersService } from '../../../../core/services/orders.service';
+import { StatusDropdownComponent } from './status-dropdown/status-dropdown.component';
+import { currency } from '../../../../core/constants/vairables';
 
 @Component({
   selector: 'app-admin-orders',
@@ -21,6 +24,7 @@ import { AdminOrder } from '../../../../core/interfaces/admin-order.interface';
     SlicePipe,
     EmptyDataComponent,
     MatPaginator,
+    StatusDropdownComponent,
   ],
   templateUrl: './admin-orders.component.html',
   styleUrl: './admin-orders.component.css',
@@ -29,45 +33,19 @@ export class AdminOrdersComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  ordersService = inject(OrdersService);
   total: number = 0;
   page: number = 1;
   searchbyOrderNumber = '';
   columnNames = ['Number', 'Date', 'Customer', 'Amount', 'Status', 'Paid'];
-  orders: AdminOrder[] = [
-    {
-      _id: 'test1',
-      number: 1,
-      createdAt: new Date(),
-      customer: 'John Doe',
-      amountTotal: 1000,
-      status: 'pending',
-      paid: false,
-    },
-    {
-      _id: 'test2',
-      number: 2,
-      createdAt: new Date(),
-      customer: 'John Doe',
-      amountTotal: 2000,
-      status: 'pending',
-      paid: true,
-    },
-    {
-      _id: 'test3',
-      number: 3,
-      createdAt: new Date(),
-      customer: 'John Doe',
-      amountTotal: 30000,
-      status: 'pending',
-      paid: false,
-    },
-  ];
+  orders: AdminOrder[] = [];
   searchInput = new Subject<string>();
-
+  currency = currency;
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
     this.subScribeToSearchInput();
+    this.getOrders();
   }
   onSearch(value: string) {
     this.searchInput.next(value);
@@ -77,8 +55,7 @@ export class AdminOrdersComponent {
     this.setQueryParamsToUrl({
       page: this.page.toString(),
     });
-    //TODO: Get Orders
-    // this.getUsers();
+    this.getOrders(this.page, 10, this.searchbyOrderNumber);
   }
   private getQueryParamsFromUrl() {
     this.activatedRoute.queryParams
@@ -103,8 +80,7 @@ export class AdminOrdersComponent {
         this.page = 1;
         this.setQueryParamsToUrl({ page: this.page.toString(), email: value });
         this.paginator.firstPage();
-        //TODO: Get Orders
-        // this.getUsers();
+        this.getOrders(this.page, 10, this.searchbyOrderNumber);
       });
   }
   setQueryParamsToUrl(params: { [key: string]: string }) {
@@ -114,21 +90,33 @@ export class AdminOrdersComponent {
       queryParamsHandling: 'merge',
     });
   }
-  derivedStatusStyle(status: string): string {
-    switch (status) {
-      case 'pending':
-        return 'pending';
-      case 'Processing':
-        return 'bg-blue-100 text-blue-800';
-      case 'Delivered':
-        return 'bg-green-100 text-green-800';
-      case 'Cancelled':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  }
 
+  getOrders(page: number = 1, limit: number = 10, number: string = '') {
+    this.ordersService
+      .getAllOrders(page, limit, number)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          console.log('result', result);
+
+          this.orders = result.data ?? [];
+          this.total = result.total ?? 0;
+        },
+        error: (error) => console.error(error),
+      });
+  }
+  handleStatusChange(status: string, order: AdminOrder): void {
+    this.ordersService
+      .updateOrderStatus(order._id, status)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          console.log('result', result);
+          this.getOrders(this.page, 10, this.searchbyOrderNumber);
+        },
+        error: (error) => console.error(error),
+      });
+  }
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();
   }
