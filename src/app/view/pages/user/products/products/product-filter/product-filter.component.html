@@ -1,0 +1,84 @@
+<div class="bg-white rounded-lg p-6 shadow-sm">
+  <h2 class="text-xl font-semibold mb-6">Filters</h2>
+
+  <!-- Categories -->
+  <div class="mb-6">
+    <button (click)="categoryOpen = !categoryOpen" class="flex items-center justify-between w-full py-2 text-left font-medium">
+      Categories
+      <svg class="w-4 h-4" [class.rotate-180]="categoryOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+    <div *ngIf="categoryOpen" class="space-y-3 pt-3">
+      <div *ngFor="let category of categories" class="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          [id]="category._id"
+          [checked]="selectedCategories.includes(category._id)"
+          (change)="handleCategoryChange(category._id, $event)"
+          class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+        />
+        <label [for]="category._id" class="text-sm font-normal cursor-pointer">{{ category.name }}</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="mb-6 border-t pt-4">
+    <button (click)="colorOpen = !colorOpen" class="flex items-center justify-between w-full py-2 text-left font-medium">
+      Colors
+      <svg class="w-4 h-4" [class.rotate-180]="colorOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+    <div *ngIf="colorOpen" class="space-y-3 pt-3">
+      <div *ngFor="let color of colorOptions" class="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          [id]="color.id"
+          [checked]="selectedColors.includes(color.id)"
+          (change)="handleColorChange(color.id, $event)"
+          class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+        />
+        <div class="w-4 h-4 rounded-full border border-gray-300" [style.backgroundColor]="color.hex"></div>
+        <label [for]="color.id" class="text-sm font-normal cursor-pointer">{{ color.name }}</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Price Range -->
+  <div class="mb-6 border-t pt-4">
+    <button (click)="priceOpen = !priceOpen" class="flex items-center justify-between w-full py-2 text-left font-medium">
+      Price Range
+      <svg class="w-4 h-4" [class.rotate-180]="priceOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+    <div *ngIf="priceOpen" class="pt-3">
+      <div class="space-y-4">
+        <input type="range" [min]="0" [max]="1500" [step]="50" [(ngModel)]="priceRange[0]" (ngModelChange)="onPriceChange()" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
+        <input type="range" [min]="0" [max]="1500" [step]="50" [(ngModel)]="priceRange[1]" (ngModelChange)="onPriceChange()" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
+        <div class="flex justify-between text-sm text-gray-600">
+          <span>\${{ priceRange[0] }}</span>
+          <span>\${{ priceRange[1] }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Arrivals -->
+  <div class="border-t pt-4">
+    <button (click)="newArrivalsOpen = !newArrivalsOpen" class="flex items-center justify-between w-full py-2 text-left font-medium">
+      New Arrivals
+      <svg class="w-4 h-4" [class.rotate-180]="newArrivalsOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+    <div *ngIf="newArrivalsOpen" class="pt-3">
+      <div class="flex items-center space-x-2">
+        <input type="checkbox" id="new-arrivals" [(ngModel)]="showNewArrivals" (ngModelChange)="onNewArrivalsChange($event)" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+        <label for="new-arrivals" class="text-sm font-normal cursor-pointer">Show only new arrivals</label>
+      </div>
+    </div>
+  </div>
+</div>
