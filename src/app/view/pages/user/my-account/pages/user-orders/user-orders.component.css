@@ -29,6 +29,7 @@ h2{
   overflow: hidden;
 }
 
+/* رأس الطلب */
 .order-header {
   display: flex;
   justify-content: space-between;
@@ -37,6 +38,7 @@ h2{
   margin-bottom: 12px;
 }
 
+/* حالة الطلب */
 .status {
   padding: 4px 12px;
   border-radius: 12px;
@@ -70,7 +72,7 @@ h2{
 }
 
 .order-body img {
-  width: 120px;
+  width: 110px;
   height: 64px;
   object-fit: cover;
   border-radius: 8px;
@@ -109,7 +111,6 @@ h2{
   padding: 0 12px;
   box-sizing: border-box;
 }
-
 
 
 /* ✅ Pagination */
@@ -185,7 +186,6 @@ h2{
   box-sizing: border-box;
 }
 
-/* ✅ توسيع التوافق مع الأجهزة اللوحية */
 @media (max-width: 900px) {
   .order-body {
     flex-direction: row;
@@ -345,6 +345,35 @@ h2{
   outline: none;
 }
 
+
+
+
+
+
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 12px;
+  margin-bottom: 24px;
+  margin-left: 30%;
+}
+
+.date-range-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 120px;
+}
+
+.date-range-column input[type="date"] {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 14px;
+}
 
 
 

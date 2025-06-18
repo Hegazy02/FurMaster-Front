@@ -11,7 +11,6 @@ export class Endpoints {
   public static ORDERS = `${Endpoints.BASE_URL}/orders`;
   public static COLORS = `${Endpoints.BASE_URL}/colors`;
   public static PRODUCTS = `${Endpoints.BASE_URL}/products`;
-  public static ADMIN_PRODUCTS = `${Endpoints.BASE_URL}/admin/products`;
   public static CATEGORIES = `${Endpoints.BASE_URL}/categories`;
   public static CART = `${Endpoints.BASE_URL}/cart/`;
   public static CHECKOUT = `${Endpoints.BASE_URL}/checkout`;
@@ -20,4 +19,6 @@ export class Endpoints {
    public static ORDER=`http://localhost:3000/api/orders/user`;
   //admin
   public static USERS = `${Endpoints.BASE_URL}/admin/users`;
+  public static ADMIN_PRODUCTS = `${Endpoints.BASE_URL}/admin/products`;
+  public static ADMIN_ORDERS = `${Endpoints.BASE_URL}/admin/orders`;
 }
