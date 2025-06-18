@@ -33,13 +33,9 @@ export class CartService {
   }
 
 clearCart() {
-  return this.http.delete('http://localhost:3000/api/cart');
+  return this.http.delete(Endpoints.CART);
 }
 
   init() {
     return this.http.get<CartItem[]>(Endpoints.CART )
-
-   
-  
-
 }}
