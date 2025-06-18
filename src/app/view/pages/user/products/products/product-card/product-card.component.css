@@ -1,0 +1,16 @@
+.product-card .main-img,
+.product-card .hover-img {
+  transition: opacity 0.7s ease-in-out;
+}
+
+.product-card .hover-img {
+  z-index: 1;
+}
+
+.product-card .main-img {
+  z-index: 2;
+}
+
+.product-card .image-container {
+  position: relative;
+}

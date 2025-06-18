@@ -4,11 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoriesService } from '../../../../../core/services/categories.service';
 import { Category } from '../../../../../core/interfaces/category.interface';
+import { PaginationComponent } from '../../../../../shared/pagination/pagination.component';
+import { BreadcrumbComponent } from '../../../../../shared/breadcrump/breadcrump.component'; // عدلي المسار لو مختلف
+
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule , PaginationComponent, BreadcrumbComponent],
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
 })
@@ -20,11 +23,17 @@ export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
   loading = true;
   searchQuery = '';
-  
-  // Pagination
+
+  /// Pagination
   currentPage = 1;
   totalPages = 1;
   totalItems = 0;
+
+  breadcrumbItems = [
+  { label: 'Home', link: '/' },
+  { label: 'Categories' }
+];
+
 
   ngOnInit() {
     this.loadCategories();
@@ -32,7 +41,7 @@ export class CategoriesComponent implements OnInit {
 
   loadCategories() {
     this.loading = true;
-    
+
     const params = {
       page: this.currentPage,
       ...(this.searchQuery && { search: this.searchQuery })
@@ -64,10 +73,10 @@ export class CategoriesComponent implements OnInit {
   }
 
   navigateToCategory(categoryId: string) {
-this.router.navigate(['/publicProducts'], { queryParams: { categoryId } });
+    this.router.navigate(['/products'], { queryParams: { categoryId } });
   }
 
   getDefaultImage(): string {
-    return 'https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg';
+    return 'https://plus.unsplash.com/premium_photo-1676320514018-ec119b57dbce?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
   }
 }

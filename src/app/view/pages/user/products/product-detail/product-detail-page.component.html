@@ -25,6 +25,14 @@
 </div>
 
 <!-- Product Details -->
+
+<app-breadcrumb [items]="[
+  { label: 'Home', link: '/' },
+  { label: 'Products', link: '/products' },
+  { label: getCategoryName(), link: '/products?category=' + product?.category?._id },
+  { label: product?.title??'' }
+]"></app-breadcrumb>
+
 <div *ngIf="product && !loading" class="min-h-screen bg-gray-50">
   <div class="container mx-auto px-4 py-8 max-w-7xl">
 
@@ -34,7 +42,9 @@
 
 
     <!-- Related Products -->
-    <app-related-product [relatedProducts]="relatedProducts" [categoryName]="getCategoryName()">
+    <app-related-product 
+    [relatedProducts]="relatedProducts" 
+    [categoryName]="getCategoryName()">
     </app-related-product>
 
   </div>
