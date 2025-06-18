@@ -1,0 +1,38 @@
+<div class="success-container">
+  <div class="success-icon"></div>
+  <h2>Payment Success!</h2>
+  <p>Thank you for shopping with us!</p>
+  <p>Your order <strong>#{{ order.orderId }}</strong> is confirmed and in processing.</p>
+  <div class="points">total payment:{{ order.amountTotal }} </div>
+  <div class="support-text">
+    Need assistance? We’re here for you! If you have any questions or need support, contact
+    <b>Customer Support</b>.
+  </div>
+<button class="details-btn" (click)="toggleDetails()">Order Details</button>
+
+<div *ngIf="showDetails && order" class="order-details">
+  <h2>Order Summary</h2>
+  <div class="summary-info">
+    <p><strong>Order ID:</strong> {{ order.orderId }}</p>
+    <p><strong>Total:</strong> {{ order.amountTotal }} {{ order.currency }}</p>
+    <p><strong>Status:</strong> {{ order.status }}</p>
+    <p><strong>Email:</strong> {{ order.customerEmail || 'Not provided' }}</p>
+   <!-- <p><strong>Payment Method:</strong> 
+      {{ order.cardBrand || 'N/A' }} 
+      <span *ngIf="order.cardLast4">****{{ order.cardLast4 }}</span>
+    </p>-->
+  </div>
+
+  <h3>Products in this Order</h3>
+  <div class="products-list">
+    <div *ngFor="let product of order.products" class="product-card">
+      <img [src]="product.image" alt="{{ product.name }}" />
+      <div class="product-details">
+        <h4>{{ product.name }}</h4>
+        <p><strong>Quantity:</strong> {{ product.quantity }}</p>
+        <p><strong>Total Price:</strong> {{ product.totalPrice }} USD</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,27 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Filters Sidebar -->
+      <div class="lg:w-80 space-y-6">
+        <app-product-filter (filtersChanged)="handleFiltersChange($event)"></app-product-filter>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="flex-1">
+        <app-product-grid [products]="products" [showNewArrivals]="showNewArrivals"></app-product-grid>
+
+        <!-- No Products Found -->
+        <div *ngIf="productsLoaded && products.length === 0" class="text-center py-12">
+          <p class="text-gray-500 text-lg">No products found matching your filters.</p>
+          <button class="mt-4 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 font-medium"
+            (click)="loadAllProducts(); filtersApplied = false">
+            Clear All Filters
+          </button>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
