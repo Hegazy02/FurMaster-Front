@@ -1,0 +1,38 @@
+
+
+  <main>
+    <section class="hero">
+      <div class="pattern-wrapper">
+        <div class="pattern-bg"></div>
+      </div>
+      
+      <div class="left-bg"></div>
+
+    
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Corby<br>sofas</h1>
+          <p class="price">Price starting from <strong>$199.00</strong></p>
+          <a routerLink="/Store" class="btn">Shop Now</a>
+        </div>
+        <div class="circle-overlay"></div>
+        
+        <div class="hero-image">
+          <img src="https://crafto.themezaa.com/decor-store/wp-content/uploads/sites/44/2025/05/demo-decor-store-slider-01-img-01.webp" alt="Decor Sofa" />
+          <div class="hero-image-overlay"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="products">
+      <div class="product-list">
+            <app-product-card
+      *ngFor="let product of products"
+      [product]="product">
+    </app-product-card>
+
+</div>
+    </section>
+  </main>
+
+

@@ -1,20 +1,36 @@
 import { Routes } from '@angular/router';
 import { CartComponent } from './view/pages/user/cart/cart.component';
-import { SuccessComponent } from './view/pages/user/success/success.component';
-import { CancelComponent } from './view/pages/user/cancel/cancel.component';
-import { UserOrdersComponent } from './view/pages/user/my-account/pages/user-orders/user-orders.component';
 import { authGuard } from './core/guards/auth.guard';
 import { UserRole } from './core/interfaces/user.interface';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
     pathMatch: 'full',
+    loadComponent: () =>
+      import('./components/home/home.component').then((m) => m.HomeComponent),
   },
-  { path: 'cart', component: CartComponent },
-  { path: 'success', component: SuccessComponent },
-  { path: 'cancel', component: CancelComponent },
+  {
+    path: 'cart',
+    loadComponent: () =>
+      import('./view/pages/user/cart/cart.component').then(
+        (m) => m.CartComponent
+      ),
+  },
+  {
+    path: 'success',
+    loadComponent: () =>
+      import('./view/pages/user/success/success.component').then(
+        (m) => m.SuccessComponent
+      ),
+  },
+  {
+    path: 'cancel',
+    loadComponent: () =>
+      import('./view/pages/user/cancel/cancel.component').then(
+        (m) => m.CancelComponent
+      ),
+  },
 
   {
     path: 'signup',
@@ -183,4 +199,5 @@ export const routes: Routes = [
         (m) => m.NotFoundComponent
       ),
   },
+  // Add your routes here
 ];
