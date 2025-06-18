@@ -6,6 +6,7 @@ import { EmptyDataComponent } from "../../../../shared/empty-data/empty-data.com
 import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 import { Endpoints } from '../../../../core/constants/endpoints';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -17,6 +18,8 @@ import { Endpoints } from '../../../../core/constants/endpoints';
 export class CartComponent {
   cartService = inject(CartService);
    http = inject(HttpClient);
+     private destroy$ = new Subject<void>();
+   
 
    loading = true;
 
@@ -102,7 +105,7 @@ const products = this.cartItem.map(item => ({
         window.location.href = res.url;
       }
       else{
-        console.log("asmaa")
+        console.log("fail")
       }
     });
   }
@@ -137,9 +140,11 @@ clearCart() {
   });
 }
 
-getImageByVariantId(colors: any[] = [], variantId?: string): string {
+/*getImageByVariantId(colors: any[] = [], variantId?: string): string {
   const variant = colors.find(c => c._id === variantId);
   return variant?.image || 'default.jpg';
-}
-
+}*/
+ngOnDestroy() {
+    this.destroy$.unsubscribe();
+  }
 }

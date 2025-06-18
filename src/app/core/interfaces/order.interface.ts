@@ -5,6 +5,7 @@ export interface Order {
   amountTotal: number;
   currency: string;
   status: string;
+  num: number;
   cardLast4?: string;
   cardBrand?: string;
   products: {

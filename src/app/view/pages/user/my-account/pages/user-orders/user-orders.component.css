@@ -1,19 +1,22 @@
-/* حاوية الصفحة */
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
   background-color: #f9f9f9;
-  overflow-x: hidden; /* منع السكرول الأفقي */
+  overflow-x: hidden; 
 }
-
+h2{
+  margin-left: 25%;
+  margin-top: 0PX;
+}
 .container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 16px;
 }
-
-/* ✅ كروت الطلب */
+.empty-orders{
+  margin-left: 35% ;
+}
 .order-card {
   background-color: #fff;
   border-radius: 10px;
@@ -21,12 +24,11 @@ body {
   margin: 16px auto;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   width: 100%;
-  max-width: 700px;
+  max-width: 500px;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* رأس الطلب */
 .order-header {
   display: flex;
   justify-content: space-between;
@@ -35,7 +37,6 @@ body {
   margin-bottom: 12px;
 }
 
-/* حالة الطلب */
 .status {
   padding: 4px 12px;
   border-radius: 12px;
@@ -52,7 +53,10 @@ body {
   background-color: #e6f4ea;
   color: #198754;
 }
-
+.status.processing {
+  background-color:  #e0e7ff;;
+  color: #3f51b5;
+}
 .status.cancelled {
   background-color: #f8d7da;
   color: #dc3545;
@@ -66,7 +70,7 @@ body {
 }
 
 .order-body img {
-  width: 64px;
+  width: 120px;
   height: 64px;
   object-fit: cover;
   border-radius: 8px;
@@ -79,19 +83,20 @@ body {
 }
 
 .order-id {
-  font-weight: bold;
+  font-weight: bolder;
   color: #363434;
+  font-size: 1.2rem;
 }
 
 .desc {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #555;
 }
 
 .price {
   font-weight: bold;
   margin-top: 4px;
-    color: #701515;
+    color: primary-color;
 
 }
 
@@ -105,16 +110,7 @@ body {
   box-sizing: border-box;
 }
 
-.filters select,
-.filters input {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  width: 100%;
-  max-width: 180px;
-  box-sizing: border-box;
-}
+
 
 /* ✅ Pagination */
 .pagination {
@@ -161,10 +157,7 @@ body {
     align-items: stretch;
   }
 
-  .filters select,
-  .filters input {
-    width: 100%;
-  }
+  
 
   .order-header {
     flex-direction: column;
@@ -180,13 +173,11 @@ body {
   }
 }
 
-/* ✅ جعل الصور لا تكسر التصميم */
 .order-body img {
   max-width: 100%;
   height: auto;
 }
 
-/* ✅ استخدام عرض مرن للبطاقات */
 .order-card {
   width: 100%;
   margin: 16px auto;
@@ -214,7 +205,6 @@ body {
   margin-bottom: 24px;
 }
 
-.filters select,
 .filters input {
   flex: 1;
   min-width: 140px;
@@ -242,3 +232,119 @@ body {
     font-size: 0.9rem;
   }
 }
+
+/* ✅ تأثير hover على كارت الطلب */
+.order-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(199, 21, 21, 0.1);
+}
+
+.pagination button {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #ececec;
+  transform: scale(1.05);
+}
+
+.status {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+
+
+
+
+
+
+.filters input[type="date"] {
+  padding: 0px 6px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100px;
+  max-width: 100px;
+}
+
+ .filters input[type="number"]{
+
+  padding: 0px 6px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 50px;
+  max-width: 50px;
+ }
+
+
+ .date-range-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 140px;
+}
+
+.date-range-column label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.date-range-column input[type="date"] {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.date-range-column input[type="date"]:focus {
+  border-color: #701515;
+  outline: none;
+}
+
+.price-range-column,
+.date-range-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 140px;
+}
+
+.price-range-column label,
+.date-range-column label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.price-range-column input[type="number"],
+.date-range-column input[type="date"] {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.price-range-column input[type="number"]:focus,
+.date-range-column input[type="date"]:focus {
+  border-color: #701515;
+  outline: none;
+}
+
+
+
+
