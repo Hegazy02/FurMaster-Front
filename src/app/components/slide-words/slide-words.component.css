@@ -1,0 +1,86 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Cormorant+Garamond:wght@500&family=Lora:wght@500&family=Libre+Baskerville:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+/* Slideshow Container */
+.word-slideshow {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 16px 0;
+  margin-top: 15px;
+}
+
+/* Sliding Track */
+.track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: slide 18s linear infinite;
+  font-size: clamp(24px, 5vw, 64px);
+  color: #000000;
+}
+
+/* Word Styling */
+.track span {
+  display: inline-block;
+  margin-right: 6vw;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* Optional Dot Between Words */
+.track .dot {
+  color: #999;
+  font-size: 0.8em;
+  margin-left: 0.5em;
+  vertical-align: middle;
+}
+
+/* Font Classes for Each Word */
+.font1 {
+  font-family: 'Satisfy', cursive;
+}
+.font2 {
+   font-family: 'Dancing Script', cursive;
+}
+.font3 {
+   font-family: 'Sacramento', cursive;
+}
+.font4 {
+   font-family: 'Satisfy', cursive;
+}
+
+/* Keyframes for Sliding Effect */
+@keyframes slide {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Edge Fade Effects */
+.fade-left,
+.fade-right {
+  position: absolute;
+  top: 0;
+  width: 15%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.fade-left {
+  left: 0;
+  background: linear-gradient(to right, #fff, transparent);
+}
+
+.fade-right {
+  right: 0;
+  background: linear-gradient(to left, #fff, transparent);
+}
