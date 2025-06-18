@@ -94,7 +94,6 @@ export class CartComponent {
     this.http
       .post<any>('http://localhost:3000/api/stripe/create-checkout-session', {
         products: products,
-        userId: '68401db564e6f207ae0e11e2',
       })
       .subscribe(async (res) => {
         if (res.url) {

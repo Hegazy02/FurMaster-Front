@@ -9,13 +9,12 @@ import { UserRole } from './core/interfaces/user.interface';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'my-account',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   { path: 'cart', component: CartComponent },
   { path: 'success', component: SuccessComponent },
   { path: 'cancel', component: CancelComponent },
-  { path: 'orders', component: UserOrdersComponent },
 
   {
     path: 'signup',
@@ -66,8 +65,15 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'payment-methods',
+        redirectTo: 'orders',
         pathMatch: 'full',
+      },
+      {
+        path: 'orders',
+        loadComponent: () =>
+          import(
+            './view/pages/user/my-account/pages/user-orders/user-orders.component'
+          ).then((m) => m.UserOrdersComponent),
       },
       {
         path: 'account-details',
@@ -146,23 +152,31 @@ export const routes: Routes = [
             (m) => m.AddProductComponent
           ),
         data: { title: 'Add Product' },
-
       },
     ],
   },
-   { 
-    path: 'products', 
-    loadComponent: () => import('./view/pages/user/products/products/product-listing.component').then(m => m.ProductListingComponent)
+  {
+    path: 'products',
+    loadComponent: () =>
+      import(
+        './view/pages/user/products/products/product-listing.component'
+      ).then((m) => m.ProductListingComponent),
   },
-  { 
-    path: 'products/:id', 
-    loadComponent: () => import('./view/pages/user/products/product-detail/product-detail-page.component').then(m => m.ProductDetailPageComponent)
+  {
+    path: 'products/:id',
+    loadComponent: () =>
+      import(
+        './view/pages/user/products/product-detail/product-detail-page.component'
+      ).then((m) => m.ProductDetailPageComponent),
   },
   {
     path: 'categories',
-    loadComponent: () => import('./view/pages/user/categories/categories/categories.component').then(m => m.CategoriesComponent)
+    loadComponent: () =>
+      import(
+        './view/pages/user/categories/categories/categories.component'
+      ).then((m) => m.CategoriesComponent),
   },
-    {
+  {
     path: '**',
     loadComponent: () =>
       import('./view/pages/not-found/not-found.component').then(

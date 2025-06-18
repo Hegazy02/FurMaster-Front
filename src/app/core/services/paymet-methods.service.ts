@@ -9,15 +9,13 @@ import { PaymentMethod } from '../interfaces/payment-method.interface';
 })
 export class PaymetMethodsService {
   http = inject(HttpClient);
-  getPaymentMethods(): Observable<PaymentMethod[]> | null {
-    return this.http.get<PaymentMethod[]>(Endpoints.PAYMENT_METHODS);
+  getPaymentMethods() {
+    return this.http.get(Endpoints.PAYMENT_METHODS);
   }
   updatePaymentMethod(
     cardId: string,
     data: any
   ): Observable<PaymentMethod[]> | null {
-    console.log('id', cardId);
-
     return this.http.patch<PaymentMethod[]>(
       Endpoints.PAYMENT_METHODS + `/${cardId}`,
       data
