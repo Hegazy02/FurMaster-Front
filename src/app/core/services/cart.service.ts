@@ -5,14 +5,12 @@ import { CartItem } from '../interfaces/cart-item.model';
 import { Endpoints } from '../constants/endpoints';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
   http = inject(HttpClient);
 
-
   cart: CartItem[] = [];
-
 
   addToCart(productId: string, variantId: string, quantity: number) {
     return this.http.post(Endpoints.CART + variantId, {
@@ -22,7 +20,6 @@ export class CartService {
   }
   removeFromCart(variantId: string) {
     return this.http.delete(Endpoints.CART + variantId);
-
   }
 
   clearCart() {
@@ -30,10 +27,6 @@ export class CartService {
   }
 
   init() {
-    return this.http.get<CartItem[]>(Endpoints.CART)
-
-
-
-
+    return this.http.get<CartItem[]>(Endpoints.CART);
   }
 }
