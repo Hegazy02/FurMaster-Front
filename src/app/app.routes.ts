@@ -16,6 +16,7 @@ export const routes: Routes = [
       import('./view/pages/user/cart/cart.component').then(
         (m) => m.CartComponent
       ),
+    canActivate: [authGuard(UserRole.User)],
   },
   {
     path: 'success',
@@ -23,6 +24,8 @@ export const routes: Routes = [
       import('./view/pages/user/success/success.component').then(
         (m) => m.SuccessComponent
       ),
+    canActivate: [authGuard(UserRole.User)],
+
   },
   {
     path: 'cancel',
@@ -30,6 +33,8 @@ export const routes: Routes = [
       import('./view/pages/user/cancel/cancel.component').then(
         (m) => m.CancelComponent
       ),
+    canActivate: [authGuard(UserRole.User)],
+
   },
 
   {
@@ -187,11 +192,17 @@ export const routes: Routes = [
   },
   {
     path: 'products',
-    loadComponent: () => import('./view/pages/user/products/products/product-listing.component').then(m => m.ProductListingComponent)
+    loadComponent: () =>
+      import(
+        './view/pages/user/products/products/product-listing.component'
+      ).then((m) => m.ProductListingComponent),
   },
   {
     path: 'products/:id',
-    loadComponent: () => import('./view/pages/user/products/product-detail/product-detail-page.component').then(m => m.ProductDetailPageComponent)
+    loadComponent: () =>
+      import(
+        './view/pages/user/products/product-detail/product-detail-page.component'
+      ).then((m) => m.ProductDetailPageComponent),
   },
   {
     path: 'categories',
@@ -203,9 +214,9 @@ export const routes: Routes = [
   {
     path: 'categories/:id',
     loadComponent: () =>
-      import('./view/pages/user/products/products/product-listing.component').then(
-        (m) => m.ProductListingComponent
-      ),
+      import(
+        './view/pages/user/products/products/product-listing.component'
+      ).then((m) => m.ProductListingComponent),
   },
   {
     path: '**',
