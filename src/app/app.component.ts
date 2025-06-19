@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
   router = inject(Router);
   ngOnInit(): void {
     this.loadingSub = this.loadingService.loading$.subscribe((isLoading) => {
+      console.log('isLoading', isLoading);
+
       isLoading ? this.spinner.show() : this.spinner.hide();
     });
     this.getUser();
