@@ -1,0 +1,29 @@
+<!-- Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Modern Furniture</h1>
+    <p class="text-gray-600 mt-1">{{ sortedProducts.length }} products found</p>
+  </div>
+  <select
+    [(ngModel)]="sortBy"
+    (change)="onSortChange($event)"
+    class="w-48 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    <option value="newest">Newest First</option>
+    <option value="price-low">Price: Low to High</option>
+    <option value="price-high">Price: High to Low</option>
+    <option value="rating">Highest Rated</option>
+  </select>
+</div>
+
+<!-- Products Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+  <ng-container *ngFor="let product of sortedProducts">
+    <app-product-card
+      [product]="product"
+      [hoveredProduct]="hoveredProduct"
+      (mouseenter)="hoveredProduct = product._id"
+      (mouseleave)="hoveredProduct = null"
+    ></app-product-card>
+  </ng-container>
+</div>

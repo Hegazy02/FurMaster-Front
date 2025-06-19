@@ -1,0 +1,13 @@
+<div class="slideshow-container" *ngIf="products.length > 0">
+  <div class="slide" *ngFor="let product of products; let i = index" [class.active]="i === currentIndex">
+    <img [src]="product.image" [alt]="product.title" />
+    <div class="caption">
+      <h3>{{ product.title }}</h3>
+      <p *ngIf="product.price">EGP {{ product.price }}</p>
+    </div>
+  </div>
+
+  <!-- Optional manual controls -->
+  <button class="prev" (click)="prevSlide()">❮</button>
+  <button class="next" (click)="nextSlide()">❯</button>
+</div>

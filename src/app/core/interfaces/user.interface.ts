@@ -1,12 +1,19 @@
 export interface User {
-  id: string;
+  _id: string;
   email: string;
   firstName: string;
   lastName: string;
   gender: number;
-  image: string;
   phoneNumber: string;
-  city: string;
-  street: string;
-  address: string;
+  image?: string;
+  city?: string;
+  street?: string;
+  address?: string;
+  createdAt: Date;
+  role: UserRole;
+  isActive: boolean;
+}
+export enum UserRole {
+  Admin = 'admin',
+  User = 'user',
 }

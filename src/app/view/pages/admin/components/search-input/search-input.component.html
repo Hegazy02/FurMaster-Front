@@ -1,0 +1,8 @@
+<input
+  type="text"
+  class="search-input"
+  [placeholder]="searchBy.length > 0 ? 'Search by ' + searchBy : 'Search...'"
+  (input)="onSearch($event)"
+  [value]="search"
+/>
+<fa-icon [icon]="faSearch" class="search-icon"></fa-icon>

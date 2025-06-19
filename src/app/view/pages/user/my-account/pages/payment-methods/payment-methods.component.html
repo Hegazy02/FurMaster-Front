@@ -1,0 +1,62 @@
+<div
+  class="row d-flex flex-wrap g-4 justify-content-left payment-cards align-content-start"
+  [ngClass]="{
+    'align-content-center': getPaymentMethodsStatus.type != StatusType.Error,
+    'justify-content-center': cards.length == 0,
+    'payment-cards-sm': cards.length == 0
+  }"
+>
+  @if (getPaymentMethodsStatus.type==StatusType.Loading) {
+  <div class="loader w-25"></div>
+  }@else if(getPaymentMethodsStatus.type==StatusType.Error) {
+  <app-error></app-error>
+  } @else { @for (card of cards; track $index) { @if($index==0){
+  <app-add-payment-method-card
+    (onClickChange)="addCard()"
+    [subtitle]="'Add a new card to your account'"
+    [imageSize]="120"
+    [contentPadding]="20"
+    class="col-12 col-md-6 col-lg-4 align-content-center"
+  ></app-add-payment-method-card>
+  }
+  <app-payment-method-card
+    [card]="card"
+    (setDefault)="onSetAsDefault($event)"
+    (delete)="onDelete($event)"
+    class="col-12 col-md-6 col-lg-4 align-content-center"
+  ></app-payment-method-card>
+  }@empty {
+  <app-add-payment-method-card
+    (onClickChange)="addCard()"
+    [title]="'No Payment Methods'"
+    [buttonText]="'Add Card'"
+    [subtitle]="'You haven\'t added any payment cards yet.'"
+    class="col-12 col-md-6 col-lg-4 align-content-center"
+  ></app-add-payment-method-card>
+  } }
+</div>
+
+<app-floating-message
+  [message]="setDefaultStatus.message"
+  [show]="
+    setDefaultStatus.type == StatusType.Success ||
+    setDefaultStatus.type == StatusType.Error
+  "
+  [type]="
+    setDefaultStatus.type == StatusType.Success
+      ? MessageType.Success
+      : MessageType.Error
+  "
+></app-floating-message>
+<app-floating-message
+  [message]="deleteStatus.message"
+  [show]="
+    deleteStatus.type == StatusType.Success ||
+    deleteStatus.type == StatusType.Error
+  "
+  [type]="
+    deleteStatus.type == StatusType.Success
+      ? MessageType.Success
+      : MessageType.Error
+  "
+></app-floating-message>
