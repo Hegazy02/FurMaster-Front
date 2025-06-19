@@ -25,6 +25,7 @@
 </div>
 
 <!-- Product Details -->
+<<<<<<< HEAD
 
 <app-breadcrumb [items]="[
   { label: 'Home', link: '/' },
@@ -33,6 +34,8 @@
   { label: product?.title??'' }
 ]"></app-breadcrumb>
 
+=======
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
 <div *ngIf="product && !loading" class="min-h-screen bg-gray-50">
   <div class="container mx-auto px-4 py-8 max-w-7xl">
 
@@ -42,9 +45,13 @@
 
 
     <!-- Related Products -->
+<<<<<<< HEAD
     <app-related-product 
     [relatedProducts]="relatedProducts" 
     [categoryName]="getCategoryName()">
+=======
+    <app-related-product [relatedProducts]="relatedProducts" [categoryName]="getCategoryName()">
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
     </app-related-product>
 
   </div>

@@ -7,10 +7,9 @@ import { authGuard } from './core/guards/auth.guard';
 import { UserRole } from './core/interfaces/user.interface';
 
 export const routes: Routes = [
-
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'products',
     pathMatch: 'full',
   },
   { path: 'cart', component: CartComponent },
@@ -41,9 +40,9 @@ export const routes: Routes = [
 
     pathMatch: 'full',
     loadComponent: () =>
-      import('./view/pages/auth/forgot-password/forgot-password.component').then(
-        (m) => m.ForgotPasswordComponent
-      ),
+      import(
+        './view/pages/auth/forgot-password/forgot-password.component'
+      ).then((m) => m.ForgotPasswordComponent),
   },
   {
     path: 'reset-password',
@@ -84,8 +83,11 @@ export const routes: Routes = [
             './view/pages/user/my-account/pages/payment-methods/payment-methods.component'
           ).then((m) => m.PaymentMethodsComponent),
       },
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
     ],
   },
   {
@@ -153,7 +155,16 @@ export const routes: Routes = [
       },
     ],
   },
+   { 
+    path: 'products', 
+    loadComponent: () => import('./view/pages/user/products/products/product-listing.component').then(m => m.ProductListingComponent)
+  },
+  { 
+    path: 'products/:id', 
+    loadComponent: () => import('./view/pages/user/products/product-detail/product-detail-page.component').then(m => m.ProductDetailPageComponent)
+  },
   {
+<<<<<<< HEAD
     path: 'products',
     loadComponent: () => import('./view/pages/user/products/products/product-listing.component').then(m => m.ProductListingComponent)
   },
@@ -173,6 +184,12 @@ export const routes: Routes = [
       ),
   },
   {
+=======
+    path: 'categories',
+    loadComponent: () => import('./view/pages/user/categories/categories/categories.component').then(m => m.CategoriesComponent)
+  },
+    {
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
     path: '**',
     loadComponent: () =>
       import('./view/pages/not-found/not-found.component').then(

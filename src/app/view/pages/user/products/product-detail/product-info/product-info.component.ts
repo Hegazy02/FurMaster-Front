@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '.././../../../../../core/interfaces/product.interface';
 import { RouterModule } from '@angular/router';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { CartService } from '../../../../../../core/services/cart.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-product-info',
@@ -13,17 +15,19 @@ export class ProductInfoComponent implements OnInit {
   @Input() product!: Product;
   @Input() categoryName: string = '';
 
-
   selectedColorIndex = 0;
   hoveredColorIndex: number | null = null;
   hoveredThumbnailIndex: number | null = null;
   mainImage = '';
   thumbnailImages: string[] = [];
   quantity = 1;
-
+  cartService = inject(CartService);
+  private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.mainImage = this.product.colors?.[0]?.image || '';
-    this.thumbnailImages = this.product.colors.map(c => c.image).filter(Boolean) as string[];
+    this.thumbnailImages = this.product.colors
+      .map((c) => c.image)
+      .filter(Boolean) as string[];
   }
 
   onColorHover(index: number): void {
@@ -126,14 +130,32 @@ export class ProductInfoComponent implements OnInit {
       price: this.getCurrentPrice(),
       quantity: this.quantity,
       selectedColor: {
+        _id: this.product.colors?.[this.selectedColorIndex]?._id,
         colorId: this.product.colors?.[this.selectedColorIndex]?.colorId,
         name: this.getSelectedColorName(),
-        hex: this.getColorHexByIndex(this.selectedColorIndex)
+        hex: this.getColorHexByIndex(this.selectedColorIndex),
       },
-      image: this.mainImage
+      image: this.mainImage,
     };
     console.log('Adding to cart:', cartItem);
-    alert(`Added ${this.quantity} ${this.product.title} (${this.getSelectedColorName()}) to cart!`);
+    this.cartService
+      .addToCart(
+        cartItem.productId,
+        cartItem.selectedColor._id,
+        cartItem.quantity
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          console.log('Added to cart successfully');
+          alert(
+            `Added ${this.quantity} ${
+              this.product.title
+            } (${this.getSelectedColorName()}) to cart!`
+          );
+        },
+        error: (err) => console.error('Failed to add to cart', err),
+      });
   }
 
   addToWishlist(): void {

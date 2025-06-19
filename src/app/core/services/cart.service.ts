@@ -5,23 +5,14 @@ import { CartItem } from '../interfaces/cart-item.model';
 import { Endpoints } from '../constants/endpoints';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
   http = inject(HttpClient);
 
+  cart: CartItem[] = [];
 
-   cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
-  cartItems$ = this.cartItemsSubject.asObservable();
-
-
-  get items(): CartItem[] {
-    return this.cartItemsSubject.getValue();
-  }
-
-
-
-  addToCart(productId: string,variantId: string, quantity: number) {
+  addToCart(productId: string, variantId: string, quantity: number) {
     return this.http.post(Endpoints.CART + variantId, {
       productId,
       quantity: quantity,
@@ -29,17 +20,13 @@ export class CartService {
   }
   removeFromCart(variantId: string) {
     return this.http.delete(Endpoints.CART + variantId);
-
   }
 
-clearCart() {
-  return this.http.delete('http://localhost:3000/api/cart');
-}
+  clearCart() {
+    return this.http.delete(Endpoints.CART);
+  }
 
   init() {
-    return this.http.get<CartItem[]>(Endpoints.CART )
-
-   
-  
-
-}}
+    return this.http.get<CartItem[]>(Endpoints.CART);
+  }
+}

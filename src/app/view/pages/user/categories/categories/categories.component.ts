@@ -41,7 +41,6 @@ export class CategoriesComponent implements OnInit {
 
   loadCategories() {
     this.loading = true;
-
     const params = {
       page: this.currentPage,
       ...(this.searchQuery && { search: this.searchQuery })

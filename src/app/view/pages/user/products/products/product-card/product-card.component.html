@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div
   class="bg-white rounded-2xl shadow-md overflow-hidden group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 w-full flex flex-col h-full"
   (mouseenter)="hoveredProduct = product._id; currentImageIndex = 1"
@@ -10,28 +11,53 @@
 
     <span *ngIf="isNewArrival(product.createdAt)"
       class="absolute top-2 left-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-2 py-1 text-[10px] font-semibold rounded-full shadow-lg">
+=======
+<div class="bg-white rounded-lg shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300"
+  (mouseenter)="hoveredProduct = product._id" (mouseleave)="hoveredProduct = null">
+  <div class="relative overflow-hidden">
+    <img [src]="product.colors[0].image" [alt]="product.title"
+      class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+
+    <span *ngIf="isNewArrival(product.createdAt)"
+      class="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 text-xs font-medium rounded">
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
       New
     </span>
 
     <span *ngIf="product.offerPrice"
+<<<<<<< HEAD
       class="absolute top-2 right-2 bg-gradient-to-r from-red-500 to-red-600 text-white px-2 py-1 text-[10px] font-semibold rounded-full shadow-lg">
+=======
+      class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 text-xs font-medium rounded">
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
       Sale
     </span>
 
     <div *ngIf="hoveredProduct === product._id"
+<<<<<<< HEAD
       class="absolute inset-0 flex items-center justify-center transition-all duration-300">
       <a [routerLink]="['/products', product._id]"
         class="bg-white/95 backdrop-blur-sm text-gray-800 hover:bg-white px-4 py-2 rounded-full text-sm font-medium flex items-center shadow-xl transform hover:scale-105 transition-all duration-200">
+=======
+      class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+      <a [routerLink]="['/products', product._id]"
+        class="bg-white text-black hover:bg-gray-100 px-4 py-2 rounded-md font-medium flex items-center">
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
         </svg>
+<<<<<<< HEAD
         Check Details
+=======
+        Quick View
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
       </a>
     </div>
   </div>
 
+<<<<<<< HEAD
   <div class="px-3 pt-3 pb-1 flex flex-col justify-between flex-grow">
     <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 text-base leading-tight text-center">
       {{ product.title }}
@@ -40,12 +66,21 @@
     <div class="flex items-center justify-center mb-1">
       <div class="flex items-center">
         <svg *ngFor="let star of getStarArray(product.rating); let i = index" class="w-3.5 h-3.5"
+=======
+  <div class="p-4">
+    <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ product.title }}</h3>
+
+    <div class="flex items-center mb-2">
+      <div class="flex items-center">
+        <svg *ngFor="let star of getStarArray(product.rating); let i = index" class="w-4 h-4"
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
           [class]="getStarClass(i, product.rating)" fill="currentColor" viewBox="0 0 20 20">
           <path
             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
           </path>
         </svg>
       </div>
+<<<<<<< HEAD
       <span class="text-xs text-gray-500 ml-1">({{ product.ratingCounter }})</span>
     </div>
 
@@ -66,6 +101,27 @@
         </span>
         <ng-template #originalPrice>
           <span class="text-xl font-bold text-gray-900">${{ product.price }}</span>
+=======
+      <span class="text-sm text-gray-500 ml-2">({{ product.ratingCounter }})</span>
+    </div>
+
+    <div class="flex items-center space-x-2 mb-3">
+      <div *ngFor="let color of product.colors"
+        class="w-6 h-6 rounded-full border-2 border-gray-200 cursor-pointer hover:scale-110 transition-transform duration-200"
+        [style.backgroundColor]="color.hex"></div>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <span *ngIf="product.offerPrice; else originalPrice" class="text-lg font-bold text-gray-900">
+          ${{ product.offerPrice }}
+        </span>
+        <span *ngIf="product.offerPrice" class="text-sm text-gray-500 line-through">
+          ${{ product.price }}
+        </span>
+        <ng-template #originalPrice>
+          <span class="text-lg font-bold text-gray-900">${{ product.price }}</span>
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
         </ng-template>
       </div>
     </div>

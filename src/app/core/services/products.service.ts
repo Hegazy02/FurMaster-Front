@@ -3,6 +3,10 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
 import { ApiResponse } from '../interfaces/api-response.interface';
 import {
   AdminProduct,
@@ -120,6 +124,7 @@ export class ProductsService {
       `${Endpoints.ADMIN_PRODUCTS}/${productId}/variant/${variantId}`
     );
   }
+<<<<<<< HEAD
   ////////////////////////// get user products/////////////////////////
   getProducts(filters: ProductQueryParams): Observable<ApiResponse<Product[]>> {
 let params = new HttpParams()
@@ -147,6 +152,38 @@ return this.http.get<ApiResponse<Product[]>>(Endpoints.PRODUCTS, { params });
   }
 
   getProductById(id: string): Observable<Product> {
+=======
+////////////////////////// get user products/////////////////////////
+  getProducts(filters: {
+      minPrice: number;
+      maxPrice: number;
+      sortBy?: string;
+      categoryIds?: string[];
+      colorIds?: string[];
+    }): Observable<ApiResponse<Product[]>> {
+      let params = new HttpParams()
+        .set('minPrice', filters.minPrice)
+        .set('maxPrice', filters.maxPrice);
+  
+      if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
+      if (filters.categoryIds?.length)
+        params = params.set('categoryId', filters.categoryIds.join(','));
+      if (filters.colorIds?.length)
+        params = params.set('colorId', filters.colorIds.join(','));
+  
+      return this.http.get<ApiResponse<Product[]>>(Endpoints.PRODUCTS, { params });
+    }
+  
+    getCategories(): Observable<ApiResponse<Category[]>> {
+      return this.http.get<ApiResponse<Category[]>>(Endpoints.CATEGORIES);
+    }
+  
+    getColors(): Observable<ApiResponse<any[]>> {
+      return this.http.get<ApiResponse<any[]>>(Endpoints.COLORS);
+    }
+
+    getProductById(id: string): Observable<Product> {
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
     return this.http.get<ApiResponse<Product>>(`${Endpoints.PRODUCTS}/${id}`).pipe(
       map((response) => {
         if (response.success && response.data) {
@@ -177,5 +214,9 @@ return this.http.get<ApiResponse<Product[]>>(Endpoints.PRODUCTS, { params });
     );
   }
 }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
 

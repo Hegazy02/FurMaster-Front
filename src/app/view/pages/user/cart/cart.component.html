@@ -5,7 +5,7 @@
   </div>
 
   <div class="cart-products">
-    <h2 class="cart-title">🛒 Your Shopping Cart</h2>
+    <h2 class="cart-title"> <span class="material-icons">shopping_cart</span>Your Shopping Cart</h2>
     <div *ngIf="cartItem.length === 0" class="empty">
       <app-empty-data [title]="'No Items'" subtitle="'your cart is empty'"></app-empty-data>
     </div>
@@ -32,7 +32,8 @@
       </div>
     </div>
 <div *ngIf="cartItem.length > 0" class="clear-cart-container">
-  <button class="clear-cart-btn" (click)="clearCart()">🗑️ Clear Cart</button>
+  <button class="clear-cart-btn" (click)="clearCart()"><span class="material-icons">delete</span>
+ Clear Cart</button>
 </div>
 
   </div>
@@ -40,17 +41,17 @@
 
   <div class="order-summary" *ngIf="cartItem.length > 0">
     <h3>Order Summary</h3>
-    <div class="order-row"><span>Price</span><span>{{ totalAmount }}$</span></div>
+    <div class="order-row"><span>Price</span><span>{{ totalAmount }}EGP</span></div>
 <div class="order-row">
   <span>Discount</span>
-  <span>{{ discount  }}$</span>
+  <span>{{ discount  }}EGP</span>
 </div>
     <div class="order-row"><span>Shipping</span><span class="green">Free</span></div>
-    <div class="order-row"><span>Coupon</span><span>0.00</span></div>
-    <div class="order-total"><span>Total</span><span>{{ totalPrice  }}$</span></div>
-    <input type="text" placeholder="Coupon Code" />
+    <div class="order-row" ><span>Coupon</span><span>0.00</span></div>
+    <div class="order-total"><span>Total</span><span>{{ totalPrice  }}EGP</span></div>
+    <input type="text"  placeholder="Coupon Code" disabled class="coupon-input"/>
     <button (click)="checkout()">Proceed to Checkout</button>
-    <p class="discount-note">10% instant discount for you with every order over $500000
+    <p class="discount-note">10% instant discount for you with every order over 500000 EGP
 </p>
   </div>
 </div>

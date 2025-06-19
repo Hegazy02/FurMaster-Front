@@ -6,7 +6,10 @@ import { ProductsService } from '../../../../../core/services/products.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ProductInfoComponent } from './product-info/product-info.component';
 import { RelatedProductComponent } from './related-product/related-product.component';
+<<<<<<< HEAD
 import { BreadcrumbComponent } from '../../../../../shared/breadcrump/breadcrump.component';
+=======
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
 
 @Component({
   selector: 'app-product-detail-page',
@@ -14,8 +17,12 @@ import { BreadcrumbComponent } from '../../../../../shared/breadcrump/breadcrump
   imports: [
     CommonModule,
     ProductInfoComponent,
+<<<<<<< HEAD
     RelatedProductComponent,
     BreadcrumbComponent 
+=======
+    RelatedProductComponent
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
   ],
   templateUrl: './product-detail-page.component.html'
 })
@@ -39,6 +46,10 @@ export class ProductDetailPageComponent implements OnInit, OnDestroy {
         next: (params) => {
           const productId = params['id'];
 
+<<<<<<< HEAD
+=======
+          // Reset state before loading
+>>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
           this.product = null;
           this.relatedProducts = [];
           this.loading = true;

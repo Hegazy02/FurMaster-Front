@@ -28,12 +28,12 @@ export class ProductListingComponent implements OnInit {
 
   breadcrumbItems: { label: string; link?: string }[] = [];
 
-  // Filters
+  ///////Filters
   selectedCategories: string[] = [];
   selectedColors: string[] = [];
   priceRange: number[] = [0, 1500];
 
-  // Pagination
+  // /////Pagination
   currentPage = 1;
   totalPages = 1;
   totalItems = 0;
