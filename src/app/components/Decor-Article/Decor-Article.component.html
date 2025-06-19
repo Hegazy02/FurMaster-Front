@@ -1,0 +1,27 @@
+<section class="decor-articles">
+  <div class="section-header">
+    <p class="subheading">DESIGNERS IDEAS</p>
+    <h2 class="main-heading">The decor article</h2>
+  </div>
+
+  <div class="articles">
+    <div class="article" *ngFor="let item of articles">
+      <img [src]="item.img" [alt]="item.title" />
+      <div class="meta">
+        <span class="category">{{ item.category }}</span> •
+        <span class="date">{{ item.date }}</span>
+      </div>
+      <h3 class="title">{{ item.title }}</h3>
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="feature" *ngFor="let item of features">
+    <div class="icon">{{ item.icon }}</div>
+    <div>
+      <h4>{{ item.title }}</h4>
+      <p>{{ item.subtitle }}</p>
+    </div>
+  </div>
+</section>

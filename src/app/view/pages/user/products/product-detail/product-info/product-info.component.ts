@@ -1,18 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '.././../../../../../core/interfaces/product.interface';
 import { RouterModule } from '@angular/router';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { CartService } from '../../../../../../core/services/cart.service';
+import { Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { PrimaryButtonComponent } from "../../../../../../shared/primary-button/primary-button.component";
 
 @Component({
   selector: 'app-product-info',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './product-info.component.html'
+  imports: [CommonModule, RouterModule, PrimaryButtonComponent],
+  templateUrl: './product-info.component.html',
 })
 export class ProductInfoComponent implements OnInit {
   @Input() product!: Product;
   @Input() categoryName: string = '';
-
 
   selectedColorIndex = 0;
   hoveredColorIndex: number | null = null;
@@ -20,10 +23,15 @@ export class ProductInfoComponent implements OnInit {
   mainImage = '';
   thumbnailImages: string[] = [];
   quantity = 1;
+  cartService = inject(CartService);
+  private destroy$ = new Subject<void>();
+  toastr = inject(ToastrService);
 
   ngOnInit(): void {
     this.mainImage = this.product.colors?.[0]?.image || '';
-    this.thumbnailImages = this.product.colors.map(c => c.image).filter(Boolean) as string[];
+    this.thumbnailImages = this.product.colors
+      .map((c) => c.image)
+      .filter(Boolean) as string[];
   }
 
   onColorHover(index: number): void {
@@ -59,7 +67,9 @@ export class ProductInfoComponent implements OnInit {
 
   onThumbnailClick(index: number): void {
     this.mainImage = this.thumbnailImages[index];
-    const colorIndex = this.product.colors.findIndex(c => c.image === this.thumbnailImages[index]);
+    const colorIndex = this.product.colors.findIndex(
+      (c) => c.image === this.thumbnailImages[index]
+    );
     if (colorIndex !== undefined && colorIndex >= 0) {
       this.selectedColorIndex = colorIndex;
     }
@@ -102,7 +112,10 @@ export class ProductInfoComponent implements OnInit {
 
   getSavingsPercentage(): number {
     if (!this.product.price || !this.product.offerPrice) return 0;
-    return Math.round(((this.product.price - this.product.offerPrice) / this.product.price) * 100);
+    return Math.round(
+      ((this.product.price - this.product.offerPrice) / this.product.price) *
+        100
+    );
   }
 
   getCurrentPrice(): number {
@@ -126,14 +139,34 @@ export class ProductInfoComponent implements OnInit {
       price: this.getCurrentPrice(),
       quantity: this.quantity,
       selectedColor: {
+        _id: this.product.colors?.[this.selectedColorIndex]?._id,
         colorId: this.product.colors?.[this.selectedColorIndex]?.colorId,
         name: this.getSelectedColorName(),
-        hex: this.getColorHexByIndex(this.selectedColorIndex)
+        hex: this.getColorHexByIndex(this.selectedColorIndex),
       },
-      image: this.mainImage
+      image: this.mainImage,
     };
     console.log('Adding to cart:', cartItem);
-    alert(`Added ${this.quantity} ${this.product.title} (${this.getSelectedColorName()}) to cart!`);
+    this.cartService
+      .addToCart(
+        cartItem.productId,
+        cartItem.selectedColor._id,
+        cartItem.quantity
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          console.log('Added to cart successfully');
+          this.toastr.success(   `Added ${this.quantity} ${
+              this.product.title
+            } (${this.getSelectedColorName()}) to cart! `);
+     
+        },
+        error: (err) => {
+          console.error('Failed to add to cart', err);
+          this.toastr.error('Failed to add to cart');
+        },
+      });
   }
 
   addToWishlist(): void {
@@ -146,7 +179,7 @@ export class ProductInfoComponent implements OnInit {
       navigator.share({
         title: this.product.title,
         text: this.product.description,
-        url: window.location.href
+        url: window.location.href,
       });
     } else {
       navigator.clipboard.writeText(window.location.href);

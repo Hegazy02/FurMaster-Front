@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Endpoints } from '../constants/endpoints';
 import { ApiResponse } from '../interfaces/api-response.interface';
 import { CategoryProductsResponse, CategoryListResponse, CategoryDetailResponse } from '../interfaces/category.interface';
+import { Product } from '../interfaces/product.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,11 +32,12 @@ export class CategoriesService {
   }
 
 
-  getProductsByCategoryId(categoryId: string, page: number = 1): Observable<CategoryProductsResponse> {
-    const params = new HttpParams()
-      .set('categoryId', categoryId)
-      .set('page', page);
+ getProductsByCategoryId(categoryId: string, page: number = 1): Observable<ApiResponse<Product[]>> {
+  const params = new HttpParams()
+    .set('categoryId', categoryId)
+    .set('page', page);
 
-    return this.http.get<CategoryProductsResponse>(Endpoints.PRODUCTS, { params });
-  }
+  return this.http.get<ApiResponse<Product[]>>(Endpoints.PRODUCTS, { params });
+}
+
 }

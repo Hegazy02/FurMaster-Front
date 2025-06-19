@@ -1,56 +1,68 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoriesService } from '../../../../../core/services/categories.service';
 import { Category } from '../../../../../core/interfaces/category.interface';
+import { PaginationComponent } from '../../../../../shared/pagination/pagination.component';
+import { BreadcrumbComponent } from '../../../../../shared/breadcrump/breadcrump.component'; // عدلي المسار لو مختلف
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    PaginationComponent,
+    BreadcrumbComponent,
+  ],
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
 })
-
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent implements OnInit, OnDestroy {
   private categoriesService = inject(CategoriesService);
   private router = inject(Router);
 
   categories: Category[] = [];
   loading = true;
   searchQuery = '';
-  
-  // Pagination
+
+  /// Pagination
   currentPage = 1;
   totalPages = 1;
   totalItems = 0;
 
+  breadcrumbItems = [{ label: 'Home', link: '/' }, { label: 'Categories' }];
+  destroy$ = new Subject<void>();
   ngOnInit() {
     this.loadCategories();
   }
 
   loadCategories() {
     this.loading = true;
-    
     const params = {
       page: this.currentPage,
-      ...(this.searchQuery && { search: this.searchQuery })
+      ...(this.searchQuery && { search: this.searchQuery }),
     };
 
-    this.categoriesService.getCategories(params).subscribe({
-      next: (response) => {
-        this.categories = response.data;
-        this.totalPages = response.totalPages;
-        this.totalItems = response.totalItems;
-        this.currentPage = response.page;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading categories:', error);
-        this.loading = false;
-      }
-    });
+    this.categoriesService
+      .getCategories(params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.categories = response.data;
+          this.totalPages = response.totalPages;
+          this.totalItems = response.totalItems;
+          this.currentPage = response.page;
+          this.loading = false;
+          console.log('categories', this.categories.length);
+        },
+        error: (error) => {
+          console.error('Error loading categories:', error);
+          this.loading = false;
+        },
+      });
   }
 
   onSearchChange() {
@@ -64,10 +76,13 @@ export class CategoriesComponent implements OnInit {
   }
 
   navigateToCategory(categoryId: string) {
-this.router.navigate(['/publicProducts'], { queryParams: { categoryId } });
+    this.router.navigate(['/products'], { queryParams: { categoryId } });
   }
 
   getDefaultImage(): string {
-    return 'https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg';
+    return 'https://plus.unsplash.com/premium_photo-1676320514018-ec119b57dbce?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  }
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 }

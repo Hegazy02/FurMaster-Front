@@ -72,12 +72,15 @@ export class ProductFilterComponent implements OnInit {
     this.emitChanges();
   }
 
-  handleColorChange(id: string, event: any): void {
-    event.target.checked
-      ? this.selectedColors.push(id)
-      : (this.selectedColors = this.selectedColors.filter((c) => c !== id));
-    this.emitChanges();
+ handleColorChange(id: string, event?: any): void {
+  if (this.selectedColors.includes(id)) {
+    this.selectedColors = this.selectedColors.filter((c) => c !== id);
+  } else {
+    this.selectedColors.push(id);
   }
+  this.emitChanges();
+}
+
 
   onPriceChange(): void {
     this.emitChanges();

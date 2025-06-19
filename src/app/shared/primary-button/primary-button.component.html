@@ -1,5 +1,6 @@
 <div class="d-flex justify-content-center">
   <button
+    [disabled]="disabled"
     [ngClass]="'btn col-12 primary-btn p-2 ' + col"
     type="button"
     (click)="onClick()"
