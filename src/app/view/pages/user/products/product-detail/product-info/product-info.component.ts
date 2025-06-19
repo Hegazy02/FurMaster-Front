@@ -1,7 +1,7 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '.././../../../../../core/interfaces/product.interface';
 import { RouterModule } from '@angular/router';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CartService } from '../../../../../../core/services/cart.service';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'app-product-info',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './product-info.component.html',
+  templateUrl: './product-info.component.html'
 })
 export class ProductInfoComponent implements OnInit {
   @Input() product!: Product;
@@ -63,9 +63,7 @@ export class ProductInfoComponent implements OnInit {
 
   onThumbnailClick(index: number): void {
     this.mainImage = this.thumbnailImages[index];
-    const colorIndex = this.product.colors.findIndex(
-      (c) => c.image === this.thumbnailImages[index]
-    );
+    const colorIndex = this.product.colors.findIndex(c => c.image === this.thumbnailImages[index]);
     if (colorIndex !== undefined && colorIndex >= 0) {
       this.selectedColorIndex = colorIndex;
     }
@@ -108,10 +106,7 @@ export class ProductInfoComponent implements OnInit {
 
   getSavingsPercentage(): number {
     if (!this.product.price || !this.product.offerPrice) return 0;
-    return Math.round(
-      ((this.product.price - this.product.offerPrice) / this.product.price) *
-        100
-    );
+    return Math.round(((this.product.price - this.product.offerPrice) / this.product.price) * 100);
   }
 
   getCurrentPrice(): number {
@@ -173,7 +168,7 @@ export class ProductInfoComponent implements OnInit {
       navigator.share({
         title: this.product.title,
         text: this.product.description,
-        url: window.location.href,
+        url: window.location.href
       });
     } else {
       navigator.clipboard.writeText(window.location.href);

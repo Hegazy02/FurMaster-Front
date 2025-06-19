@@ -1,70 +1,46 @@
- <div class="categories-container">
-      <!-- Header -->
-      <div class="header">
-        <h1>Categories</h1>
-        <p>Browse our product categories</p>
-      </div>
+<div class="categories-container">
+  <div class="header">
+    <h1>Categories</h1>
+    <p>Browse our product categories</p>
+  </div>
 
-      <!-- Search -->
-      <div class="search-section">
-        <input 
-          type="text"
-          [(ngModel)]="searchQuery"
-          (input)="onSearchChange()"
-          placeholder="Search categories..."
-          class="search-input">
-      </div>
+  <!-- Search -->
+  <div class="search-section">
+    <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange()" placeholder="Search categories..."
+      class="search-input">
+  </div>
 
-      <!-- Categories Grid -->
-      <div class="categories-grid" *ngIf="categories.length > 0; else noCategories">
-        <div 
-          class="category-card"
-          *ngFor="let category of categories"
-          (click)="navigateToCategory(category._id)">
-          <div class="category-image-container">
-            <img 
-              [src]="category.image || getDefaultImage()"
-              [alt]="category.name"
-              class="category-image">
-            <div class="category-overlay">
-              <span class="view-products">View Products</span>
-            </div>
-          </div>
-          <div class="category-info">
-            <h3 class="category-name">{{ category.name }}</h3>
-          </div>
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+
+
+  <!-- Categories Grid -->
+  <div class="categories-grid" *ngIf="categories.length > 0; else noCategories">
+    <div class="category-card" *ngFor="let category of categories" (click)="navigateToCategory(category._id)">
+      <div class="category-image-container">
+        <img [src]="category.image || getDefaultImage()" [alt]="category.name" class="category-image">
+        <div class="category-overlay">
+          <span class="view-products">View Products</span>
         </div>
       </div>
-
-      <ng-template #noCategories>
-        <div class="no-categories">
-          <h3>No categories found</h3>
-          <p>Try adjusting your search terms</p>
-        </div>
-      </ng-template>
-
-      <!-- Pagination -->
-      <div class="pagination" *ngIf="totalPages > 1">
-        <button 
-          class="page-btn"
-          [disabled]="currentPage === 1"
-          (click)="goToPage(currentPage - 1)">
-          Previous
-        </button>
-        <span class="page-info">
-          Page {{ currentPage }} of {{ totalPages }}
-        </span>
-        <button 
-          class="page-btn"
-          [disabled]="currentPage === totalPages"
-          (click)="goToPage(currentPage + 1)">
-          Next
-        </button>
+      <div class="category-info">
+        <h3 class="category-name">{{ category.name }}</h3>
       </div>
     </div>
+  </div>
 
-    <!-- Loading State -->
-    <div class="loading-container" *ngIf="loading">
-      <div class="loading-spinner"></div>
-      <p>Loading categories...</p>
+  <ng-template #noCategories>
+    <div class="no-categories">
+      <h3>No categories found</h3>
+      <p>Try adjusting your search terms</p>
     </div>
+  </ng-template>
+
+  <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="goToPage($event)">
+  </app-pagination>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading categories...</p>
+  </div>

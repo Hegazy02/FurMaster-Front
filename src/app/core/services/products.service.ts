@@ -3,7 +3,6 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-
 import { ApiResponse } from '../interfaces/api-response.interface';
 import {
   AdminProduct,
@@ -14,6 +13,7 @@ import { Endpoints } from '../constants/endpoints';
 import { Product } from '../../core/interfaces/product.interface';
 import { Category } from '../../core/interfaces/category.interface';
 import { SHOULD_TRACK_LOADING } from '../interceptors/loading.interceptor';
+import { ProductQueryParams } from '../../core/interfaces/product.interface'; 
 
 @Injectable({
   providedIn: 'root',
@@ -120,36 +120,33 @@ export class ProductsService {
       `${Endpoints.ADMIN_PRODUCTS}/${productId}/variant/${variantId}`
     );
   }
-////////////////////////// get user products/////////////////////////
-  getProducts(filters: {
-      minPrice: number;
-      maxPrice: number;
-      sortBy?: string;
-      categoryIds?: string[];
-      colorIds?: string[];
-    }): Observable<ApiResponse<Product[]>> {
-      let params = new HttpParams()
-        .set('minPrice', filters.minPrice)
-        .set('maxPrice', filters.maxPrice);
-  
-      if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
-      if (filters.categoryIds?.length)
-        params = params.set('categoryId', filters.categoryIds.join(','));
-      if (filters.colorIds?.length)
-        params = params.set('colorId', filters.colorIds.join(','));
-  
-      return this.http.get<ApiResponse<Product[]>>(Endpoints.PRODUCTS, { params });
-    }
-  
-    getCategories(): Observable<ApiResponse<Category[]>> {
-      return this.http.get<ApiResponse<Category[]>>(Endpoints.CATEGORIES);
-    }
-  
-    getColors(): Observable<ApiResponse<any[]>> {
-      return this.http.get<ApiResponse<any[]>>(Endpoints.COLORS);
-    }
+  ////////////////////////// get user products/////////////////////////
+  getProducts(filters: ProductQueryParams): Observable<ApiResponse<Product[]>> {
+let params = new HttpParams()
+  .set('minPrice', filters.minPrice?.toString() || '0')
+  .set('maxPrice', filters.maxPrice?.toString() || '1500');
 
-    getProductById(id: string): Observable<Product> {
+if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
+if (filters.page) params = params.set('page', filters.page.toString());
+if (filters.key) params = params.set('key', filters.key);
+if (filters.categoryId?.length)
+  params = params.set('categoryId', filters.categoryId.join(','));
+if (filters.colorId?.length)
+  params = params.set('colorId', filters.colorId.join(','));
+
+return this.http.get<ApiResponse<Product[]>>(Endpoints.PRODUCTS, { params });
+
+  }
+
+  getCategories(): Observable<ApiResponse<Category[]>> {
+    return this.http.get<ApiResponse<Category[]>>(Endpoints.CATEGORIES);
+  }
+
+  getColors(): Observable<ApiResponse<any[]>> {
+    return this.http.get<ApiResponse<any[]>>(Endpoints.COLORS);
+  }
+
+  getProductById(id: string): Observable<Product> {
     return this.http.get<ApiResponse<Product>>(`${Endpoints.PRODUCTS}/${id}`).pipe(
       map((response) => {
         if (response.success && response.data) {
@@ -180,5 +177,4 @@ export class ProductsService {
     );
   }
 }
-  
 
