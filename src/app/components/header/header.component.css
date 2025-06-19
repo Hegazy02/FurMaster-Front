@@ -1,7 +1,7 @@
 .top-bar {
   width: 100%;
   background: #f8f9fa;
-  color: #222;
+  color: var(--primary-color);
   font-size: 0.95rem;
   text-align: center;
   padding: 8px 0;

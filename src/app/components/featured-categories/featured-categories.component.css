@@ -1,8 +1,8 @@
 .featured-section {
   width: 100%;
-  padding: 60px 40px;
+  /* padding: 60px 0px; */
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: white;
 }
 
 .featured-header {
@@ -26,9 +26,12 @@
 }
 
 @keyframes heartbeat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.25);
   }
@@ -40,15 +43,15 @@
   flex-wrap: wrap;
   gap: 20px;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  /* max-width: 1200px; */
+  /* margin: 0 auto; */
 }
 
 .category-card {
-  width: 22%;
-  min-width: 160px;
+  /* width: 22%; */
+  /* min-width: 160px; */
   text-align: center;
-  padding: 20px;
+  /* padding: 20px; */
   box-sizing: border-box;
   cursor: pointer;
 }
@@ -94,7 +97,7 @@ a {
 /* --------------------------- SECOND SECTION --------------------------- */
 
 .gallery-section {
-  padding: 80px 40px;
+  padding: 80px 0;
   background-color: #fafafa;
 }
 
