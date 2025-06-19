@@ -38,11 +38,11 @@
       <div [ngClass]="getColumnClass()">
         @if (product.offerPrice) {
         <span class="me-2 text-decoration-line-through text-secondary"
-          >${{ product.price }}</span
+          >${{ product.price }} {{ cureency }}</span
         >
-        <span class="fw-bold">${{ product.offerPrice }}</span>
+        <span class="fw-bold">${{ product.offerPrice }} {{ cureency }}</span>
         }@else {
-        <p class="fw-bold">${{ product.price }}</p>
+        <p class="fw-bold">${{ product.price }} {{ cureency }}</p>
         }
       </div>
 

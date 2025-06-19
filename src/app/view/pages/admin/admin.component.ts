@@ -30,12 +30,12 @@ export class AdminComponent implements OnInit, OnDestroy {
           map(() => this.getRouteData())
         )
         .subscribe((data) => {
-          this.pageTitle = data?.title || 'Admin Dashboard';
+          this.pageTitle = data?.title || 'Dashboard';
         })
     );
 
     // Set initial title
-    this.pageTitle = this.getRouteData()?.title || 'Admin Dashboard';
+    this.pageTitle = this.getRouteData()?.title || 'Dashboard';
   }
 
   private getRouteData(): any {

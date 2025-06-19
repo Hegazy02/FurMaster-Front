@@ -5,6 +5,7 @@ export interface Order {
   amountTotal: number;
   currency: string;
   status: string;
+    orderId:number;
   cardLast4?: string;
   cardBrand?: string;
   products: {
@@ -14,6 +15,8 @@ export interface Order {
     productId: string;
     variantId: string;
     _id: string;
+      image?: string;  
+
   }[];
   createdAt: string;
 }

@@ -1,42 +1,70 @@
 <div class="filters">
-  <select [(ngModel)]="status" (change)="loadOrders()">
-    <option value="">All Statuses</option>
-    <option value="paid">Paid</option>
-    <option value="pending">Pending</option>
-    <option value="failed">Failed</option>
-  </select>
+  <app-primary-drop-down
+    [buttonText]="selectedStatusText"
+    [options]="statusOptions"
+    (onClickChange)="onStatusChange($event)"
+  ></app-primary-drop-down>
 
-  <input type="number" [(ngModel)]="minPrice" (input)="loadOrders()" placeholder="Min Price">
-  <input type="number" [(ngModel)]="maxPrice" (input)="loadOrders()" placeholder="Max Price">
-  <input type="date" [(ngModel)]="dateFrom" (change)="loadOrders()">
-  <input type="date" [(ngModel)]="dateTo" (change)="loadOrders()">
+  <div class="date-group">
+    <span>From</span>
+    <input type="date" [(ngModel)]="dateFrom" (change)="loadOrders()" />
+  </div>
+
+  <div class="date-group">
+    <span>To</span>
+    <input type="date" [(ngModel)]="dateTo" (change)="loadOrders()" />
+  </div>
 </div>
 
+<h2>
+  <span class="material-icons">inventory_2</span>
+
+  your orders
+</h2>
+
 <div *ngIf="orders.length === 0" class="empty-orders">
-  <app-empty-data [title]="'No orders found'" [subtitle]="'Try adjusting your filters'"></app-empty-data>
+  <app-empty-data
+    [title]="'No orders found'"
+    [subtitle]="'Try adjusting your filters'"
+  ></app-empty-data>
 </div>
 
 <div *ngFor="let order of orders" class="order-card">
   <div class="order-header">
-    <span class="status" [ngClass]="{
-      'in-progress': order.status === 'pending',
-      'delivered': order.status === 'paid',
-      'cancelled': order.status === 'failed'
-    }">{{ order.status | titlecase }}</span>
-    <span class="date">{{ order.createdAt | date: 'dd MMM yyyy' }}</span>
+    <span
+      class="status"
+      [ngClass]="{
+        'in-progress': order.status === 'pending',
+        delivered: order.status === 'completed',
+        cancelled: order.status === 'cancelled',
+        processing: order.status === 'processing'
+      }"
+      >{{ order.status | titlecase }}</span
+    >
+    <span class="date">{{
+      order.createdAt | date : "dd MMM yyyy, hh:mm a"
+    }}</span>
   </div>
+
   <div class="order-body">
-    <img [src]=""order.items[0]?.image  alt="product image">
+    <img [src]="order.products[0].image" alt="product image" />
     <div class="details">
-      <div class="order-id">Order ID: {{ order.sessionId }}</div>
-      <div class="desc">{{  'No description available' }}</div>
-      <div class="price">₹ {{ order.amountTotal }}</div>
+      <div class="order-id"><strong>Order ID:</strong> {{ order.orderId }}</div>
+      <div class="desc">{{ getProductNames(order.products) }}</div>
+      <div class="price">{{ order.amountTotal }} EGP</div>
     </div>
   </div>
 </div>
 
 <div class="pagination">
-  <button (click)="page = page - 1; loadOrders()" [disabled]="page === 1">Previous</button>
+  <button (click)="page = page - 1; loadOrders()" [disabled]="page === 1">
+    Previous
+  </button>
   <span>Page {{ page }} / {{ totalPages }}</span>
-  <button (click)="page = page + 1; loadOrders()" [disabled]="page === totalPages">Next</button>
+  <button
+    (click)="page = page + 1; loadOrders()"
+    [disabled]="page === totalPages"
+  >
+    Next
+  </button>
 </div>

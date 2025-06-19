@@ -1,45 +1,39 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { CartItem } from '../interfaces/cart-item.model';
 import { Endpoints } from '../constants/endpoints';
+import { SHOULD_TRACK_LOADING } from '../interceptors/loading.interceptor';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
   http = inject(HttpClient);
 
+  cart: CartItem[] = [];
 
-   cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
-  cartItems$ = this.cartItemsSubject.asObservable();
-
-
-  get items(): CartItem[] {
-    return this.cartItemsSubject.getValue();
-  }
-
-
-
-  addToCart(productId: string,variantId: string, quantity: number) {
-    return this.http.post(Endpoints.CART + variantId, {
-      productId,
-      quantity: quantity,
-    });
+  addToCart(productId: string, variantId: string, quantity: number) {
+    return this.http.post(
+      Endpoints.CART + variantId,
+      {
+        productId,
+        quantity: quantity,
+      },
+      {
+        context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
+      }
+    );
   }
   removeFromCart(variantId: string) {
     return this.http.delete(Endpoints.CART + variantId);
-
   }
 
-clearCart() {
-  return this.http.delete('http://localhost:3000/api/cart');
-}
+  clearCart() {
+    return this.http.delete(Endpoints.CART);
+  }
 
   init() {
-    return this.http.get<CartItem[]>(Endpoints.CART )
-
-   
-  
-
-}}
+    return this.http.get<CartItem[]>(Endpoints.CART);
+  }
+}
