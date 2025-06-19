@@ -6,7 +6,12 @@
 >
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-
+@if (showHeaderAndFooter()) {
 <app-header></app-header>
+}
+
 <router-outlet></router-outlet>
+
+@if (showHeaderAndFooter()) {
 <app-footer></app-footer>
+}
