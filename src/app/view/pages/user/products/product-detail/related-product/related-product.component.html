@@ -11,7 +11,7 @@
          class="bg-white rounded-lg shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100"
          (click)="navigateToProduct(relatedProduct._id!)">
       <div class="aspect-square overflow-hidden">
-        <img [src]="relatedProduct.colors[0]?.image"
+        <img [src]="relatedProduct.colors[0].image"
              [alt]="relatedProduct.title"
              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
              loading="lazy" />

@@ -22,8 +22,6 @@ export class AppComponent implements OnInit {
   router = inject(Router);
   ngOnInit(): void {
     this.loadingSub = this.loadingService.loading$.subscribe((isLoading) => {
-      console.log('isLoading', isLoading);
-
       isLoading ? this.spinner.show() : this.spinner.hide();
     });
     this.getUser();
@@ -40,5 +38,17 @@ export class AppComponent implements OnInit {
         console.error('Error fetching user:', error);
       },
     });
+  }
+  getCurrentRoute() {
+    return this.router.url;
+  }
+  showHeaderAndFooter(): boolean {
+    return (
+      this.router.url !== '/login' &&
+      this.router.url !== '/signup' &&
+      this.router.url !== '/reset-password' &&
+      this.router.url !== '/forgot-password'&& 
+      !this.router.url.includes('/admin')
+    );
   }
 }
