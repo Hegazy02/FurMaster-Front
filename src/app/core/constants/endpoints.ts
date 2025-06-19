@@ -16,7 +16,7 @@ export class Endpoints {
   public static CATEGORIES = `${Endpoints.BASE_URL}/categories`;
   public static CART = `${Endpoints.BASE_URL}/cart/`;
   public static CHECKOUT = `${Endpoints.BASE_URL}/checkout`;
-  public static PAYMENT_METHODS = `${Endpoints.BASE_URL}/api/stripe/sessions`;
+  public static PAYMENT_METHODS = `${Endpoints.BASE_URL}/payment-methods`;
    public static STRIPE_PUBLIC_KEY=`pk_test_51RWy8uCGLUGEZz6R7hPCRIbxnTzX3YGn30YDVY65ydOh0tjAiRRYkzIGx6dCTsWeUcNEKOm7bGfi2UFGqWHgdZsm00VILAkIod`;
    public static ORDER=`${Endpoints.BASE_URL}/api/orders/user`;
   //admin
