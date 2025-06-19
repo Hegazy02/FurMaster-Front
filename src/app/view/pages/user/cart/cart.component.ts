@@ -27,11 +27,7 @@ export class CartComponent {
       .init()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (items) => {
-          console.log('items', items.length);
-
-          this.cartService.cart = items;
-        },
+        (items) => (this.cartService.cart = items),
         (err) => console.error('Failed to load cart', err)
       );
   }

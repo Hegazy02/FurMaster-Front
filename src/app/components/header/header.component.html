@@ -1,5 +1,8 @@
 <div class="top-bar">
-  <span>Free Delivery on orders over $120. Don't miss discount. <a href="#">Shop now</a></span>
+  <span
+    >Free Delivery on orders over $120. Don't miss discount.
+    <a href="#">Shop now</a></span
+  >
 </div>
 <header class="site-header">
   <div class="header-inner">
@@ -9,13 +12,13 @@
     </div>
     <nav class="main-nav">
       <a routerLink="/">Home</a>
-      <a routerLink="/shop">Shop <span class="badge-hot">HOT</span></a>
-      <a routerLink="/collections">Collections</a>
+      <a routerLink="/products">Shop <span class="badge-hot">HOT</span></a>
+      <a routerLink="/categories">Categories</a>
     </nav>
     <div class="header-right">
-      <a href="#" title="Search"><i class="fa fa-search"></i></a>
-      <a href="#" title="Cart"><i class="fa fa-shopping-cart"></i></a>
-      <a href="#" title="Account"><i class="fa fa-user"></i></a>
+      <i class="fa fa-search" [routerLink]="['/products']"></i>
+      <i class="fa fa-shopping-cart" [routerLink]="['/cart']"></i>
+      <i class="fa fa-user" [routerLink]="['/my-account']"></i>
     </div>
   </div>
-</header> 
+</header>
