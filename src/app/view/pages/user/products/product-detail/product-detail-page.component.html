@@ -1,49 +1,73 @@
-<!-- Loading State -->
-<div *ngIf="loading" class="min-h-screen bg-gray-50 flex items-center justify-center">
-  <div class="text-center">
-    <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mx-auto mb-4"></div>
-    <p class="text-gray-600">Loading product details...</p>
-  </div>
-</div>
-
-<!-- Error State -->
-<div *ngIf="error && !loading" class="min-h-screen bg-gray-50 flex items-center justify-center">
-  <div class="text-center max-w-md mx-auto px-4">
-    <div class="mb-4">
-      <svg class="w-16 h-16 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
+<div class="product-details container-lg">
+  <!-- Loading State -->
+  <div
+    *ngIf="loading"
+    class="min-h-screen bg-gray-50 flex items-center justify-center"
+  >
+    <div class="text-center">
+      <div
+        class="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mx-auto mb-4"
+      ></div>
+      <p class="text-gray-600">Loading product details...</p>
     </div>
-    <h2 class="text-2xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h2>
-    <p class="text-gray-600 mb-6">{{ error }}</p>
-    <button (click)="retryLoading()"
-      class="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800 transition-colors font-medium">
-      Try Again
-    </button>
   </div>
-</div>
 
+  <!-- Error State -->
+  <div
+    *ngIf="error && !loading"
+    class="min-h-screen bg-gray-50 flex items-center justify-center"
+  >
+    <div class="text-center max-w-md mx-auto px-4">
+      <div class="mb-4">
+        <svg
+          class="w-16 h-16 text-gray-400 mx-auto"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">
+        Oops! Something went wrong
+      </h2>
+      <p class="text-gray-600 mb-6">{{ error }}</p>
+      <button
+        (click)="retryLoading()"
+        class="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800 transition-colors font-medium"
+      >
+        Try Again
+      </button>
+    </div>
+  </div>
 
-<app-breadcrumb [items]="[
-  { label: 'Home', link: '/' },
-  { label: 'Products', link: '/products' },
-  { label: getCategoryName(), link: '/products?category=' + product?.category?._id },
-  { label: product?.title??'' }
-]"></app-breadcrumb>
+  <app-breadcrumb
+    [items]="[
+      { label: 'Home', link: '/' },
+      { label: 'Products', link: '/products' },
+      {
+        label: getCategoryName(),
+        link: '/products?category=' + product?.category?._id
+      },
+      { label: product?.title ?? '' }
+    ]"
+  ></app-breadcrumb>
 
-<div *ngIf="product && !loading" class="min-h-screen bg-gray-50">
-  <div class="container mx-auto px-4 py-8 max-w-7xl">
+  <div *ngIf="product && !loading" class="min-h-screen bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+      <app-product-info [product]="product" [categoryName]="getCategoryName()">
+      </app-product-info>
 
-
-    <app-product-info [product]="product" [categoryName]="getCategoryName()">
-    </app-product-info>
-
-
-    <app-related-product 
-    [relatedProducts]="relatedProducts" 
-    [categoryName]="getCategoryName()">
-    </app-related-product>
-
+      <app-related-product
+        [relatedProducts]="relatedProducts"
+        [categoryName]="getCategoryName()"
+      >
+      </app-related-product>
+    </div>
   </div>
 </div>

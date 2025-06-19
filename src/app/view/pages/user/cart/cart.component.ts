@@ -7,11 +7,12 @@ import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 import { Endpoints } from '../../../../core/constants/endpoints';
 import { Subject, takeUntil } from 'rxjs';
+import { PrimaryButtonComponent } from "../../../../shared/primary-button/primary-button.component";
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, EmptyDataComponent],
+  imports: [CommonModule, EmptyDataComponent, PrimaryButtonComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
