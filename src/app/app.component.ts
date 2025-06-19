@@ -4,18 +4,13 @@ import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
 import { LoadingService } from './core/services/loading.service';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from "./components/header/header.component";
+import { FooterComponent } from "./components/footer/footer.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    NgxSpinnerComponent,
-    HeaderComponent,
-    FooterComponent,
-  ],
+  imports: [RouterOutlet, NgxSpinnerComponent, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -27,8 +22,6 @@ export class AppComponent implements OnInit {
   router = inject(Router);
   ngOnInit(): void {
     this.loadingSub = this.loadingService.loading$.subscribe((isLoading) => {
-      console.log('isLoading', isLoading);
-
       isLoading ? this.spinner.show() : this.spinner.hide();
     });
     this.getUser();
