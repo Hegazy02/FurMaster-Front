@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../../../../core/interfaces/product.interface';
@@ -7,6 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProductInfoComponent } from './product-info/product-info.component';
 import { RelatedProductComponent } from './related-product/related-product.component';
 import { BreadcrumbComponent } from '../../../../../shared/breadcrump/breadcrump.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-detail-page',
@@ -15,13 +16,12 @@ import { BreadcrumbComponent } from '../../../../../shared/breadcrump/breadcrump
     CommonModule,
     ProductInfoComponent,
     RelatedProductComponent,
-    BreadcrumbComponent 
+    BreadcrumbComponent,
   ],
-  templateUrl: './product-detail-page.component.html'
+  templateUrl: './product-detail-page.component.html',
 })
 export class ProductDetailPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-
   product: Product | null = null;
   relatedProducts: Product[] = [];
   loading = true;
@@ -33,35 +33,33 @@ export class ProductDetailPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.params
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (params) => {
-          const productId = params['id'];
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (params) => {
+        const productId = params['id'];
 
-          this.product = null;
-          this.relatedProducts = [];
-          this.loading = true;
-          this.error = null;
+        this.product = null;
+        this.relatedProducts = [];
+        this.loading = true;
+        this.error = null;
 
-          this.productService.getProductById(productId).subscribe({
-            next: (product) => {
-              this.product = product;
-              this.loading = false;
-              this.loadRelatedProducts(product);
-            },
-            error: (err) => {
-              console.error(err);
-              this.loading = false;
-              this.error = 'Failed to load product details';
-            }
-          });
-        },
-        error: () => {
-          this.loading = false;
-          this.error = 'Error loading data';
-        }
-      });
+        this.productService.getProductById(productId).subscribe({
+          next: (product) => {
+            this.product = product;
+            this.loading = false;
+            this.loadRelatedProducts(product);
+          },
+          error: (err) => {
+            console.error(err);
+            this.loading = false;
+            this.error = 'Failed to load product details';
+          },
+        });
+      },
+      error: () => {
+        this.loading = false;
+        this.error = 'Error loading data';
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -73,16 +71,17 @@ export class ProductDetailPageComponent implements OnInit, OnDestroy {
     const categoryId = product.category?._id;
     if (!categoryId) return;
 
-    this.productService.getRelatedProducts(categoryId, product._id).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: (products) => {
-        this.relatedProducts = products;
-      },
-      error: (err) => {
-        console.error('Error loading related products:', err);
-      }
-    });
+    this.productService
+      .getRelatedProducts(categoryId, product._id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (products) => {
+          this.relatedProducts = products;
+        },
+        error: (err) => {
+          console.error('Error loading related products:', err);
+        },
+      });
   }
 
   retryLoading(): void {
@@ -103,7 +102,7 @@ export class ProductDetailPageComponent implements OnInit, OnDestroy {
         console.error(err);
         this.loading = false;
         this.error = 'Failed to load product details';
-      }
+      },
     });
   }
 
