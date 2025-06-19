@@ -52,7 +52,8 @@ export class AppComponent implements OnInit {
       this.router.url !== '/login' &&
       this.router.url !== '/signup' &&
       this.router.url !== '/reset-password' &&
-      this.router.url !== '/forgot-password'
+      this.router.url !== '/forgot-password'&& 
+      !this.router.url.includes('/admin')
     );
   }
 }

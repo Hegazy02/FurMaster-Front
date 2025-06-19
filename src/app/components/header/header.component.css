@@ -41,7 +41,11 @@
   align-items: center;
   gap: 10px;
 }
-
+.logo{
+  gap: 10px;
+  display: flex;
+  align-items: center;
+}
 .logo-img {
   height: 27px;
   width: 27px;
@@ -57,16 +61,29 @@
   }
 }
 
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .logo-text {
-  cursor: pointer;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #222;
-  letter-spacing: 1px;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 0;
-  animation: typing 0.5s steps(12) forwards;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.logo-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
 }
 
 /* Typewriter animation */
