@@ -8,19 +8,13 @@ import { Product } from '../../../../../../core/interfaces/product.interface';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './product-card.component.html',
-<<<<<<< HEAD
   styleUrls: ["./product-card.component.css"]
-=======
->>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
 })
 export class ProductCardComponent {
   @Input() product!: Product;
   @Input() hoveredProduct: string | null = null;
-<<<<<<< HEAD
   currentImageIndex: number = 0;
 
-=======
->>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
 
   isNewArrival(date: Date): boolean {
     const addedDate = new Date(date);

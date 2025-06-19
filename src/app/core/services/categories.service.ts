@@ -4,10 +4,7 @@ import { Observable } from 'rxjs';
 import { Endpoints } from '../constants/endpoints';
 import { ApiResponse } from '../interfaces/api-response.interface';
 import { CategoryProductsResponse, CategoryListResponse, CategoryDetailResponse } from '../interfaces/category.interface';
-<<<<<<< HEAD
 import { Product } from '../interfaces/product.interface';
-=======
->>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +32,6 @@ export class CategoriesService {
   }
 
 
-<<<<<<< HEAD
  getProductsByCategoryId(categoryId: string, page: number = 1): Observable<ApiResponse<Product[]>> {
   const params = new HttpParams()
     .set('categoryId', categoryId)
@@ -44,13 +40,4 @@ export class CategoriesService {
   return this.http.get<ApiResponse<Product[]>>(Endpoints.PRODUCTS, { params });
 }
 
-=======
-  getProductsByCategoryId(categoryId: string, page: number = 1): Observable<CategoryProductsResponse> {
-    const params = new HttpParams()
-      .set('categoryId', categoryId)
-      .set('page', page);
-
-    return this.http.get<CategoryProductsResponse>(Endpoints.PRODUCTS, { params });
-  }
->>>>>>> 7f615970c190a93d77325cf0e0de3fe6f0bd0a00
 }
