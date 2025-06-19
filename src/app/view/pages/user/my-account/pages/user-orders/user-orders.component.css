@@ -1,106 +1,4 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  background-color: #f9f9f9;
-  overflow-x: hidden; 
-}
-h2{
-  margin-left: 25%;
-  margin-top: 0PX;
-}
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 16px;
-}
-.empty-orders{
-  margin-left: 35% ;
-}
-.order-card {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 16px;
-  margin: 16px auto;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  width: 100%;
-  max-width: 500px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
 
-/* رأس الطلب */
-.order-header {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-/* حالة الطلب */
-.status {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.status.in-progress {
-  background-color: #fef3dc;
-  color: #d67d00;
-}
-
-.status.delivered {
-  background-color: #e6f4ea;
-  color: #198754;
-}
-.status.processing {
-  background-color:  #e0e7ff;;
-  color: #3f51b5;
-}
-.status.cancelled {
-  background-color: #f8d7da;
-  color: #dc3545;
-}
-
-.order-body {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-
-.order-body img {
-  width: 110px;
-  height: 64px;
-  object-fit: cover;
-  border-radius: 8px;
-  background-color: #eee;
-}
-
-.details {
-  flex: 1;
-  min-width: 200px;
-}
-
-.order-id {
-  font-weight: bolder;
-  color: #363434;
-  font-size: 1.2rem;
-}
-
-.desc {
-  font-size: 1rem;
-  color: #555;
-}
-
-.price {
-  font-weight: bold;
-  margin-top: 4px;
-    color: primary-color;
-
-}
 
 .filters {
   display: flex;
@@ -113,7 +11,6 @@ h2{
 }
 
 
-/* ✅ Pagination */
 .pagination {
   display: flex;
   flex-wrap: wrap;
@@ -124,6 +21,9 @@ h2{
   box-sizing: border-box;
 }
 
+h2{
+  margin-left: 10%;
+}
 .pagination button {
   padding: 8px 16px;
   border: 1px solid #ccc;
@@ -146,205 +46,6 @@ h2{
   font-weight: bold;
   font-size: 1rem;
 }
-
-@media (max-width: 600px) {
-  .order-body {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .filters {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  
-
-  .order-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .pagination {
-    flex-direction: column;
-  }
-
-  .order-card {
-    margin: 12px 12px;
-  }
-}
-
-.order-body img {
-  max-width: 100%;
-  height: auto;
-}
-
-.order-card {
-  width: 100%;
-  margin: 16px auto;
-  padding: 16px;
-  box-sizing: border-box;
-}
-
-@media (max-width: 900px) {
-  .order-body {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-
-  .details {
-    min-width: 150px;
-    flex: 1;
-  }
-}
-/*اااا*/
-.filters {
-  gap: 16px;
-  padding: 12px;
-  margin-bottom: 24px;
-}
-
-.filters input {
-  flex: 1;
-  min-width: 140px;
-  max-width: 200px;
-  width: 100%;
-}
-
-@media (max-width: 400px) {
-  .order-card {
-    padding: 12px;
-  }
-
-  .filters select,
-  .filters input {
-    font-size: 0.85rem;
-    padding: 6px 10px;
-  }
-
-  .status {
-    font-size: 0.75rem;
-    padding: 3px 10px;
-  }
-
-  .price, .desc, .order-id {
-    font-size: 0.9rem;
-  }
-}
-
-/* ✅ تأثير hover على كارت الطلب */
-.order-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.order-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(199, 21, 21, 0.1);
-}
-
-.pagination button {
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.pagination button:hover:not(:disabled) {
-  background-color: #ececec;
-  transform: scale(1.05);
-}
-
-.status {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
-
-
-
-
-
-
-.filters input[type="date"] {
-  padding: 0px 6px;
-  font-size: 12px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 100px;
-  max-width: 100px;
-}
-
- .filters input[type="number"]{
-
-  padding: 0px 6px;
-  font-size: 12px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 50px;
-  max-width: 50px;
- }
-
-
- .date-range-column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 140px;
-}
-
-.date-range-column label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.date-range-column input[type="date"] {
-  padding: 6px 10px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  transition: border-color 0.3s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.date-range-column input[type="date"]:focus {
-  border-color: #701515;
-  outline: none;
-}
-
-.price-range-column,
-.date-range-column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 140px;
-}
-
-.price-range-column label,
-.date-range-column label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.price-range-column input[type="number"],
-.date-range-column input[type="date"] {
-  padding: 6px 10px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  transition: border-color 0.3s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.price-range-column input[type="number"]:focus,
-.date-range-column input[type="date"]:focus {
-  border-color: #701515;
-  outline: none;
-}
-
 
 
 
@@ -374,6 +75,121 @@ h2{
   padding: 6px 10px;
   font-size: 14px;
 }
+.date-filters {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.date-filters label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #333;
+}
 
 
 
+
+
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  margin-bottom: 24px;
+}
+
+.date-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-group span {
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+}
+
+.date-group input[type="date"] {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+
+.order-body img {
+  width: 110px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #eee;
+}
+
+.order-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+
+
+
+
+
+.status {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status.in-progress {
+  background-color: #fef3dc;
+  color: #d67d00;
+}
+
+.status.delivered {
+  background-color: #e6f4ea;
+  color: #198754;
+}
+.status.processing {
+  background-color:  #e0e7ff;;
+  color: #3f51b5;
+}
+.status.cancelled {
+  background-color: #f8d7da;
+  color: #dc3545;
+}
+
+
+.order-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(199, 21, 21, 0.1);
+}
+
+.order-card {
+  width: 75%;
+  margin: 16px auto;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}

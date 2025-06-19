@@ -2,17 +2,24 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
-import { LoadingService } from './core/services/loading.service';
 import { AuthService } from './core/services/auth.service';
+import { LoadingService } from './core/services/loading.service';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgxSpinnerComponent],
+  imports: [
+    RouterOutlet,
+    NgxSpinnerComponent,
+    HeaderComponent,
+    FooterComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   private loadingSub!: Subscription;
   loadingService = inject(LoadingService);
   spinner = inject(NgxSpinnerService);
@@ -20,6 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
   router = inject(Router);
   ngOnInit(): void {
     this.loadingSub = this.loadingService.loading$.subscribe((isLoading) => {
+      console.log('isLoading', isLoading);
+
       isLoading ? this.spinner.show() : this.spinner.hide();
     });
     this.getUser();
@@ -36,8 +45,5 @@ export class AppComponent implements OnInit, OnDestroy {
         console.error('Error fetching user:', error);
       },
     });
-  }
-  ngOnDestroy(): void {
-    this.loadingSub.unsubscribe();
   }
 }

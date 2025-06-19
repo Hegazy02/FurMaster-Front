@@ -27,11 +27,7 @@ export class CartComponent {
       .init()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (items) => {
-          console.log('items', items.length);
-
-          this.cartService.cart = items;
-        },
+        (items) => (this.cartService.cart = items),
         (err) => console.error('Failed to load cart', err)
       );
   }
@@ -94,7 +90,6 @@ export class CartComponent {
     this.http
       .post<any>('http://localhost:3000/api/stripe/create-checkout-session', {
         products: products,
-        userId: '68401db564e6f207ae0e11e2',
       })
       .subscribe(async (res) => {
         if (res.url) {
