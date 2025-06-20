@@ -25,7 +25,6 @@ export const routes: Routes = [
         (m) => m.SuccessComponent
       ),
     canActivate: [authGuard(UserRole.User)],
-
   },
   {
     path: 'cancel',
@@ -34,7 +33,6 @@ export const routes: Routes = [
         (m) => m.CancelComponent
       ),
     canActivate: [authGuard(UserRole.User)],
-
   },
 
   {
@@ -120,11 +118,16 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard(UserRole.Admin)],
     children: [
-      // {
-      //   path: '',
-      //   pathMatch: 'full',
-      //   data: { title: 'Dashboard' },
-      // },
+      {
+        path: '',
+        pathMatch: 'full',
+
+        loadComponent: () =>
+          import('./view/pages/admin/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent
+          ),
+        data: { title: 'Dashboard' },
+      },
       {
         path: 'orders',
         pathMatch: 'full',
