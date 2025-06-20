@@ -2,7 +2,9 @@
     display: flex;
     gap: 30px;
     /* max-width: 1200px; */
+    /* max-width: 1200px; */
     margin: 0 auto;
+    /* padding: 20px; */
     /* padding: 20px; */
     font-family: Arial, sans-serif;
      background: #fff;
@@ -252,6 +254,7 @@ body {
   border-radius: 6px;
   color: #333;
   font-size: larger;
+  font-size: larger;
 }
 
 .qty-increase:hover,
@@ -345,13 +348,27 @@ body {
 
 
 
+
+
+.clear-cart-btn:hover {
+  background-color: #c62828;
+  transform: scale(1.05);
+}
+
+
+
 .clear-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f44336; 
   display: inline-flex;
   align-items: center;
   gap: 6px;
   background-color: #f44336; 
   color: white;
   border: none;
+  padding: 6px 12px;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 14px;
