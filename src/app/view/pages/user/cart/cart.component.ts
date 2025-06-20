@@ -27,13 +27,21 @@ export class CartComponent {
     this.cartService
       .init()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (items) => (this.cartService.cart = items),
-        (err) => console.error('Failed to load cart', err)
-      );
-  }
+      .subscribe({
+      next: (items) => {
+        this.cartService.cart = items;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load cart', err);
+        this.loading = false;
+      }
+    });
+}
+
+
+
   get cartItem() {
-    this.loading = false;
     return this.cartService.cart;
   }
 
@@ -123,10 +131,10 @@ export class CartComponent {
     });
   }
   clearCart() {
-    console.log('asmaa');
+    console.log('start');
     this.cartService.clearCart().subscribe({
       next: () => {
-        console.log('Cear');
+        console.log('Clear');
         this.cartService.cart = [];
       },
       error: (err) => {
@@ -135,10 +143,11 @@ export class CartComponent {
     });
   }
 
-  /*getImageByVariantId(colors: any[] = [], variantId?: string): string {
-    const variant = colors.find(c => c._id === variantId);
-    return variant?.image || 'default.jpg';
-  }*/
+  
+ getTotalQuantity(): number {
+  return this.cartItem.reduce((total, item) => total + item.quantity, 0);
+}
+
   ngOnDestroy() {
     this.destroy$.unsubscribe();
   }
