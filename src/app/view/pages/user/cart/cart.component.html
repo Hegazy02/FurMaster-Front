@@ -5,7 +5,7 @@
   </div>
 
   <div class="cart-products">
-    <h2 class="cart-title"> <span class="material-icons">shopping_cart</span>Your Shopping Cart</h2>
+    <h2 class="cart-title"> <span class="material-icons">shopping_cart</span>Your Shopping Cart <span class="num">{{cartItem.length}} ITEMS</span></h2>
     <div *ngIf="cartItem.length === 0" class="empty">
       <app-empty-data [title]="'No Items'" subtitle="'your cart is empty'"></app-empty-data>
     </div>
@@ -51,7 +51,7 @@
     <div class="order-total"><span>Total</span><span>{{ totalPrice  }}EGP</span></div>
     <input type="text"  placeholder="Coupon Code" disabled class="coupon-input"/>
     <app-primary-button [text]="'Proceed to Checkout'" [col]="'col-12'" (click)="checkout()"></app-primary-button>
-    <p class="discount-note">10% instant discount for you with every order over 500000 EGP
+    <p class="discount-note">10% instant discount  with Federal Bank Debit up of 150$
 </p>
   </div>
 </div>

@@ -10,6 +10,12 @@
   box-sizing: border-box;
 }
 
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 12px;
+  margin-bottom: 24px;
+}
 
 .pagination {
   display: flex;
@@ -20,9 +26,13 @@
   padding: 16px 0;
   box-sizing: border-box;
 }
-
+.material-icons{
+  color:  var(--primary-color);
+}
 h2{
-  margin-left: 10%;
+  margin-left:0;
+    color:  var(--primary-color);
+
 }
 .pagination button {
   padding: 8px 16px;
@@ -48,20 +58,6 @@ h2{
 }
 
 
-
-
-
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-end;
-  gap: 16px;
-  padding: 12px;
-  margin-bottom: 24px;
-  margin-left: 30%;
-}
 
 .date-range-column {
   display: flex;
@@ -125,8 +121,8 @@ h2{
 
 
 .order-body img {
-  width: 110px;
-  height: 64px;
+  width: 120px;
+  height: 87px;
   object-fit: cover;
   border-radius: 8px;
   background-color: #eee;
@@ -176,11 +172,11 @@ h2{
 
 .order-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(199, 21, 21, 0.1);
+  box-shadow: 0 6px 18px rgba(21, 178, 199, 0.1);
 }
 
 .order-card {
-  width: 75%;
+  width: 100%;
   margin: 16px auto;
   padding: 16px;
   box-sizing: border-box;
@@ -192,4 +188,101 @@ h2{
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 12px;
+}
+.empty-orders{
+  margin-left: 30%;
+}
+@media (max-width: 992px) {
+  .filters {
+    justify-content: center;
+    margin-left: 0;
+  }
+
+  .order-card {
+    width: 90%;
+    padding: 12px;
+  }
+
+  .order-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-body img {
+    width: 100%;
+    height: auto;
+  }
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .pagination {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .order-title {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .empty-orders {
+    margin-left: 0;
+    text-align: center;
+    
+  }
+}
+
+@media (max-width: 576px) {
+  .filters {
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+  }
+
+  .date-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .order-body img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.9rem;
+  }
+
+  .details {
+    font-size: 0.95rem;
+  }
+
+  .pagination span {
+    font-size: 0.85rem;
+  }
+
+  .pagination button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+}
+
+
+@media (min-width: 993px) {
+  .to-date-group {
+    margin-left: 0;
+  }
 }
