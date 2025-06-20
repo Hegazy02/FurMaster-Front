@@ -8,7 +8,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const appConfig: ApplicationConfig = {
   providers: [
