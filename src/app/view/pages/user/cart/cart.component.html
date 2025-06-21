@@ -4,9 +4,10 @@
     <div class="loader w-25"></div>
   </div>
 
-  <div class="cart-products">
+  <div class="cart-products" >
     <h2 class="cart-title"> <span class="material-icons">shopping_cart</span>Your Shopping Cart <span class="num">{{getTotalQuantity() }}  ITEMS</span></h2>
-    <div *ngIf="cartItem.length === 0" class="empty">
+
+<div *ngIf="!loading && cartItem.length === 0" class="empty">
       <app-empty-data [title]="'No Items'" subtitle="'your cart is empty'"></app-empty-data>
     </div>
 
