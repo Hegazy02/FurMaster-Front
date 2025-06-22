@@ -1,0 +1,31 @@
+<section class="gender-charts d-flex flex-column flex-md-row">
+  <div class="col-12 col-md-4 p-4 rounded-4">
+    <p class="font-bold text-xl">Customer Gender</p>
+    <div id="chart" class="col-12 col-md-6">
+      <apx-chart
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [labels]="chartOptions.labels"
+        [responsive]="chartOptions.responsive!"
+      ></apx-chart>
+    </div>
+  </div>
+  <div id="details" class="col-12 col-md-8 p-4 rounded-4">
+    <div>
+      <p class="font-bold text-xl">Customer Gender Details This Year</p>
+
+      <apx-chart
+        [series]="detailsChartOptions.series!"
+        [chart]="detailsChartOptions.chart!"
+        [dataLabels]="detailsChartOptions.dataLabels!"
+        [plotOptions]="detailsChartOptions.plotOptions!"
+        [yaxis]="detailsChartOptions.yaxis!"
+        [legend]="detailsChartOptions.legend!"
+        [fill]="detailsChartOptions.fill!"
+        [stroke]="detailsChartOptions.stroke!"
+        [tooltip]="detailsChartOptions.tooltip!"
+        [xaxis]="detailsChartOptions.xaxis!"
+      ></apx-chart>
+    </div>
+  </div>
+</section>
