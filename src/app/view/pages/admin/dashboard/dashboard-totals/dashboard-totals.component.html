@@ -1,0 +1,31 @@
+<section class="totals-section  flex-column flex-md-row">
+  @for (total of totals; track $index) {
+  <div class="total-card d-flex align-content-center p-4 rounded-4 ">
+    <div class="">
+      <p class="font-bold text-xl m-0">{{ total.title }}</p>
+      <p class="text-gray-500">{{ total.subtitle }}</p>
+      <p class="font-bold text-xl mt-2">{{ total.amount + " " + currency }}</p>
+      <div
+        class="d-flex align-content-center"
+        [ngStyle]="{ color: total.effect > 0 ? '#00e396' : '#d02626' }"
+      >
+        <i class="material-icons text-md mr-1">{{
+          total.effect > 0 ? "arrow_upward" : "arrow_downward"
+        }}</i>
+        <p [ngStyle]="{ color: total.effect > 0 ? '#00e396' : '#d02626' }">
+          {{ total.effect + "%" }}
+        </p>
+      </div>
+    </div>
+    <apx-chart
+      [series]="chartOptions[$index].series!"
+      [chart]="chartOptions[$index].chart!"
+      [xaxis]="chartOptions[$index].xaxis!"
+      [stroke]="chartOptions[$index].stroke!"
+      [tooltip]="chartOptions[$index].tooltip!"
+      [dataLabels]="chartOptions[$index].dataLabels!"
+      [colors]="total.effect > 0 ? ['#00e396'] : ['#d02626']"
+    ></apx-chart>
+  </div>
+  }
+</section>

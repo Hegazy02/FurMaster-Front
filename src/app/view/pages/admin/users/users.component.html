@@ -9,7 +9,7 @@
     [options]="dropDownOptions"
   ></app-primary-drop-down>
 </div>
-<div class="table-container">
+<div class="table-container  mt-3">
   <app-primary-table [columnNames]="columnNames" [isEmpty]="users.length == 0">
     @for(user of users; track $index) {
     <app-primary-table-row>
