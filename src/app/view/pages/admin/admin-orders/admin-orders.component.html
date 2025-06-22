@@ -5,7 +5,7 @@
     [search]="searchbyOrderNumber"
   ></app-search-input>
 </div>
-<div class="table-container">
+<div class="table-container mt-3">
   <app-primary-table [columnNames]="columnNames" [isEmpty]="orders.length == 0">
     @for(order of orders; track $index) {
     <app-primary-table-row>
