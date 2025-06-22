@@ -24,9 +24,13 @@
   padding: 16px 0;
   box-sizing: border-box;
 }
+.material-icons{
+  color:  var(--primary-color);
+}
+h2{
+  margin-left:0;
+    color:  var(--primary-color);
 
-.material-icons {
-  color: var(--primary-color);
 }
 
 h2 {

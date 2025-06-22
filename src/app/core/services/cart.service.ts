@@ -11,8 +11,11 @@ import { SHOULD_TRACK_LOADING } from '../interceptors/loading.interceptor';
 export class CartService {
   http = inject(HttpClient);
 
-  cart: CartItem[] = [];
-
+cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
+  cartItems$ = this.cartItemsSubject.asObservable();
+  get items(): CartItem[] {
+    return this.cartItemsSubject.getValue();
+  }
   addToCart(productId: string, variantId: string, quantity: number) {
     return this.http.post(
       Endpoints.CART + variantId,
