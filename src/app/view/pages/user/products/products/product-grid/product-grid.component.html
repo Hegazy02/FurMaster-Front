@@ -1,4 +1,3 @@
-<!-- Header -->
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
   <div>
     <h1 class="text-2xl font-bold text-gray-900">Modern Furniture</h1>
@@ -16,14 +15,16 @@
   </select>
 </div>
 
-<!-- Products Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-  <ng-container *ngFor="let product of sortedProducts">
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6" [@listAnimation]>
+  <div
+    *ngFor="let product of sortedProducts"
+    (mouseenter)="hoveredProduct = product._id"
+    (mouseleave)="hoveredProduct = null"
+  >
     <app-product-card
       [product]="product"
       [hoveredProduct]="hoveredProduct"
-      (mouseenter)="hoveredProduct = product._id"
-      (mouseleave)="hoveredProduct = null"
     ></app-product-card>
-  </ng-container>
+  </div>
 </div>
