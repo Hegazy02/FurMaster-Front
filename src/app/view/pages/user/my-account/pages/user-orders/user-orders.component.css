@@ -16,9 +16,7 @@
 h2  {
   margin-left:0;
     color:  var(--primary-color);
-
 }
-
 .date-range-column {
   display: flex;
   flex-direction: column;
@@ -45,20 +43,16 @@ h2  {
   font-size: 0.9rem;
   color: #333;
 }
-
-
 .date-group {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
 .date-group span {
   font-size: 0.9rem;
   color: #333;
   white-space: nowrap;
 }
-
 .date-group input[type="date"] {
   padding: 6px 10px;
   font-size: 14px;
@@ -85,8 +79,7 @@ h2  {
     align-items: center;
     padding: 8px;
   }
-
-  .date-group {
+.date-group {
     flex-direction: column;
     align-items: flex-start;
   }

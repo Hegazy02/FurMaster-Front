@@ -1,30 +1,48 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Status, StatusType } from '../../../../../core/util/status';
 import { Product } from '../../../../../core/interfaces/product.interface';
 import { ProductsService } from '../../../../../core/services/products.service';
 import { ProductFilterComponent } from './product-filter/product-filter.component';
 import { ProductGridComponent } from './product-grid/product-grid.component';
 import { CategoriesService } from '../../../../../core/services/categories.service';
-import { ApiResponse } from '../../../../../core/interfaces/api-response.interface';
-import { SearchInputComponent } from '../../../admin/components/search-input/search-input.component';
-import { PaginationComponent } from '../../../../../shared/pagination/pagination.component';
+import { SearchInputComponent } from '../../../../../shared/search-input/search-input.component';
 import { BreadcrumbComponent } from '../../../../../shared/breadcrump/breadcrump.component';
+import { LoaderComponent } from '../../../../../shared/loader/loader.component';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { BannerComponent } from '../../../../../shared/banner/banner.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-product-listing',
   standalone: true,
-  imports: [CommonModule, ProductFilterComponent, ProductGridComponent, SearchInputComponent, PaginationComponent, BreadcrumbComponent ],
+  imports: [
+    CommonModule,
+    ProductFilterComponent,
+    ProductGridComponent,
+    SearchInputComponent,
+    MatPaginatorModule,
+    BreadcrumbComponent,
+    LoaderComponent,
+    BannerComponent
+  ],
   templateUrl: './product-listing.component.html',
   styleUrls: ['./product-listing.component.css'],
 })
-export class ProductListingComponent implements OnInit {
+export class ProductListingComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
   products: Product[] = [];
   showNewArrivals: boolean = false;
-  productsLoaded = false;
+  StatusType = StatusType;
+  productsStatus = new Status();
   filtersApplied = false;
   searchQuery: string = '';
+
+  categoryImage?: string;
+  categoryName?: string;
+  categoryLoaded = false;
 
   breadcrumbItems: { label: string; link?: string }[] = [];
 
@@ -33,9 +51,9 @@ export class ProductListingComponent implements OnInit {
   selectedColors: string[] = [];
   priceRange: number[] = [0, 1500];
 
-  // /////Pagination
-  currentPage = 1;
-  totalPages = 1;
+  ///////Pagination
+  limit = 10;
+  page = 1;
   totalItems = 0;
 
   constructor(
@@ -46,74 +64,122 @@ export class ProductListingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.currentPage = +params['page'] || 1;
-      this.searchQuery = params['key'] || '';
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.page = +params['page'] || 1;
+        this.searchQuery = params['key'] || '';
 
-      const categoryIdParam = params['categoryId'];
-      this.selectedCategories = Array.isArray(categoryIdParam)
-        ? categoryIdParam
-        : categoryIdParam ? [categoryIdParam] : [];
+        const categoryIdParam = params['categoryId'];
+        this.selectedCategories = Array.isArray(categoryIdParam)
+          ? categoryIdParam
+          : categoryIdParam
+            ? [categoryIdParam]
+            : [];
 
-      const colorIdParam = params['colorId'];
-      this.selectedColors = Array.isArray(colorIdParam)
-        ? colorIdParam
-        : colorIdParam ? [colorIdParam] : [];
+        const colorIdParam = params['colorId'];
+        this.selectedColors = Array.isArray(colorIdParam)
+          ? colorIdParam
+          : colorIdParam
+            ? [colorIdParam]
+            : [];
 
-      this.priceRange = [
-        +params['minPrice'] || 0,
-        +params['maxPrice'] || 1500
-      ];
+        this.priceRange = [+params['minPrice'] || 0, +params['maxPrice'] || 1500];
+        this.showNewArrivals = params['newArrivals'] === 'true';
 
-      this.showNewArrivals = params['newArrivals'] === 'true';
+        ///// Breadcrumbs
+        if (this.selectedCategories.length === 1) {
+          this.categoryLoaded = false;
+          this.categoryService.getCategoryById(this.selectedCategories[0])
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: (res) => {
+                console.log('Full category response:', res);
 
-      //  breadcrumbs
-      if (this.selectedCategories.length === 1) {
-        this.categoryService.getCategoryById(this.selectedCategories[0]).subscribe((res) => {
-          const categoryName = res.data?.name || 'Category';
+                const category = res?.data;
+                console.log('category object:', category);
+                if (category) {
+                  this.categoryName = category.name || 'Category';
+                  this.categoryImage = category.image || 'assets/images/default-banner.jpg';
+                  this.breadcrumbItems = [
+                    { label: 'Home', link: '/' },
+                    { label: 'Products', link: '/products' },
+                    { label: this.categoryName },
+                  ];
+                } else {
+                  this.breadcrumbItems = [
+                    { label: 'Home', link: '/' },
+                    { label: 'Products' },
+                  ];
+                }
+                this.categoryLoaded = true;
+                console.log(' category:', this.categoryName, this.categoryImage);
+
+              },
+              error: () => {
+                this.breadcrumbItems = [
+                  { label: 'Home', link: '/' },
+                  { label: 'Products' },
+                ];
+                this.categoryLoaded = true;
+              }
+            });
+        } else {
+          this.categoryName = '';
+          this.categoryImage = '';
+          this.categoryLoaded = true;
           this.breadcrumbItems = [
             { label: 'Home', link: '/' },
-            { label: 'Products', link: '/products' },
-            { label: categoryName, link: `/products?categoryId=${this.selectedCategories[0]}` }
+            { label: 'Products' },
           ];
-        });
-      } else {
-        this.breadcrumbItems = [
-          { label: 'Home', link: '/' },
-          { label: 'Products' }
-        ];
-      }
-
-      this.loadFilteredProducts();
-    });
+        }
+        this.loadFilteredProducts();
+      });
   }
 
   loadFilteredProducts(): void {
-    this.productsLoaded = false;
+    this.productsStatus = new Status(StatusType.Loading);
 
-    this.productService.getProducts({
-      key: this.searchQuery,
-      page: this.currentPage,
-      minPrice: this.priceRange[0],
-      maxPrice: this.priceRange[1],
-      categoryId: this.selectedCategories,
-      colorId: this.selectedColors,
-      sortBy: 'popularity',
-    }).subscribe((res) => {
-      this.products = res.success ? res.data : [];
-      this.totalPages = res.totalPages ?? 1;
-      this.productsLoaded = true;
-    });
+    this.productService
+      .getProducts({
+        key: this.searchQuery,
+        page: this.page,
+        minPrice: this.priceRange[0],
+        maxPrice: this.priceRange[1],
+        categoryId: this.selectedCategories,
+        colorId: this.selectedColors,
+        sortBy: 'popularity',
+        limit: this.limit,
+
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          console.log('Products:', res);
+
+          this.products = res.success ? res.data : [];
+          this.totalItems = res.total ?? 0;
+          this.productsStatus = new Status(StatusType.Success);
+        },
+        error: (err) => {
+          console.error('Error loading products', err);
+          this.productsStatus = new Status(
+            StatusType.Error,
+            'Failed to load products'
+          );
+        },
+      });
   }
 
-  goToPage(page: number) {
-    this.currentPage = page;
+  onPageChange(event: PageEvent): void {
+    this.page = event.pageIndex + 1;
+    this.limit = event.pageSize;
     this.updateUrlParams();
   }
 
   handleSearchChange(query: string): void {
     this.searchQuery = query;
-    this.currentPage = 1;
+    this.page = 1;
     this.updateUrlParams();
   }
 
@@ -128,38 +194,45 @@ export class ProductListingComponent implements OnInit {
     this.priceRange = filters.priceRange;
     this.showNewArrivals = filters.showNewArrivals;
     this.filtersApplied = true;
-    this.currentPage = 1;
+    this.page = 1;
     this.updateUrlParams();
   }
 
-  private updateUrlParams(): void {
-    const queryParams: any = {
-      page: this.currentPage,
+  updateUrlParams(): void {
+    const currentParams = { ...this.route.snapshot.queryParams };
+
+    const newParams: any = {
+      page: this.page,
+      limit: this.limit,
       key: this.searchQuery || undefined,
       categoryId: this.selectedCategories.length ? this.selectedCategories : undefined,
       colorId: this.selectedColors.length ? this.selectedColors : undefined,
       minPrice: this.priceRange[0],
       maxPrice: this.priceRange[1],
-      newArrivals: this.showNewArrivals || undefined
+      newArrivals: this.showNewArrivals || undefined,
     };
+
+    const mergedParams = { ...currentParams, ...newParams };
 
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams,
-      queryParamsHandling: 'merge'
+      queryParams: mergedParams,
     });
   }
 
   resetFilters(): void {
-  this.searchQuery = '';
-  this.selectedCategories = [];
-  this.selectedColors = [];
-  this.priceRange = [0, 1500];
-  this.showNewArrivals = false;
-  this.currentPage = 1;
-  this.filtersApplied = false;
+    this.searchQuery = '';
+    this.selectedCategories = [];
+    this.selectedColors = [];
+    this.priceRange = [0, 1500];
+    this.showNewArrivals = false;
+    this.page = 1;
+    this.filtersApplied = false;
+    this.updateUrlParams();
+  }
 
-  this.updateUrlParams(); 
-}
-
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

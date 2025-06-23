@@ -1,0 +1,54 @@
+<section class="charts d-flex flex-column flex-md-row">
+  <div class="col-12 col-md-6 p-4 rounded-4">
+    <p class="font-bold text-xl">Best Selling Products</p>
+    <div id="chart">
+      <apx-chart
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [dataLabels]="chartOptions.dataLabels!"
+        [plotOptions]="chartOptions.plotOptions!"
+        [yaxis]="chartOptions.yaxis!"
+        [xaxis]="chartOptions.xaxis!"
+        [legend]="chartOptions.legend!"
+        [colors]="chartOptions.colors!"
+        [grid]="chartOptions.grid!"
+      ></apx-chart>
+    </div>
+  </div>
+  <div class=" col-12 col-md-6 p-4 rounded-4">
+    <p class="font-bold text-xl">Best Selling Products This Week</p>
+
+    <app-primary-table
+      [columnNames]="['Name', 'Total Order', 'Status', 'Stock', 'Price']"
+      [customSizes]="['col-3', 'col-3', 'col-2', 'col-2', 'col-2']"
+      [isEmpty]="false"
+      [hasMinHeight]="false"
+    >
+      <app-primary-table-row>
+        <p class="col-3 font-bold">Awesome Bed</p>
+        <p class="col-3">4000 {{ currency }}</p>
+        <p class="col-2">In Stock</p>
+        <p class="col-2">10</p>
+        <p class="col-2">150 {{ currency }}</p> </app-primary-table-row
+      ><app-primary-table-row>
+        <p class="col-3 font-bold">Awesome Bed</p>
+        <p class="col-3">4000 {{ currency }}</p>
+        <p class="col-2">In Stock</p>
+        <p class="col-2">10</p>
+        <p class="col-2">150 {{ currency }}</p> </app-primary-table-row
+      ><app-primary-table-row>
+        <p class="col-3 font-bold">Awesome Bed</p>
+        <p class="col-3">4000 {{ currency }}</p>
+        <p class="col-2">In Stock</p>
+        <p class="col-2">10</p>
+        <p class="col-2">150 {{ currency }}</p> </app-primary-table-row
+      ><app-primary-table-row>
+        <p class="col-3 font-bold">Awesome Bed</p>
+        <p class="col-3">4000 {{ currency }}</p>
+        <p class="col-2">In Stock</p>
+        <p class="col-2">10</p>
+        <p class="col-2">150 {{ currency }}</p>
+      </app-primary-table-row>
+    </app-primary-table>
+  </div>
+</section>

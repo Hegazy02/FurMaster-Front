@@ -1,0 +1,10 @@
+.totals-section {
+    display: flex;
+    gap: 20px;
+
+}
+
+.total-card {
+    background-color: white;
+    flex-grow: 1;
+}

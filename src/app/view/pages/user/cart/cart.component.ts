@@ -29,7 +29,7 @@ export class CartComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
       next: (items) => {
-        this.cartService.cart = items;
+this.cartService.cartItemsSubject.next(items);
         this.loading = false;
       },
       error: (err) => {
@@ -42,7 +42,7 @@ export class CartComponent {
 
 
   get cartItem() {
-    return this.cartService.cart;
+    return this.cartService.cartItemsSubject.value;
   }
 
   sellingPrice(item: any): number {
@@ -118,7 +118,7 @@ export class CartComponent {
       .addToCart(productId, variantId, newQuantity)
       .subscribe(() => {
         this.cartService.init().subscribe((items) => {
-          this.cartService.cart = items;
+this.cartService.cartItemsSubject.next(items);
         });
       });
   }
@@ -126,7 +126,7 @@ export class CartComponent {
   removeItem(variantId: string) {
     this.cartService.removeFromCart(variantId).subscribe(() => {
       this.cartService.init().subscribe((items) => {
-        this.cartService.cart = items;
+this.cartService.cartItemsSubject.next(items);
       });
     });
   }
@@ -134,8 +134,8 @@ export class CartComponent {
     console.log('start');
     this.cartService.clearCart().subscribe({
       next: () => {
-        console.log('Clear');
-        this.cartService.cart = [];
+        console.log('Cear');
+this.cartService.cartItemsSubject.next([]);
       },
       error: (err) => {
         console.log('clear error', err);
@@ -143,7 +143,6 @@ export class CartComponent {
     });
   }
 
-  
  getTotalQuantity(): number {
   return this.cartItem.reduce((total, item) => total + item.quantity, 0);
 }
