@@ -14,15 +14,18 @@
     <span> To</span>
     <input type="date" [(ngModel)]="dateTo" (change)="loadOrders()" />
   </div>
-</div>
-    <div *ngIf="loading" class="loader-container">    <div class="loader w-25"></div>
-</div>
+
 
 <h2>
   <span class="material-icons">inventory_2</span>
 
   your orders
 </h2>
+<div *ngIf="loading" class="loader-container">    <div class="loader w-25"></div>
+</div>
+ <div *ngIf="!loading && error" class="flex justify-center items-center" class="empty-orders ">
+      <app-error ></app-error>
+    </div>
 
 <div *ngIf="!loading && orders.length === 0" class="empty-orders ">
   <app-empty-data class=""

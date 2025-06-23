@@ -9,6 +9,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorComponent } from "../../../../../../shared/error/error.component";
 
 @Component({
   selector: 'app-user-orders',
@@ -18,13 +19,15 @@ import { ActivatedRoute, Router } from '@angular/router';
     FormsModule,
     EmptyDataComponent,
     PrimaryDropDownComponent,
-    MatPaginator
-  ],
+    MatPaginator,
+    ErrorComponent
+],
   templateUrl: './user-orders.component.html',
   styleUrl: './user-orders.component.css'
 })
 export class UserOrdersComponent implements OnInit, OnDestroy {
   loading = true;
+error:string | null=null
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -60,11 +63,12 @@ export class UserOrdersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
+    this.error=null;
+
   }
 
   loadOrders() {
     this.loading = true;
-
     this.orderService.getUserOrders(
       this.page,
       this.limit || 10,
@@ -74,11 +78,16 @@ export class UserOrdersComponent implements OnInit, OnDestroy {
       this.maxPrice,
       this.dateFrom,
       this.dateTo
-    ).subscribe(res => {
+    ).subscribe({next:res => {
       this.orders = res.data;
       this.loading = false;
       this.totalPages = res.totalPages ?? 0;
-      this.totalItems = res.totalItems ?? 0;
+      this.totalItems = res.totalItems ?? 0;},
+      error: (err) => {
+      console.error('Error loading orders:', err);
+      this.loading = false;
+      this.error = err?.error?.message || 'Failed to load orders. Please try again later.';
+    }
     });
   }
 
