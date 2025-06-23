@@ -12,7 +12,7 @@
 <ng-container *ngFor="let chunk of chunkedRelatedProducts(); let i = index">
   <div class="carousel-item" [class.active]="i === 0">
     <div class="d-flex justify-content-center gap-3">
-      <div *ngFor="let relatedProduct of chunk" class="card-class" (click)="navigateToProduct(relatedProduct._id!)">
+      <div *ngFor="let relatedProduct of chunk" class="card-class col-3" (click)="navigateToProduct(relatedProduct._id!)">
             
               <div class="aspect-square overflow-hidden">
                 <img [src]="relatedProduct.colors[0].image"
@@ -84,4 +84,4 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div> 
-</div> 
+</div>
