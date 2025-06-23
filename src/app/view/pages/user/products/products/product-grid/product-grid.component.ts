@@ -3,12 +3,27 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../../../../../core/interfaces/product.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'app-product-grid',
   standalone: true,
   imports: [CommonModule, FormsModule, ProductCardComponent],
   templateUrl: './product-grid.component.html',
+  animations: [
+    trigger('listAnimation', [
+      transition('* => *', [
+        query(
+          ':enter',
+          [
+            style({ opacity: 0, transform: 'scale(0.95)' }),
+            stagger('300ms', animate('400ms ease-out', style({ opacity: 1, transform: 'scale(1)' })))
+          ],
+          { optional: true }
+        )
+      ])
+    ])
+  ]
 })
 export class ProductGridComponent implements OnChanges {
   @Input() products: Product[] = [];
