@@ -31,4 +31,5 @@ export interface ProductQueryParams {
   categoryId?: string[];
   colorId?: string[];
   sortBy?: 'price_asc' | 'price_desc' | 'popularity';
+    limit: number
 }

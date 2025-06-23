@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Product } from '../../../../../../core/interfaces/product.interface';
 import { Router, RouterModule } from '@angular/router';
 
+
 @Component({
   selector: 'app-related-product',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './related-product.component.html'
+  templateUrl: './related-product.component.html',
+  styleUrls: ["./related-Product.component.css"]
 })
 export class RelatedProductComponent {
   @Input() relatedProducts: Product[] = [];
@@ -28,4 +30,16 @@ export class RelatedProductComponent {
   navigateToProduct(productId: string): void {
     this.router.navigate(['/products', productId]);
   }
+
+chunkedRelatedProducts(): Product[][] {
+  const chunkSize = 4;
+  const chunks: Product[][] = [];
+  for (let i = 0; i < this.relatedProducts.length; i += chunkSize) {
+    const chunk = this.relatedProducts.slice(i, i + chunkSize);
+    if (chunk.length === chunkSize) { 
+      chunks.push(chunk);
+    }
+  }
+  return chunks;
+}
 }
