@@ -1,5 +1,4 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-<<<<<<< HEAD
   <div class="space-y-3 flex flex-col items-center">
     <div
       class="aspect-square max-w-[500px] w-full bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 relative group cursor-zoom-in">
@@ -25,48 +24,6 @@
 
 
   <div class="space-y-6 pl-8">
-=======
- <div class="space-y-3 flex flex-col items-center">
-  <div
-    class="aspect-square max-w-[500px] w-full bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 relative group cursor-zoom-in">
-    <img
-      [src]="mainImage"
-      [alt]="product.title"
-      [class]="
-          'w-full h-full object-cover absolute top-0 left-0 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-105' +
-          (imageFading ? ' opacity-0 scale-95 blur-sm' : ' opacity-100 scale-100 blur-0')
-        "
-      loading="lazy"
-      (load)="onImageLoad()"
-    />
-  </div>
-
-  <div class="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide max-w-[500px]">
-    <div
-      *ngFor="let thumbnail of thumbnailImages; let i = index"
-      class="flex-shrink-0 w-20 h-20 bg-white rounded-md overflow-hidden cursor-pointer border-2 transition-all duration-300"
-      [class.opacity-50]="hoveredThumbnailIndex !== null && hoveredThumbnailIndex !== i"
-      [class.opacity-100]="hoveredThumbnailIndex === null || hoveredThumbnailIndex === i"
-      [class.border-gray-900]="mainImage === thumbnail"
-      [class.border-gray-200]="mainImage !== thumbnail"
-      [class.shadow-md]="mainImage === thumbnail"
-      (mouseenter)="onThumbnailHover(i)"
-      (mouseleave)="onThumbnailLeave()"
-      (click)="onThumbnailClick(i)"
-    >
-      <img
-        [src]="thumbnail"
-        [alt]="'Product view ' + (i + 1)"
-        class="w-full h-full object-cover transition-transform duration-200 hover:scale-110"
-        loading="lazy"
-      />
-    </div>
-  </div>
-</div>
-
-
-<div class="space-y-6 pl-8">
->>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
     <div>
       <h1 class="text-xl lg:text-2xl font-bold text-gray-900 mb-2 leading-snug">
         {{ product.title }}
@@ -185,7 +142,6 @@
         <div class="space-y-3">
 
 
-<<<<<<< HEAD
           <app-primary-button
             [text]="isInCart ? '<i class=\'fa fa-shopping-cart\'></i> Remove from Cart' : '<i class=\'fa fa-shopping-cart\'></i> Add to Cart'"
             [col]="'col-12'" (click)="toggleCart()">
@@ -193,47 +149,27 @@
 
 
 
-=======
-         <app-primary-button
-  [text]="isInCart ? 'Remove from Cart 🛒' : 'Add to Cart 🛒'"
-  [col]="'col-12'"
-  (click)="toggleCart()">
-</app-primary-button>
->>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
 
 
 
           <!-- <button (click)="addToCart()" [disabled]="!isInStock()"
           class="w-full bg-gray-900 text-white py-3 px-6 rounded-md font-semibold text-base hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">{{
           isInStock() ? 'Add to Cart • $' + (getCurrentPrice() * quantity) : 'Out of Stock' }}</button> -->
-<<<<<<< HEAD
 
-          <div class="grid grid-cols-2 gap-3">
-         <button *ngIf="!isInWishlist" (click)="toggleWishlist()"
-  class="flex items-center justify-center py-2 px-4 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors duration-200 text-sm">
-  <i class="fa fa-heart-o mr-2"></i> Add to Wishlist
-</button>
-
-
-
-          <button *ngIf="isInWishlist" (click)="toggleWishlist()"
-  class="flex items-center justify-center py-2 px-4 border border-red-300 text-red-700 rounded-md font-medium hover:bg-red-50 transition-colors duration-200 text-sm">
-  <i class="fa fa-heart mr-2"></i> Remove from Wishlist
-</button>
-
-
-=======
           <div class="grid grid-cols-2 gap-3">
             <button *ngIf="!isInWishlist" (click)="toggleWishlist()"
               class="flex items-center justify-center py-2 px-4 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors duration-200 text-sm">
-              ❤️ Add to Wishlist
+              <i class="fa fa-heart-o mr-2"></i> Add to Wishlist
             </button>
+
+
 
             <button *ngIf="isInWishlist" (click)="toggleWishlist()"
               class="flex items-center justify-center py-2 px-4 border border-red-300 text-red-700 rounded-md font-medium hover:bg-red-50 transition-colors duration-200 text-sm">
-              ❌ Remove from Wishlist
+              <i class="fa fa-heart mr-2"></i> Remove from Wishlist
             </button>
->>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
+
+
 
 
             <button (click)="shareProduct()"

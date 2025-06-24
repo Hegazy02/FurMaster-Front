@@ -1,33 +1,17 @@
 <app-banner [title]="categoryName || 'Products'"
-<<<<<<< HEAD
   [description]="'Discover our exclusive collection in ' + (categoryName ? categoryName : 'our store')"
   [imageUrl]="categoryImage || 'assets/images/default-banner.jpg'">
 </app-banner>
-=======
-[description]="'Discover our exclusive collection in ' + (categoryName ? categoryName : 'our store')"
-  [imageUrl]="categoryImage || 'assets/images/default-banner.jpg'"></app-banner>
-
-
->>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
 
 <div class="min-h-screen bg-gray-50">
   <div class="container-lg py-8">
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
     <div class="flex justify-center mb-4">
       <app-search-input class="w-full max-w-xl" [search]="searchQuery" placeholder="Search products..."
         (searchEnter)="handleSearchChange($event)" (searchDebounced)="handleSearchChange($event)">
       </app-search-input>
     </div>
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
     <app-breadcrumb *ngIf="categoryLoaded" [items]="breadcrumbItems"></app-breadcrumb>
 
     <div class="flex flex-col lg:flex-row gap-8 items-start">
@@ -36,10 +20,6 @@
         <app-product-filter (filtersChanged)="handleFiltersChange($event)"></app-product-filter>
       </div>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
       <div class="flex-1 w-full">
 
         <app-loader *ngIf="productsStatus.type === StatusType.Loading"></app-loader>
@@ -59,7 +39,6 @@
               Clear All Filters
             </button>
           </div>
-<<<<<<< HEAD
         </ng-container>
       </div>
     </div>
@@ -71,10 +50,3 @@
     </div>
   </div>
 </div>
-=======
-
-
-          <mat-paginator class="mt-10" [length]="totalItems" [pageIndex]="page - 1" [pageSize]="limit"
-            [pageSizeOptions]="[10, 20, 50]" (page)="onPageChange($event)">
-          </mat-paginator>
->>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
