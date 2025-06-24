@@ -108,14 +108,13 @@
       <div *ngIf="cartItem.length > 0" class="text-right mt-4">
         <button
           (click)="clearCart()"
-          class="bg-red-500 text-white px-2 py-2 rounded-md hover:bg-red-600 transition flex items-center gap-2 ms-auto block"
-        >
+class="bg-red-500 text-white px-1.5 py-1.5 rounded-md  text-xs hover:bg-red-600 transition flex items-center gap-0 ms-auto block"        >
           <span class="material-icons text-sm">delete</span> Clear Cart
         </button>
       </div>
     </div>
 
-    <div class="w-full md:w-80 bg-gray-50 p-6 rounded-lg shadow-sm">
+    <div class="w-full md:w-80 bg-gray-50 p-6 rounded-lg shadow-sm self-start">
       <h3 class="text-lg font-semibold text-teal-600 text-center mb-4">
         Order Summary
       </h3>
