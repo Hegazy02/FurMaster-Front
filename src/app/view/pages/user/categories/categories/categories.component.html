@@ -1,21 +1,28 @@
-<div class="categories-container container-lg">
-  <div class="header">
-    <h1>Categories</h1>
-    <p>Browse our product categories</p>
-  </div>
+<app-banner
+  [title]="'Explore Our Categories'"
+  [description]="'Upgrade your space with modern and classic pieces for every room.'"
+  [imageUrl]="'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1332'">
+</app-banner>
 
-  <!-- Search -->
-  <div class="search-section">
-    <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange()" placeholder="Search categories..."
-      class="search-input">
-  </div>
+<div class="container-lg py-8">
+
+  <app-search-input
+    [search]="searchQuery"
+    placeholder="Search categories..."
+    (searchEnter)="onSearchEnter($event)"
+    (searchDebounced)="onSearchChange($event)">
+  </app-search-input>
 
   <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
 
+  <app-loader *ngIf="categoriesStatus.type === StatusType.Loading"></app-loader>
 
+  <div *ngIf="categoriesStatus.type === StatusType.Error" class="text-center py-12 text-red-500">
+    {{ categoriesStatus.message || 'Something went wrong while loading categories.' }}
+  </div>
 
-  <!-- Categories Grid -->
-  <div class="categories-grid" *ngIf="categories.length > 0; else noCategories">
+  <!-- CATEGORIES -->
+  <div class="categories-grid" *ngIf="categoriesStatus.type === StatusType.Success && categories.length > 0" [@listAnimation]>
     <div class="category-card" *ngFor="let category of categories" (click)="navigateToCategory(category._id)">
       <div class="category-image-container">
         <img [src]="category.image || getDefaultImage()" [alt]="category.name" class="category-image">
@@ -29,18 +36,25 @@
     </div>
   </div>
 
-  <ng-template #noCategories>
-    <div class="no-categories">
+  <!-- NO CATEGORIES -->
+  <ng-template [ngIf]="categoriesStatus.type === StatusType.Success && categories.length === 0">
+    <div class="no-categories text-center py-12 text-gray-500">
       <h3>No categories found</h3>
       <p>Try adjusting your search terms</p>
     </div>
   </ng-template>
 
-  <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="goToPage($event)">
-  </app-pagination>
+  <mat-paginator
+    [length]="totalItems"
+    [pageIndex]="currentPage - 1"
+<<<<<<< HEAD
+    [pageSize]="10"
+    [pageSizeOptions]="[10]"
+=======
+    [pageSize]="8"
+    [pageSizeOptions]="[8, 16, 24]"
+>>>>>>> a12f0d2c45e479e2f45ba3658a1b993926a10a06
+    (page)="handlePageChange($event)">
+  </mat-paginator>
 
-  <!-- Loading State -->
-  <div class="loading-container" *ngIf="loading">
-    <div class="loading-spinner"></div>
-    <p>Loading categories...</p>
-  </div>
+</div>

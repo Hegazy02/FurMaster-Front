@@ -7,7 +7,10 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProductInfoComponent } from './product-info/product-info.component';
 import { RelatedProductComponent } from './related-product/related-product.component';
 import { BreadcrumbComponent } from '../../../../../shared/breadcrump/breadcrump.component';
+import { Status, StatusType } from '../../../../../core/util/status';
+import { LoaderComponent } from '../../../../../shared/loader/loader.component';
 import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-product-detail-page',
@@ -17,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
     ProductInfoComponent,
     RelatedProductComponent,
     BreadcrumbComponent,
+    LoaderComponent
   ],
   templateUrl: './product-detail-page.component.html',
 })
@@ -24,42 +28,39 @@ export class ProductDetailPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   product: Product | null = null;
   relatedProducts: Product[] = [];
-  loading = true;
-  error: string | null = null;
+  status = new Status();
+  StatusType = StatusType;
+
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (params) => {
-        const productId = params['id'];
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (params) => {
+          const productId = params['id'];
 
-        this.product = null;
-        this.relatedProducts = [];
-        this.loading = true;
-        this.error = null;
+          this.product = null;
+          this.relatedProducts = [];
+          this.status = new Status(StatusType.Loading);
 
-        this.productService.getProductById(productId).subscribe({
-          next: (product) => {
-            this.product = product;
-            this.loading = false;
-            this.loadRelatedProducts(product);
-          },
-          error: (err) => {
-            console.error(err);
-            this.loading = false;
-            this.error = 'Failed to load product details';
-          },
-        });
-      },
-      error: () => {
-        this.loading = false;
-        this.error = 'Error loading data';
-      },
-    });
+          this.productService.getProductById(productId).subscribe({
+            next: (product) => {
+              this.product = product;
+              this.status = new Status(StatusType.Success);
+              this.loadRelatedProducts(product);
+            },
+            error: (err) => {
+              console.error(err);
+              this.status = new Status(StatusType.Error, 'Failed to load product details');
+            }
+          });
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -84,27 +85,29 @@ export class ProductDetailPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  retryLoading(): void {
-    const productId = this.route.snapshot.params['id'];
+ retryLoading(): void {
+  const productId = this.route.snapshot.params['id'];
 
-    this.product = null;
-    this.relatedProducts = [];
-    this.loading = true;
-    this.error = null;
+  this.product = null;
+  this.relatedProducts = [];
+  this.status = new Status(StatusType.Loading);
 
-    this.productService.getProductById(productId).subscribe({
+  this.productService.getProductById(productId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (product) => {
         this.product = product;
-        this.loading = false;
+        this.status = new Status(StatusType.Success);
         this.loadRelatedProducts(product);
       },
       error: (err) => {
         console.error(err);
-        this.loading = false;
-        this.error = 'Failed to load product details';
-      },
+        this.status = new Status(StatusType.Error, 'Failed to load product details');
+      }
     });
-  }
+}
+
+
 
   getCategoryName(): string {
     return this.product?.category?.name || '';
