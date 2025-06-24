@@ -1,4 +1,12 @@
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+  Output,
+  input,
+  Input,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../../../../../../core/services/products.service';
@@ -17,7 +25,7 @@ export class ProductFilterComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   colorOptions: { name: string; hex?: string; id: string }[] = [];
 
-  selectedCategories: string[] = [];
+  @Input() selectedCategories: string[] = [];
   selectedColors: string[] = [];
   priceRange: number[] = [0, 1500];
   showNewArrivals: boolean = false;
@@ -42,7 +50,8 @@ export class ProductFilterComponent implements OnInit, OnDestroy {
   }
 
   fetchCategories(): void {
-    this.productService.getCategories()
+    this.productService
+      .getCategories()
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         if (res.success) this.categories = res.data;
@@ -50,7 +59,8 @@ export class ProductFilterComponent implements OnInit, OnDestroy {
   }
 
   fetchColors(): void {
-    this.productService.getColors()
+    this.productService
+      .getColors()
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         if (res.success) {

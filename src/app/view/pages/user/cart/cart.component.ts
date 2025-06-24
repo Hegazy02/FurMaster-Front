@@ -131,10 +131,9 @@ this.cartService.cartItemsSubject.next(items);
     });
   }
   clearCart() {
-    console.log('asmaa');
+    console.log('start');
     this.cartService.clearCart().subscribe({
       next: () => {
-        console.log('Cear');
 this.cartService.cartItemsSubject.next([]);
       },
       error: (err) => {
