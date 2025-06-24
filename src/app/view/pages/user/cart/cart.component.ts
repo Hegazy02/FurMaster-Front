@@ -134,7 +134,6 @@ this.cartService.cartItemsSubject.next(items);
     console.log('start');
     this.cartService.clearCart().subscribe({
       next: () => {
-        console.log('Cear');
 this.cartService.cartItemsSubject.next([]);
       },
       error: (err) => {

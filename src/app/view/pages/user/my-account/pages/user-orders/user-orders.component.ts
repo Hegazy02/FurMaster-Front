@@ -21,34 +21,33 @@ import { ErrorComponent } from "../../../../../../shared/error/error.component";
     PrimaryDropDownComponent,
     MatPaginator,
     ErrorComponent
-],
+  ],
   templateUrl: './user-orders.component.html',
   styleUrl: './user-orders.component.css'
 })
 export class UserOrdersComponent implements OnInit, OnDestroy {
   loading = true;
-error:string | null=null
+  error: string | null = null;
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private destroy$ = new Subject<void>();
 
-  fromDate: string = '';
-  toDate: string = '';
   orders: Order[] = [];
-  userId: string = '';
-  statuses: string[] = ['pending', 'completed', 'cancelled'];
+  groupedOrders: { [date: string]: Order[] } = {};
 
+  userId: string = '';
   page = 1;
   limit = 10;
   status = '';
-  totalPages = 0;
   sort = '-createdAt';
 
   minPrice?: number;
   maxPrice?: number;
   dateFrom?: string;
   dateTo?: string;
+
+  totalPages = 0;
   totalItems = 0;
 
   selectedStatusText: string = 'All Statuses';
@@ -63,8 +62,7 @@ error:string | null=null
 
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
-    this.error=null;
-
+    this.error = null;
   }
 
   loadOrders() {
@@ -78,17 +76,35 @@ error:string | null=null
       this.maxPrice,
       this.dateFrom,
       this.dateTo
-    ).subscribe({next:res => {
-      this.orders = res.data;
-      this.loading = false;
-      this.totalPages = res.totalPages ?? 0;
-      this.totalItems = res.totalItems ?? 0;},
+    ).subscribe({
+      next: res => {
+        this.orders = res.data;
+        this.groupOrdersByDate(); 
+        this.loading = false;
+        this.totalPages = res.totalPages ?? 0;
+        this.totalItems = res.totalItems ?? 0;
+      },
       error: (err) => {
-      console.error('Error loading orders:', err);
-      this.loading = false;
-      this.error = err?.error?.message || 'Failed to load orders. Please try again later.';
-    }
+        console.error('Error loading orders:', err);
+        this.loading = false;
+        this.error = err?.error?.message || 'Failed to load orders. Please try again later.';
+      }
     });
+  }
+
+  groupOrdersByDate() {
+    this.groupedOrders = {};
+    this.orders.forEach(order => {
+      const dateKey = new Date(order.createdAt).toDateString();
+      if (!this.groupedOrders[dateKey]) {
+        this.groupedOrders[dateKey] = [];
+      }
+      this.groupedOrders[dateKey].push(order);
+    });
+  }
+
+  getGroupedOrderDates(): string[] {
+    return Object.keys(this.groupedOrders);
   }
 
   onStatusChange(value: { title: string; apiValue: string }) {
@@ -102,16 +118,6 @@ error:string | null=null
     });
   }
 
-  onSortChange(data: { value: string; apiValue: string }) {
-    this.sort = data.apiValue;
-    this.page = 1;
-    this.setQueryParamsToUrl({
-      sort: this.sort,
-      page: this.page.toString(),
-      limit: this.limit.toString(),
-    });
-  }
-
   onPageChange(event: PageEvent): void {
     this.page = event.pageIndex + 1;
     this.limit = event.pageSize;
@@ -120,8 +126,6 @@ error:string | null=null
       limit: this.limit.toString(),
       status: this.status,
       sort: this.sort,
-      dateFrom: this.dateFrom || '',
-      dateTo: this.dateTo || '',
     });
   }
 
@@ -145,10 +149,12 @@ error:string | null=null
         this.page = parseInt(params['page']) || 1;
         this.limit = parseInt(params['limit']) || 10;
         this.status = params['status'] || '';
-        this.dateFrom = params['dateFrom'] || '';
-        this.dateTo = params['dateTo'] || '';
         this.sort = params['sort'] || '-createdAt';
+        this.dateRange = (params['dateRange'] as any) || 'all';
+this.setDateRange(this.dateRange);
+
         this.loadOrders();
+
       });
   }
 
@@ -165,5 +171,46 @@ error:string | null=null
     this.destroy$.complete();
   }
 
-  constructor(private orderService: OrdersService) { }
+  constructor(private orderService: OrdersService) {}
+
+
+  dateRange: '3m' | '6m' | '1y' | 'all' = 'all'; 
+
+onDateFilterChange(range: '3m' | '6m' | '1y' | 'all') {
+  this.dateRange = range;
+  this.setDateRange(range);
+  this.page = 1;
+  this.setQueryParamsToUrl({
+    dateRange: this.dateRange,
+    page: this.page.toString(),
+    limit: this.limit.toString(),
+    status: this.status,
+    sort: this.sort,
+  });
+  this.loadOrders();
+}
+
+setDateRange(range: string) {
+  const today = new Date();
+  let from: Date | null = null;
+
+  switch (range) {
+    case '3m':
+      from = new Date(today.setMonth(today.getMonth() - 3));
+      break;
+    case '6m':
+      from = new Date(today.setMonth(today.getMonth() - 6));
+      break;
+    case '1y':
+      from = new Date(today.setFullYear(today.getFullYear() - 1));
+      break;
+    case 'all':
+      from = null;
+      break;
+  }
+
+  this.dateFrom = from ? from.toISOString().split('T')[0] : '';
+  this.dateTo = new Date().toISOString().split('T')[0];
+}
+
 }
