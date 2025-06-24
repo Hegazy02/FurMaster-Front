@@ -1,5 +1,11 @@
-import { NgClass, NgStyle } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { NgStyle } from '@angular/common';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -11,6 +17,12 @@ import {
   NgApexchartsModule,
 } from 'ng-apexcharts';
 import { currency } from '../..//../../../core/constants/vairables';
+import { StatisticsService } from '../../../../../core/services/statistics.service';
+import { Subject, takeUntil } from 'rxjs';
+import {
+  TotalOrdersAmountStatistics,
+  TotalOrdersStatistics,
+} from '../../../../../core/interfaces/total-orders-statistics.interface';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -27,186 +39,144 @@ export type ChartOptions = {
   templateUrl: './dashboard-totals.component.html',
   styleUrl: './dashboard-totals.component.css',
 })
-export class DashboardTotalsComponent {
+export class DashboardTotalsComponent implements OnInit {
+  statisticsService = inject(StatisticsService);
   @ViewChild('chart') chart!: ChartComponent;
-  public chartOptions: Partial<ChartOptions>[];
+  public totalOrdersChartOptions: Partial<ChartOptions>;
+  public totalOrdersAmountChartOptions: Partial<ChartOptions>;
   currency = currency;
+  totalOrdersStatistics?: TotalOrdersStatistics;
+  totalOrdersAmountStatistics?: TotalOrdersAmountStatistics;
+  destroy$ = new Subject<void>();
+  totalOrdersStatisticsFrom = new Date(
+    new Date().setDate(new Date().getDate() - 7)
+  );
+  totalOrdersStatisticsTo = new Date();
   constructor() {
-    this.chartOptions = [
-      {
-        series: [
-          {
-            name: 'series1',
-            // data: [31, 40, 28, 51, 42, 109, 100],
-            data: [
-              {
-                x: new Date(1538778600000),
-                y: 31,
-              },
-              {
-                x: new Date(1638778600000),
-                y: 40,
-              },
-              {
-                x: new Date(1738778600000),
-                y: 28,
-              },
-              {
-                x: new Date(1838778600000),
-                y: 51,
-              },
-              {
-                x: new Date(1938778600000),
-                y: 42,
-              },
-              {
-                x: new Date(2038778600000),
-                y: 109,
-              },
-              {
-                x: new Date(2138778600000),
-                y: 100,
-              },
-            ],
-          },
-          // {
-          //   name: 'series2',
-          //   data: [11, 32, 45, 32, 34, 52, 41],
-          // },
-        ],
-        chart: {
-          width: 400,
-          height: 100,
-          type: 'area',
-          sparkline: {
-            enabled: true,
-          },
+    this.totalOrdersChartOptions = {
+      series: [
+        {
+          name: 'Total Orders',
+          data: [{ x: new Date(), y: 55 }],
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 2,
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: [
-            '2018-09-19T00:00:00.000Z',
-            '2018-09-19T01:30:00.000Z',
-            '2018-09-19T02:30:00.000Z',
-            '2018-09-19T03:30:00.000Z',
-            '2018-09-19T04:30:00.000Z',
-            '2018-09-19T05:30:00.000Z',
-            '2018-09-19T06:30:00.000Z',
-          ],
-        },
-        tooltip: {
-          fillSeriesColor: true,
-          x: {
-            format: 'dd/MM/yy HH:mm',
-          },
+      ],
+      chart: {
+        width: 350,
+        height: 100,
+        type: 'area',
+        sparkline: {
+          enabled: true,
         },
       },
-      {
-        series: [
-          {
-            name: 'series1',
-            // data: [31, 40, 28, 51, 42, 109, 100],
-            data: [
-              {
-                x: new Date(1538778600000),
-                y: 10,
-              },
-              {
-                x: new Date(1638778600000),
-                y: 12,
-              },
-              {
-                x: new Date(1738778600000),
-                y: 20,
-              },
-              {
-                x: new Date(1838778600000),
-                y: 10,
-              },
-              {
-                x: new Date(1938778600000),
-                y: 8,
-              },
-              {
-                x: new Date(2038778600000),
-                y: 16,
-              },
-              {
-                x: new Date(2138778600000),
-                y: 5,
-              },
-            ],
-          },
-          // {
-          //   name: 'series2',
-          //   data: [11, 32, 45, 32, 34, 52, 41],
-          // },
-        ],
-        chart: {
-          width: 400,
-          height: 100,
-          type: 'area',
-          sparkline: {
-            enabled: true,
-          },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 2,
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+      },
+    };
+    this.totalOrdersAmountChartOptions = {
+      series: [
+        {
+          name: 'Total Orders Amount',
+          data: [{ x: new Date(), y: 55 }],
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 2,
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: [
-            '2018-09-19T00:00:00.000Z',
-            '2018-09-19T01:30:00.000Z',
-            '2018-09-19T02:30:00.000Z',
-            '2018-09-19T03:30:00.000Z',
-            '2018-09-19T04:30:00.000Z',
-            '2018-09-19T05:30:00.000Z',
-            '2018-09-19T06:30:00.000Z',
-          ],
-        },
-        tooltip: {
-          fillSeriesColor: true,
-          x: {
-            format: 'dd/MM/yy HH:mm',
-          },
+      ],
+      chart: {
+        width: 350,
+        height: 100,
+        type: 'area',
+        sparkline: {
+          enabled: true,
         },
       },
-    ];
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 2,
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [],
+      },
+    };
   }
-  totals = [
-    { title: 'Total Orders', subtitle: 'Last 7 days', amount: 200, effect: -6 },
-    {
-      title: 'Total Revenue',
-      subtitle: 'Last 7 days',
-      amount: 10500,
-      effect: 8,
-    },
-  ];
-  public generateData(baseval: number, count: number, yrange: any) {
-    var i = 0;
-    var series = [];
-    while (i < count) {
-      var x = Math.floor(Math.random() * (750 - 1 + 1)) + 1;
-      var y =
-        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-      var z = Math.floor(Math.random() * (75 - 15 + 1)) + 15;
+  ngOnInit(): void {
+    this.getTotalOrdersStatistics(
+      this.totalOrdersStatisticsFrom,
+      this.totalOrdersStatisticsTo
+    );
+    this.getTotalOrdersAmountStatistics(
+      this.totalOrdersStatisticsFrom,
+      this.totalOrdersStatisticsTo
+    );
+  }
 
-      series.push([x, y, z]);
-      baseval += 86400000;
-      i++;
-    }
-    return series;
+  private setTotalOrdersStatistics(
+    totalOrdersStatistics: TotalOrdersStatistics
+  ) {
+    this.totalOrdersChartOptions = {
+      ...this.totalOrdersChartOptions,
+      series: [
+        {
+          name: 'Total Orders',
+          data: totalOrdersStatistics.dailyCounts.map((dailyCount) => {
+            return { x: new Date(dailyCount.date), y: dailyCount.count };
+          }),
+        },
+      ],
+    };
+  }
+  private setTotalOrdersAmountStatistics(
+    totalOrdersAmountStatistics: TotalOrdersAmountStatistics
+  ) {
+    this.totalOrdersAmountChartOptions = {
+      ...this.totalOrdersAmountChartOptions,
+      series: [
+        {
+          name: 'Total Orders Amount',
+          data: totalOrdersAmountStatistics.dailyTotals.map((dailyTotal) => {
+            return { x: new Date(dailyTotal.date), y: dailyTotal.totalOrders };
+          }),
+        },
+      ],
+    };
+  }
+
+  getTotalOrdersStatistics(from: Date, to: Date) {
+    this.statisticsService
+      .getTotalOrdersStatistics(from, to)
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          this.totalOrdersStatistics = result.data;
+
+          this.setTotalOrdersStatistics(this.totalOrdersStatistics!);
+        },
+        error: (error) => console.error(error),
+      });
+  }
+  getTotalOrdersAmountStatistics(from: Date, to: Date) {
+    this.statisticsService
+      .getTotalOrdersAmountStatistics(from, to)
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          this.totalOrdersAmountStatistics = result.data;
+          console.log('orders', this.totalOrdersAmountStatistics.percentageChange);
+
+          this.setTotalOrdersAmountStatistics(
+            this.totalOrdersAmountStatistics!
+          );
+        },
+        error: (error) => console.error(error),
+      });
   }
 }

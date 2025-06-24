@@ -24,4 +24,6 @@ export class Endpoints {
   public static ADMIN_PRODUCTS = `${Endpoints.BASE_URL}/admin/products`;
   public static ADMIN_ORDERS = `${Endpoints.BASE_URL}/admin/orders`;
   public static CUSTOMER_GENDER_STATISTICS  = `${Endpoints.BASE_URL}/admin/customerGenderStatistics`;
+  public static TOTAL_ORDERS_STATISTICS  = `${Endpoints.BASE_URL}/admin/totalOrdersStatistics`;
+  public static TOTAL_ORDERS_AMOUNT_STATISTICS  = `${Endpoints.BASE_URL}/admin/totalOrdersAmountStatistics`;
 }
