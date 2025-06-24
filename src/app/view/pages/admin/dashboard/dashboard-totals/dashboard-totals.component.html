@@ -1,31 +1,96 @@
-<section class="totals-section  flex-column flex-md-row">
-  @for (total of totals; track $index) {
-  <div class="total-card d-flex align-content-center p-4 rounded-4 ">
+<section class="totals-section flex-column flex-md-row">
+  <div class="total-card d-flex gap-2 align-content-center p-4 rounded-4">
     <div class="">
-      <p class="font-bold text-xl m-0">{{ total.title }}</p>
-      <p class="text-gray-500">{{ total.subtitle }}</p>
-      <p class="font-bold text-xl mt-2">{{ total.amount + " " + currency }}</p>
+      <p class="font-bold text-xl m-0">Total Orders</p>
+      <p class="text-gray-500">Last 7 days</p>
+      <p class="font-bold text-xl mt-2">
+        {{ (totalOrdersStatistics?.ordersCount ?? 0 )+" Orders" }}
+      </p>
       <div
         class="d-flex align-content-center"
-        [ngStyle]="{ color: total.effect > 0 ? '#00e396' : '#d02626' }"
+        [ngStyle]="{
+          color:
+            (totalOrdersStatistics?.percentageChange ?? 0) > 0
+              ? '#00e396'
+              : '#d02626'
+        }"
       >
         <i class="material-icons text-md mr-1">{{
-          total.effect > 0 ? "arrow_upward" : "arrow_downward"
+          (totalOrdersStatistics?.percentageChange ?? 0) > 0
+            ? "arrow_upward"
+            : "arrow_downward"
         }}</i>
-        <p [ngStyle]="{ color: total.effect > 0 ? '#00e396' : '#d02626' }">
-          {{ total.effect + "%" }}
+        <p
+          [ngStyle]="{
+            color:
+              (totalOrdersStatistics?.percentageChange ?? 0) > 0
+                ? '#00e396'
+                : '#d02626'
+          }"
+        >
+          {{ (totalOrdersStatistics?.percentageChange ?? 0) + "%" }}
         </p>
       </div>
     </div>
     <apx-chart
-      [series]="chartOptions[$index].series!"
-      [chart]="chartOptions[$index].chart!"
-      [xaxis]="chartOptions[$index].xaxis!"
-      [stroke]="chartOptions[$index].stroke!"
-      [tooltip]="chartOptions[$index].tooltip!"
-      [dataLabels]="chartOptions[$index].dataLabels!"
-      [colors]="total.effect > 0 ? ['#00e396'] : ['#d02626']"
+      [series]="totalOrdersChartOptions.series!"
+      [chart]="totalOrdersChartOptions.chart!"
+      [xaxis]="totalOrdersChartOptions.xaxis!"
+      [stroke]="totalOrdersChartOptions.stroke!"
+      [tooltip]="totalOrdersChartOptions.tooltip!"
+      [dataLabels]="totalOrdersChartOptions.dataLabels!"
+      [colors]="
+        (totalOrdersStatistics?.percentageChange ?? 0) > 0
+          ? ['#00e396']
+          : ['#d02626']
+      "
     ></apx-chart>
   </div>
-  }
+  <div class="total-card d-flex gap-2 align-content-center p-4 rounded-4">
+    <div class="">
+      <p class="font-bold text-xl m-0">Total Orders Amount</p>
+      <p class="text-gray-500">Last 7 days</p>
+      <p class="font-bold text-xl mt-2">
+        {{ (totalOrdersAmountStatistics?.totalAmount ?? 0) + " " + currency }}
+      </p>
+      <div
+        class="d-flex align-content-center"
+        [ngStyle]="{
+          color:
+            (totalOrdersAmountStatistics?.percentageChange ?? 0) > 0
+              ? '#00e396'
+              : '#d02626'
+        }"
+      >
+        <i class="material-icons text-md mr-1">{{
+          (totalOrdersAmountStatistics?.percentageChange ?? 0) > 0
+            ? "arrow_upward"
+            : "arrow_downward"
+        }}</i>
+        <p
+          [ngStyle]="{
+            color:
+              (totalOrdersAmountStatistics?.percentageChange ?? 0) > 0
+                ? '#00e396'
+                : '#d02626'
+          }"
+        >
+          {{ (totalOrdersAmountStatistics?.percentageChange ?? 0) + "%" }}
+        </p>
+      </div>
+    </div>
+    <apx-chart
+      [series]="totalOrdersAmountChartOptions.series!"
+      [chart]="totalOrdersAmountChartOptions.chart!"
+      [xaxis]="totalOrdersAmountChartOptions.xaxis!"
+      [stroke]="totalOrdersAmountChartOptions.stroke!"
+      [tooltip]="totalOrdersAmountChartOptions.tooltip!"
+      [dataLabels]="totalOrdersAmountChartOptions.dataLabels!"
+      [colors]="
+        (totalOrdersAmountStatistics?.percentageChange ?? 0) > 0
+          ? ['#00e396']
+          : ['#d02626']
+      "
+    ></apx-chart>
+  </div>
 </section>

@@ -3,7 +3,7 @@ export class Endpoints {
 
   public static PROD_BASE_URL = 'https://fur-master-back.vercel.app';
   public static DEV_BASE_URL = 'http://localhost:3000';
-  public static BASE_URL = Endpoints.PROD_BASE_URL;
+public static BASE_URL = Endpoints.DEV_BASE_URL;
   public static LOGIN = `${Endpoints.BASE_URL}/auth/login`;
   public static REGISTER = `${Endpoints.BASE_URL}/auth/sginup`;
   public static LOGOUT = `${Endpoints.BASE_URL}/auth/logout`;
@@ -24,4 +24,6 @@ export class Endpoints {
   public static ADMIN_PRODUCTS = `${Endpoints.BASE_URL}/admin/products`;
   public static ADMIN_ORDERS = `${Endpoints.BASE_URL}/admin/orders`;
   public static CUSTOMER_GENDER_STATISTICS  = `${Endpoints.BASE_URL}/admin/customerGenderStatistics`;
+  public static TOTAL_ORDERS_STATISTICS  = `${Endpoints.BASE_URL}/admin/totalOrdersStatistics`;
+  public static TOTAL_ORDERS_AMOUNT_STATISTICS  = `${Endpoints.BASE_URL}/admin/totalOrdersAmountStatistics`;
 }

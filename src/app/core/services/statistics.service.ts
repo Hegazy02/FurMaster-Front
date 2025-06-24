@@ -3,6 +3,10 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CustomerGenderStatistics } from '../interfaces/customer-gender-statistics.interface';
 import { Endpoints } from '../constants/endpoints';
+import {
+  TotalOrdersAmountStatisticsResoponse,
+  TotalOrdersStatisticsResoponse,
+} from '../interfaces/total-orders-statistics.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +19,28 @@ export class StatisticsService {
   }> | null {
     return this.http.get<{ data: CustomerGenderStatistics }>(
       Endpoints.CUSTOMER_GENDER_STATISTICS
+    );
+  }
+  getTotalOrdersStatistics(
+    from: Date,
+    to: Date
+  ): Observable<TotalOrdersStatisticsResoponse> | null {
+    return this.http.get<TotalOrdersStatisticsResoponse>(
+      Endpoints.TOTAL_ORDERS_STATISTICS,
+      {
+        params: { from: from.toISOString(), to: to.toISOString() },
+      }
+    );
+  }
+  getTotalOrdersAmountStatistics(
+    from: Date,
+    to: Date
+  ): Observable<TotalOrdersAmountStatisticsResoponse> | null {
+    return this.http.get<TotalOrdersAmountStatisticsResoponse>(
+      Endpoints.TOTAL_ORDERS_AMOUNT_STATISTICS,
+      {
+        params: { from: from.toISOString(), to: to.toISOString() },
+      }
     );
   }
 }
