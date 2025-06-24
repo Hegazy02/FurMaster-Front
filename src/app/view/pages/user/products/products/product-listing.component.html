@@ -1,16 +1,20 @@
 <app-banner [title]="categoryName || 'Products'"
-  [description]="'Discover our exclusive collection in ' + (categoryName ? categoryName : 'our store')"
-  [imageUrl]="categoryImage || 'assets/images/default-banner.jpg'">
-</app-banner>
+[description]="'Discover our exclusive collection in ' + (categoryName ? categoryName : 'our store')"
+  [imageUrl]="categoryImage || 'assets/images/default-banner.jpg'"></app-banner>
+
+
 
 <div class="min-h-screen bg-gray-50">
   <div class="container-lg py-8">
+
 
     <div class="flex justify-center mb-4">
       <app-search-input class="w-full max-w-xl" [search]="searchQuery" placeholder="Search products..."
         (searchEnter)="handleSearchChange($event)" (searchDebounced)="handleSearchChange($event)">
       </app-search-input>
     </div>
+
+
 
     <app-breadcrumb *ngIf="categoryLoaded" [items]="breadcrumbItems"></app-breadcrumb>
 
@@ -19,6 +23,7 @@
       <div class="lg:w-64 w-full lg:sticky top-8 self-start z-10 lg:pl-0">
         <app-product-filter (filtersChanged)="handleFiltersChange($event)"></app-product-filter>
       </div>
+
 
       <div class="flex-1 w-full">
 
@@ -39,14 +44,8 @@
               Clear All Filters
             </button>
           </div>
-        </ng-container>
-      </div>
-    </div>
 
-    <div class="w-full mt-10 flex justify-center">
-      <mat-paginator class="w-full" [length]="totalItems" [pageIndex]="page - 1" [pageSize]="limit"
-        [pageSizeOptions]="[12]" (page)="onPageChange($event)">
-      </mat-paginator>
-    </div>
-  </div>
-</div>
+
+          <mat-paginator class="mt-10" [length]="totalItems" [pageIndex]="page - 1" [pageSize]="limit"
+            [pageSizeOptions]="[10, 20, 50]" (page)="onPageChange($event)">
+          </mat-paginator>
