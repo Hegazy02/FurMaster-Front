@@ -52,7 +52,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   priceRange: number[] = [0, 1500];
 
   ///////Pagination
-  limit = 10;
+  limit = 12;
   page = 1;
   totalItems = 0;
 
