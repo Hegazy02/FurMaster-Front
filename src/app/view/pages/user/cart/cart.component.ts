@@ -7,12 +7,11 @@ import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 import { Endpoints } from '../../../../core/constants/endpoints';
 import { Subject, takeUntil } from 'rxjs';
-import { PrimaryButtonComponent } from "../../../../shared/primary-button/primary-button.component";
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, EmptyDataComponent, PrimaryButtonComponent],
+  imports: [CommonModule, EmptyDataComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
@@ -97,7 +96,7 @@ this.cartService.cartItemsSubject.next(items);
       image: item.image, ///
     }));
     this.http
-      .post<any>('http://localhost:3000/api/stripe/create-checkout-session', {
+      .post<any>(`${Endpoints.BASE_URL}/api/stripe/create-checkout-session`, {
         products: products,
       })
       .subscribe(async (res) => {
