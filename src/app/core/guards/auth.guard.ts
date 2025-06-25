@@ -5,11 +5,11 @@ import { map } from 'rxjs';
 
 export function authGuard(role: string): CanActivateFn {
   return () => {
-    const oauthService: AuthService = inject(AuthService);
+    const authService: AuthService = inject(AuthService);
     const router = inject(Router);
-    return oauthService.getUserRole().pipe(
+    return authService.getUserRole().pipe(
       map((userRole) => {
-        if (userRole === role) return true;
+        if (userRole === role && authService.getToken()) return true;
 
         router.navigate(['/login']);
         return false;

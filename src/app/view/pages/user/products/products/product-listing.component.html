@@ -1,0 +1,86 @@
+<app-banner
+  [title]="categoryName || 'Products'"
+  [description]="
+    'Discover our exclusive collection in ' +
+    (categoryName ? categoryName : 'our store')
+  "
+  [imageUrl]="categoryImage || 'assets/images/default-banner.jpg'"
+>
+</app-banner>
+
+<div class="min-h-screen bg-gray-50">
+  <div class="container-lg py-8">
+    <div class="flex justify-center mb-4">
+      <app-search-input
+        class="w-full max-w-xl"
+        [search]="searchQuery"
+        placeholder="Search products..."
+        (searchEnter)="handleSearchChange($event)"
+        (searchDebounced)="handleSearchChange($event)"
+      >
+      </app-search-input>
+    </div>
+
+    <app-breadcrumb
+      *ngIf="categoryLoaded"
+      [items]="breadcrumbItems"
+    ></app-breadcrumb>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+      <div class="lg:w-64 w-full lg:sticky top-8 self-start z-10 lg:pl-0">
+        <app-product-filter
+          (filtersChanged)="handleFiltersChange($event)"
+          [selectedCategories]="selectedCategories"
+        ></app-product-filter>
+      </div>
+
+
+      <div class="flex-1 w-full">
+        <app-loader
+          *ngIf="productsStatus.type === StatusType.Loading"
+        ></app-loader>
+
+        <div
+          *ngIf="productsStatus.type === StatusType.Error"
+          class="text-center text-red-500 py-20"
+        >
+          <p>
+            {{
+              productsStatus.message ||
+                "Something went wrong while loading products."
+            }}
+          </p>
+        </div>
+
+        <ng-container
+          *ngIf="productsStatus.type === StatusType.Success && products"
+        >
+          <app-product-grid
+            [products]="products"
+            [showNewArrivals]="showNewArrivals"
+          >
+          </app-product-grid>
+
+          <div *ngIf="products.length === 0" class="text-center py-12">
+            <p class="text-gray-500 text-lg">
+              No products found matching your filters.
+            </p>
+            <button
+              class="mt-4 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 font-medium"
+              (click)="resetFilters()"
+            >
+              Clear All Filters
+            </button>
+          </div>
+
+    <div class="w-full mt-10 flex justify-center">
+      <mat-paginator
+        class="w-full"
+        [length]="totalItems"
+        [pageIndex]="page - 1"
+        [pageSize]="limit"
+        [pageSizeOptions]="[12]"
+        (page)="onPageChange($event)"
+      >
+      </mat-paginator>
+</div>

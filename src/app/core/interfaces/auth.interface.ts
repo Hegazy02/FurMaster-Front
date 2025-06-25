@@ -1,6 +1,8 @@
 import { User } from "./user.interface";
 
+
 export interface SignupBody {
+
   firstName: string;
   lastName: string;
   email: string;
@@ -18,5 +20,23 @@ export interface AuthResponse {
 export interface LoginBody {
   email: string;
   password: string;
+}
+
+
+export interface LoginResponse {
+  message: string;
+  data: string;
+}
+
+
+export interface ForgotPasswordResponse {
+  message: string;
+  otp: string;
+  lastTwoNumbersOfPhoneNumber: string;
+}
+
+
+export interface ResetPasswordData {
+  message: string;
 }
 

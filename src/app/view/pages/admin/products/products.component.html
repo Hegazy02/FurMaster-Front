@@ -11,7 +11,7 @@
   ></app-primary-drop-down>
 </div>
 
-<div class="table-container">
+<div class="table-container mt-3">
   <app-primary-table
     [columnNames]="columnNames"
     [customSizes]="['col-3', 'col-2', 'col-2', 'col-2', 'col-2', 'col-1']"
@@ -19,7 +19,8 @@
       productsResponse?.data?.length == 0 || productsResponse?.data == null
     "
   >
-    @for(product of productsResponse?.data; track $index) {
+    @if(productsStatus.type === StatusType.Success ){ @for(product of
+    productsResponse?.data; track $index) {
     <app-primary-table-row>
       <div class="user-cell d-flex" [ngClass]="getColumnClass(3)">
         <img
@@ -38,11 +39,11 @@
       <div [ngClass]="getColumnClass()">
         @if (product.offerPrice) {
         <span class="me-2 text-decoration-line-through text-secondary"
-          >${{ product.price }}</span
+          >${{ product.price }} {{ cureency }}</span
         >
-        <span class="fw-bold">${{ product.offerPrice }}</span>
+        <span class="fw-bold">${{ product.offerPrice }} {{ cureency }}</span>
         }@else {
-        <p class="fw-bold">${{ product.price }}</p>
+        <p class="fw-bold">${{ product.price }} {{ cureency }}</p>
         }
       </div>
 
@@ -96,6 +97,10 @@
       [title]="'No Products'"
       [subtitle]="'There are no products to display'"
     ></app-empty-data>
+    } }@else if (productsStatus.type === StatusType.Error) {
+    <app-error></app-error>
+    }@else {
+    <app-loader></app-loader>
     }
   </app-primary-table>
   <mat-paginator

@@ -1,0 +1,156 @@
+<h2 class="text-xl font-bold mb-4" [style.color]="'var(--primary-color)'">Filters</h2>
+
+<!-- Categories -->
+<div class="mb-6">
+  <button (click)="categoryOpen = !categoryOpen"
+    class="flex items-center justify-between w-full py-2 px-1 text-left font-semibold hover:bg-gray-50 rounded-md transition-all duration-200"
+    [style.color]="'var(--primary-color)'">
+    <span class="flex items-center">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        [style.color]="'var(--primary-color)'">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+      </svg>
+      <span class="text-base">Categories</span>
+    </span>
+    <svg class="w-4 h-4 text-gray-400 transition-transform duration-200" [class.rotate-180]="categoryOpen" fill="none"
+      stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div *ngIf="categoryOpen" class="space-y-2 pt-3 pl-1 animate-fadeIn">
+    <div *ngFor="let category of categories"
+      (click)="handleCategoryChange(category._id)"
+      class="flex items-center space-x-3 p-1 cursor-pointer">
+
+      <!-- Circle -->
+      <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors duration-200"
+        [ngClass]="{
+          'bg-[var(--primary-color)] border-[var(--primary-color)] text-white': selectedCategories.includes(category._id),
+          'bg-white border-gray-400 text-transparent': !selectedCategories.includes(category._id)
+        }">
+        ✓
+      </div>
+
+      <!-- Category Name -->
+      <span class="text-sm font-medium text-gray-700 hover:text-gray-900">{{ category.name }}</span>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Colors -->
+<div class="mb-6">
+  <button (click)="colorOpen = !colorOpen"
+    class="flex items-center justify-between w-full py-2 px-1 text-left font-semibold transition-all duration-200"
+    [style.color]="'var(--primary-color)'">
+    <span class="flex items-center">Colors</span>
+    <svg class="w-4 h-4 transition-transform duration-200" [class.rotate-180]="colorOpen" fill="none"
+      stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div *ngIf="colorOpen" class="pt-3 pl-1">
+    <div class="max-h-52 overflow-y-auto">
+      <div class="space-y-2">
+        <div *ngFor="let color of colorOptions"
+          class="flex items-center space-x-3 p-2 cursor-pointer transition-colors duration-150"
+          (click)="handleColorChange(color.id, $event)">
+
+          <!-- Circle always colored -->
+          <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors duration-200"
+            [style.backgroundColor]="color.hex"
+            [style.borderColor]="selectedColors.includes(color.id) ? 'var(--primary-color)' : '#d1d5db'">
+            <svg *ngIf="selectedColors.includes(color.id)" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd" />
+            </svg>
+          </div>
+
+          <!-- Color Name -->
+          <span class="text-xs font-medium text-gray-800 hover:text-gray-900 flex-1">{{ color.name }}</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Price -->
+<div class="mb-6">
+  <button (click)="priceOpen = !priceOpen"
+    class="flex items-center justify-between w-full py-2 px-1 text-left font-semibold transition-all duration-200"
+    [style.color]="'var(--primary-color)'">
+    <span class="flex items-center">Price Range</span>
+    <svg class="w-4 h-4 transition-transform duration-200" [class.rotate-180]="priceOpen" fill="none"
+      stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div *ngIf="priceOpen" class="pt-3 pl-1">
+    <div class="space-y-4">
+      <div class="space-y-3">
+        <div class="relative">
+          <label class="text-xs font-medium text-gray-600 uppercase">Min Price</label>
+          <input type="range" [min]="0" [max]="1500" [step]="50" [(ngModel)]="priceRange[0]"
+            (ngModelChange)="onPriceChange()" class="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style="background: linear-gradient(to right, var(--primary-color, rgba(13, 148, 136, 0.15)), var(--primary-color, rgba(13, 148, 136, 0.4)));" />
+        </div>
+        <div class="relative">
+          <label class="text-xs font-medium text-gray-600 uppercase">Max Price</label>
+          <input type="range" [min]="0" [max]="1500" [step]="50" [(ngModel)]="priceRange[1]"
+            (ngModelChange)="onPriceChange()" class="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style="background: linear-gradient(to right, var(--primary-color, rgba(13, 148, 136, 0.15)), var(--primary-color, rgba(13, 148, 136, 0.4)));" />
+        </div>
+      </div>
+      <div class="flex justify-between items-center">
+        <div class="text-center">
+          <span class="text-xs font-medium text-gray-500">Min</span>
+          <div class="text-base font-bold" [style.color]="'var(--primary-color)'">${{ priceRange[0] }}</div>
+        </div>
+        <div class="w-6 h-px bg-gray-300"></div>
+        <div class="text-center">
+          <span class="text-xs font-medium text-gray-500">Max</span>
+          <div class="text-base font-bold" [style.color]="'var(--primary-color)'">${{ priceRange[1] }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Arrivals -->
+<div class="mb-6">
+  <button (click)="newArrivalsOpen = !newArrivalsOpen"
+    class="flex items-center justify-between w-full py-2 px-1 text-left font-semibold transition-all duration-200"
+    [style.color]="'var(--primary-color)'">
+    <span class="flex items-center">New Arrivals</span>
+    <svg class="w-4 h-4 transition-transform duration-200" [class.rotate-180]="newArrivalsOpen" fill="none"
+      stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div *ngIf="newArrivalsOpen" class="pt-3 pl-1">
+    <div class="p-3 border border-gray-300 rounded-md">
+      <div class="flex items-center space-x-2">
+        <input type="checkbox" id="new-arrivals" [(ngModel)]="showNewArrivals"
+          (ngModelChange)="onNewArrivalsChange($event)" class="w-4 h-4 rounded border-2 focus:ring-2 focus:ring-offset-1"
+          [style.borderColor]="'var(--primary-color)'" />
+        <label for="new-arrivals" class="text-xs font-medium cursor-pointer flex-1">
+          Show only new arrivals
+        </label>
+        <div class="text-white px-1.5 py-0.5 rounded-full text-[10px] font-bold"
+          [style.backgroundColor]="'var(--primary-color)'">
+          NEW
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

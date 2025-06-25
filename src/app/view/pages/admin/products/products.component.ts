@@ -16,6 +16,10 @@ import { ApiResponse } from '../../../../core/interfaces/api-response.interface'
 import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
 import { ToastrService } from 'ngx-toastr';
 import { PrimaryModalComponent } from '../../../../shared/primary-modal/primary-modal.component';
+import { currency } from '../../../../core/constants/vairables';
+import { Status, StatusType } from '../../../../core/util/status';
+import { ErrorComponent } from '../../../../shared/error/error.component';
+import { LoaderComponent } from '../../../../shared/loader/loader.component';
 
 @Component({
   selector: 'app-products',
@@ -32,6 +36,8 @@ import { PrimaryModalComponent } from '../../../../shared/primary-modal/primary-
     PrimaryDropDownComponent,
     RouterLink,
     PrimaryModalComponent,
+    ErrorComponent,
+    LoaderComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -67,6 +73,9 @@ export class ProductsComponent implements AfterViewInit {
   sortBy = { value: '', apiValue: '' };
   searchInput = new Subject<string>();
   selectedDeletedProductId: string = '';
+  cureency = currency;
+  productsStatus = new Status();
+  StatusType = StatusType;
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
@@ -77,6 +86,7 @@ export class ProductsComponent implements AfterViewInit {
     this.getProducts();
   }
   getProducts() {
+    this.productsStatus = new Status(StatusType.Loading);
     this.productsService
       .getAdminProducts(
         this.page,
@@ -87,11 +97,13 @@ export class ProductsComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
-          console.log('data', data);
-
           this.productsResponse = data;
+          this.productsStatus = new Status(StatusType.Success);
         },
-        error: (err) => console.error(err),
+        error: (err) => {
+          this.productsStatus = new Status(StatusType.Error);
+          console.error(err);
+        },
       });
   }
   onSearch(value: string) {
@@ -140,9 +152,9 @@ export class ProductsComponent implements AfterViewInit {
     });
   }
 
-  onSortChange(data: { value: string; apiValue: string }) {
-    this.sortBy = data;
-    this.setQueryParamsToUrl({ sortBy: data.apiValue });
+  onSortChange(data: { title: string; apiValue: string }) {
+    this.sortBy = { value: data.title, apiValue: data.apiValue };
+    this.setQueryParamsToUrl({ sort: this.sortBy.apiValue });
     this.getProducts();
   }
   getColumnClass(cols?: number): string {

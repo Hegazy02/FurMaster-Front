@@ -5,9 +5,10 @@
     [search]="searchbyOrderNumber"
   ></app-search-input>
 </div>
-<div class="table-container">
+<div class="table-container mt-3">
   <app-primary-table [columnNames]="columnNames" [isEmpty]="orders.length == 0">
-    @for(order of orders; track $index) {
+    @if (ordersStatus.type == StatusType.Success) { @for(order of orders; track
+    $index) {
     <app-primary-table-row>
       <p [ngClass]="'col-' + 12 / columnNames.length" class="fw-bold">
         #{{ order.number }}
@@ -18,13 +19,14 @@
       <p [ngClass]="'col-' + 12 / columnNames.length">
         {{ order.customer | slice : 0 : 20 }}
       </p>
-      <p [ngClass]="'col-' + 12 / columnNames.length">
-        {{ order.amountTotal }}
+      <p [ngClass]="'col-' + 12 / columnNames.length" class="fw-bold">
+        {{ order.amountTotal + " " + currency }}
       </p>
       <div [ngClass]="'col-' + 12 / columnNames.length">
-        <p [ngClass]="'label' + ' ' + order.status">
-          {{ order.status }}
-        </p>
+        <app-status-dropdown
+          [selectedStatus]="order.status"
+          (statusChange)="handleStatusChange($event, order)"
+        ></app-status-dropdown>
       </div>
       <div [ngClass]="'col-' + 12 / columnNames.length">
         <p [ngClass]="'label' + ' ' + (order.paid ? 'completed' : 'cancelled')">
@@ -37,6 +39,10 @@
       [title]="'No Order'"
       [subtitle]="'There are no order to display'"
     ></app-empty-data>
+    } }@else if(ordersStatus.type == StatusType.Error){
+    <app-error></app-error>
+    } @else{
+    <app-loader></app-loader>
     }
   </app-primary-table>
   <mat-paginator
