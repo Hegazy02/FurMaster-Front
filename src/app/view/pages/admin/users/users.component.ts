@@ -144,7 +144,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     console.log("value", data);
     
     this.sortBy = { value: data.title, apiValue: data.apiValue };
-    console.log("soring", this.sortBy);
     
     this.setQueryParamsToUrl({ sort: this.sortBy.apiValue });
     this.getUsers();
