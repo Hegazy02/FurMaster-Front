@@ -8,8 +8,28 @@
   border-bottom: 1px solid #eee;
   font-family: 'Inter', Arial, sans-serif;
 }
-.top-bar a {
-  color: #007bff;
+
+
+.header-title {
+ font-family: Trebuchet MS, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 100;
+  text-align: justify center;
+  letter-spacing: 0.5px;
+  color: #111;
+  transition: letter-spacing 0.4s ease, color 0.4s ease;
+  cursor: default;
+  margin-right:40px;
+
+}
+
+.header-title:hover {
+  letter-spacing: 1px;
+  cursor: pointer;
+  color: #555; /* Slightly lighter on hover */
+}
+.top-bar i {
+color: var(--primary-color);
   text-decoration: underline;
   margin-left: 4px;
 }
@@ -54,16 +74,45 @@
     transform: translateX(0);
   }
 }
-.logo-text {
+
+.logo-icon {
+  width: 30px;
+  height: 30px;
+  /* background: var(--primary-color); */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+}
+.logo-icon :hover{
   cursor: pointer;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #222;
-  letter-spacing: 1px;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 0;
-  animation: typing 0.5s steps(12) forwards;
+  background: #a8a9aa;
+  color: white;
+}
+
+.logo-text {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.logo-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+
+}
+.logo-title:hover {
+
+  cursor: pointer;
+}
+.logo-icon:hover{
+  cursor: pointer;
 }
 
 /* Typewriter animation */
@@ -151,4 +200,8 @@
   .header-right {
     gap: 10px;
   }
-} 
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}

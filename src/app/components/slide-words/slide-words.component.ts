@@ -12,7 +12,7 @@ export class SlideWordsComponent {words = [
   { text: 'Elegant', fontClass: 'font1' },
   { text: 'Modern', fontClass: 'font2' },
   { text: 'Classic', fontClass: 'font3' },
-  { text: 'Stylish', fontClass: 'font4' }
+  { text: 'cool', fontClass: 'font4' },
  
 
 ];

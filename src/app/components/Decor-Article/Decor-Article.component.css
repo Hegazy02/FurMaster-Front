@@ -19,7 +19,7 @@ section {
 .section-header .subheading {
   letter-spacing: 2px;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--primary-color);
   font-weight: 500;
 }
 
@@ -125,6 +125,6 @@ h4 {
 }
 
 p {
-  color: #666;
+  color: var(--primary-color);
   font-size: 0.85rem;
 }
