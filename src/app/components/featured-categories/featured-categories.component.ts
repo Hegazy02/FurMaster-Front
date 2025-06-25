@@ -19,9 +19,9 @@ export class FeaturedCategoriesComponent {
 
   galleryItems = [
     { id: '1', title: 'Classic Wood Table', imgUrl: '/assets/images/table.webp' },
-    { id: '2', title: 'Vintage Wooden Chair', imgUrl: '/assets/images/Chair.webp' },
+    { id: '2', title: 'Vintage Wooden Chair', imgUrl: 'https://furniture123.co.uk/Images/BUNKOR00195433_3_Supersize.jpg?v=79' },
     { id: '3', title: 'Elegant Wooden Cabinet', imgUrl: '/assets/images/Cabinet.webp' },
-    { id: '4', title: 'Rustic Bookshelf', imgUrl: '/assets/images/bookshelf.webp' }
+    { id: '4', title: 'Rustic Bookshelf', imgUrl: 'https://m.media-amazon.com/images/I/81n5Rnh+3YL.jpg' }
   ];
   
 }

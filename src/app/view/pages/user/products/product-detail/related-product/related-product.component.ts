@@ -9,7 +9,7 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './related-product.component.html',
-  styleUrls: ["./related-Product.component.css"]
+  styleUrls: ["./related-product.component.css"]
 })
 export class RelatedProductComponent {
   @Input() relatedProducts: Product[] = [];

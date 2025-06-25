@@ -200,20 +200,6 @@ export const routes: Routes = [
       ).then((m) => m.ProductDetailPageComponent),
   },
   {
-    path: 'products',
-    loadComponent: () =>
-      import(
-        './view/pages/user/products/products/product-listing.component'
-      ).then((m) => m.ProductListingComponent),
-  },
-  {
-    path: 'products/:id',
-    loadComponent: () =>
-      import(
-        './view/pages/user/products/product-detail/product-detail-page.component'
-      ).then((m) => m.ProductDetailPageComponent),
-  },
-  {
     path: 'categories',
     loadComponent: () =>
       import(
