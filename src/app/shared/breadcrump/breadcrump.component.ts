@@ -9,5 +9,5 @@ import { RouterModule } from '@angular/router';
   templateUrl: './breadcrump.component.html'
 })
 export class BreadcrumbComponent {
-  @Input() items: { label: string; link?: string }[] = [];
+@Input() items: { label: string; link?: string; queryParams?: any }[] = [];
 }

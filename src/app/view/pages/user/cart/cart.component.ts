@@ -26,18 +26,22 @@ export class CartComponent {
     this.cartService
       .init()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (items) => {
-          console.log('items', items.length);
+      .subscribe({
+      next: (items) => {
+this.cartService.cartItemsSubject.next(items);
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load cart', err);
+        this.loading = false;
+      }
+    });
+}
 
-          this.cartService.cart = items;
-        },
-        (err) => console.error('Failed to load cart', err)
-      );
-  }
+
+
   get cartItem() {
-    this.loading = false;
-    return this.cartService.cart;
+    return this.cartService.cartItemsSubject.value;
   }
 
   sellingPrice(item: any): number {
@@ -92,9 +96,8 @@ export class CartComponent {
       image: item.image, ///
     }));
     this.http
-      .post<any>('http://localhost:3000/api/stripe/create-checkout-session', {
+      .post<any>(`${Endpoints.BASE_URL}/api/stripe/create-checkout-session`, {
         products: products,
-        userId: '68401db564e6f207ae0e11e2',
       })
       .subscribe(async (res) => {
         if (res.url) {
@@ -114,7 +117,7 @@ export class CartComponent {
       .addToCart(productId, variantId, newQuantity)
       .subscribe(() => {
         this.cartService.init().subscribe((items) => {
-          this.cartService.cart = items;
+this.cartService.cartItemsSubject.next(items);
         });
       });
   }
@@ -122,16 +125,15 @@ export class CartComponent {
   removeItem(variantId: string) {
     this.cartService.removeFromCart(variantId).subscribe(() => {
       this.cartService.init().subscribe((items) => {
-        this.cartService.cart = items;
+this.cartService.cartItemsSubject.next(items);
       });
     });
   }
   clearCart() {
-    console.log('asmaa');
+    console.log('start');
     this.cartService.clearCart().subscribe({
       next: () => {
-        console.log('Cear');
-        this.cartService.cart = [];
+this.cartService.cartItemsSubject.next([]);
       },
       error: (err) => {
         console.log('clear error', err);
@@ -139,10 +141,10 @@ export class CartComponent {
     });
   }
 
-  /*getImageByVariantId(colors: any[] = [], variantId?: string): string {
-    const variant = colors.find(c => c._id === variantId);
-    return variant?.image || 'default.jpg';
-  }*/
+ getTotalQuantity(): number {
+  return this.cartItem.reduce((total, item) => total + item.quantity, 0);
+}
+
   ngOnDestroy() {
     this.destroy$.unsubscribe();
   }

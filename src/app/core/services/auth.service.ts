@@ -28,6 +28,10 @@ export class AuthService {
       context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
     });
   }
+
+    isLoggedIn(): boolean {
+  return !!this.getToken(); 
+}
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }

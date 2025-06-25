@@ -1,0 +1,33 @@
+<section class="featured-section" id="featured">
+  <div class="featured-header">
+    <h2>Featured categories</h2>
+    <span class="dot">❤️</span>
+  </div>
+
+  <div class="category-grid">
+    <a
+      class="category-card"
+      *ngFor="let category of featuredCategories"
+      [routerLink]="['/categories']"
+      data-animate
+    >
+      <div class="icon-wrapper">
+        <img [src]="category.icon" [alt]="category.name" />
+      </div>
+      <p>{{ category.name }}</p>
+    </a>
+  </div>
+</section>
+
+
+<section class="gallery-section">
+  <div class="gallery-grid">
+    <a *ngFor="let item of galleryItems" class="gallery-card" [routerLink]="['/products']">
+      <img [src]="item.imgUrl" [alt]="item.title" />
+      <div class="overlay">
+        <h3>{{ item.title }}</h3>
+      </div>
+    </a>
+  </div>
+</section>
+
