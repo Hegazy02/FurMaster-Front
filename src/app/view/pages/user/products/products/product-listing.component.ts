@@ -65,6 +65,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
@@ -72,7 +73,6 @@ export class ProductListingComponent implements OnInit, OnDestroy {
         this.searchQuery = params['key'] || '';
 
         this.categoryIdParam = params['categoryId'];
-
         this.selectedCategories = [this.categoryIdParam];
 
         const colorIdParam = params['colorId'];
