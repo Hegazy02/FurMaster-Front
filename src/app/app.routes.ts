@@ -159,10 +159,25 @@ export const routes: Routes = [
     loadComponent: () => import('./view/pages/user/products/product-detail/product-detail-page.component').then(m => m.ProductDetailPageComponent)
   },
   {
+    path: 'products',
+    loadComponent: () => import('./view/pages/user/products/products/product-listing.component').then(m => m.ProductListingComponent)
+  },
+  {
+    path: 'products/:id',
+    loadComponent: () => import('./view/pages/user/products/product-detail/product-detail-page.component').then(m => m.ProductDetailPageComponent)
+  },
+  {
     path: 'categories',
     loadComponent: () => import('./view/pages/user/categories/categories/categories.component').then(m => m.CategoriesComponent)
   },
-    {
+  {
+    path: 'categories/:id',
+    loadComponent: () =>
+      import('./view/pages/user/products/products/product-listing.component').then(
+        (m) => m.ProductListingComponent
+      ),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./view/pages/not-found/not-found.component').then(

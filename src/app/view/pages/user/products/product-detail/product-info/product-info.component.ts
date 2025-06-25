@@ -1,7 +1,7 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '.././../../../../../core/interfaces/product.interface';
 import { RouterModule } from '@angular/router';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CartService } from '../../../../../../core/services/cart.service';
 import { Subject, takeUntil } from 'rxjs';
 
