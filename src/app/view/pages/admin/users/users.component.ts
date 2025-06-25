@@ -12,6 +12,9 @@ import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
+import { Status, StatusType } from '../../../../core/util/status';
+import { ErrorComponent } from '../../../../shared/error/error.component';
+import { LoaderComponent } from '../../../../shared/loader/loader.component';
 
 @Component({
   selector: 'app-users',
@@ -26,6 +29,8 @@ import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/p
     MatPaginator,
     EmptyDataComponent,
     PrimaryDropDownComponent,
+    ErrorComponent,
+    LoaderComponent,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
@@ -44,6 +49,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   searchbyEmail: string = '';
   searchInput = new Subject<string>();
   sortBy = { value: '', apiValue: '' };
+  usersStatus = new Status();
+  StatusType = StatusType;
+
   private destroy$ = new Subject<void>();
   dropDownOptions = [
     { title: 'Ascending', apiValue: 'asc' },
@@ -58,17 +66,33 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.getUsers();
     this.subScribeToSearchInput();
   }
+
   getUsers() {
+    console.log("ss",   this.sortBy.apiValue);
+    
+    this.usersStatus.type = StatusType.Loading;
     this.userService
-      .getUsers(this.page, this.limit, this.searchbyEmail, this.sortBy.apiValue)
+      .getUsers(
+        this.page,
+        this.limit,
+        this.searchbyEmail,
+        'createdAt',
+        this.sortBy.apiValue
+      )
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
+          console.log(data);
+
           this.users = data.data ?? [];
           this.totalPages = data.totalPages ?? 0;
           this.total = data.total ?? 0;
+          this.usersStatus = new Status(StatusType.Success);
         },
-        error: (err) => console.error(err),
+        error: (err) => {
+          this.usersStatus = new Status(StatusType.Error);
+          console.error(err);
+        },
       });
   }
   onPageChange(event: PageEvent): void {
@@ -102,6 +126,8 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.limit = params['limit'] ?? 10;
         this.searchbyEmail = params['email'] ?? '';
         if (params['sort']) {
+          console.log("ppppppppp", params['sort']);
+          
           this.sortBy = {
             value: this.derivedOption(params['sort']),
             apiValue: params['sort'],
@@ -116,8 +142,10 @@ export class UsersComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge',
     });
   }
-  onSortChange(value: string) {
-    this.sortBy = { value: this.derivedOption(value), apiValue: value };
+  onSortChange(data: { value: string; apiValue: string }) {
+    console.log("value", data);
+    
+    this.sortBy = { value: this.derivedOption(data.value), apiValue: data.apiValue };
     this.setQueryParamsToUrl({ sort: this.sortBy.apiValue });
     this.getUsers();
   }
