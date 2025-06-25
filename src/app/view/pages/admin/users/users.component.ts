@@ -124,6 +124,8 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.limit = params['limit'] ?? 10;
         this.searchbyEmail = params['email'] ?? '';
         if (params['sort']) {
+          console.log("ppppppppp", params['sort']);
+          
           this.sortBy = {
             value: this.derivedOption(params['sort']),
             apiValue: params['sort'],
