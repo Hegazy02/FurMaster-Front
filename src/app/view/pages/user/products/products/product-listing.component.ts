@@ -25,7 +25,7 @@ import { Subject, takeUntil } from 'rxjs';
     MatPaginatorModule,
     BreadcrumbComponent,
     LoaderComponent,
-    BannerComponent,
+    BannerComponent
   ],
   templateUrl: './product-listing.component.html',
   styleUrls: ['./product-listing.component.css'],
@@ -52,55 +52,55 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   priceRange: number[] = [0, 1500];
 
   ///////Pagination
-  limit = 10;
+  limit = 12;
   page = 1;
   totalItems = 0;
-  categoryIdParam = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private categoryService: CategoriesService,
     private productService: ProductsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
         this.page = +params['page'] || 1;
         this.searchQuery = params['key'] || '';
 
-        this.categoryIdParam = params['categoryId'];
-        this.selectedCategories = [this.categoryIdParam];
+        const categoryIdParam = params['categoryId'];
+        this.selectedCategories = Array.isArray(categoryIdParam)
+          ? categoryIdParam
+          : categoryIdParam
+            ? [categoryIdParam]
+            : [];
 
         const colorIdParam = params['colorId'];
         this.selectedColors = Array.isArray(colorIdParam)
           ? colorIdParam
           : colorIdParam
-          ? [colorIdParam]
-          : [];
+            ? [colorIdParam]
+            : [];
 
-        this.priceRange = [
-          +params['minPrice'] || 0,
-          +params['maxPrice'] || 1500,
-        ];
+        this.priceRange = [+params['minPrice'] || 0, +params['maxPrice'] || 1500];
         this.showNewArrivals = params['newArrivals'] === 'true';
 
         ///// Breadcrumbs
         if (this.selectedCategories.length === 1) {
           this.categoryLoaded = false;
-          this.categoryService
-            .getCategoryById(this.selectedCategories[0])
+          this.categoryService.getCategoryById(this.selectedCategories[0])
             .pipe(takeUntil(this.destroy$))
             .subscribe({
               next: (res) => {
+                console.log('Full category response:', res);
+
                 const category = res?.data;
+                console.log('category object:', category);
                 if (category) {
                   this.categoryName = category.name || 'Category';
-                  this.categoryImage =
-                    category.image || 'assets/images/default-banner.jpg';
+                  this.categoryImage = category.image || 'assets/images/default-banner.jpg';
                   this.breadcrumbItems = [
                     { label: 'Home', link: '/' },
                     { label: 'Products', link: '/products' },
@@ -113,6 +113,8 @@ export class ProductListingComponent implements OnInit, OnDestroy {
                   ];
                 }
                 this.categoryLoaded = true;
+                console.log(' category:', this.categoryName, this.categoryImage);
+
               },
               error: () => {
                 this.breadcrumbItems = [
@@ -120,7 +122,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
                   { label: 'Products' },
                 ];
                 this.categoryLoaded = true;
-              },
+              }
             });
         } else {
           this.categoryName = '';
@@ -148,10 +150,13 @@ export class ProductListingComponent implements OnInit, OnDestroy {
         colorId: this.selectedColors,
         sortBy: 'popularity',
         limit: this.limit,
+
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
+          console.log('Products:', res);
+
           this.products = res.success ? res.data : [];
           this.totalItems = res.total ?? 0;
           this.productsStatus = new Status(StatusType.Success);
@@ -200,9 +205,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
       page: this.page,
       limit: this.limit,
       key: this.searchQuery || undefined,
-      categoryId: this.selectedCategories.length
-        ? this.selectedCategories
-        : undefined,
+      categoryId: this.selectedCategories.length ? this.selectedCategories : undefined,
       colorId: this.selectedColors.length ? this.selectedColors : undefined,
       minPrice: this.priceRange[0],
       maxPrice: this.priceRange[1],
