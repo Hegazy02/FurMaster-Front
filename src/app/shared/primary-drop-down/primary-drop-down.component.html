@@ -1,17 +1,23 @@
 <div class="dropdown">
   <button
-    class="primary-dropdown-button dropdown-toggle"
+    [class]="
+      'primary-dropdown-button d-flex align-items-center gap-2 justify-content-between' + ' ' + classes
+    "
     type="button"
     id="dropdownMenuButton1"
     data-bs-toggle="dropdown"
     aria-expanded="false"
   >
-    {{ buttonText }}
+    <span> {{ buttonText }} </span
+    ><i class="material-icons">keyboard_arrow_down</i>
   </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+  <ul
+    [class]="'dropdown-menu' + ' ' + classes"
+    aria-labelledby="dropdownMenuButton1"
+  >
     @for (option of options; track $index) {
     <li>
-      <a class="dropdown-item" (click)="option.onClick()">{{ option.title }}</a>
+      <a class="dropdown-item" (click)="onClick(option)">{{ option.title }}</a>
     </li>
     }
   </ul>

@@ -30,7 +30,7 @@
     background-color: #ffdcdc;
     color: #ff0000;
     padding: 2px 8px;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 14px;
     width: fit-content;
 }
@@ -50,4 +50,8 @@ app-primary-table-row {
 .product-title {
     font-size: 14px;
     font-weight: 600;
+}
+
+.actions img {
+    cursor: pointer;
 }

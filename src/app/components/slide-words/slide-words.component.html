@@ -1,0 +1,12 @@
+<section class="word-slideshow">
+  <div class="fade-left"></div>
+  <div class="fade-right"></div>
+
+  <div class="track-container">
+    <div class="track">
+      <span *ngFor="let word of words" [ngClass]="word.fontClass">
+        {{ word.text }}<span class="dot">◦</span>
+      </span>
+    </div>
+  </div>
+</section>

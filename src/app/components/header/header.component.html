@@ -1,0 +1,28 @@
+<div class="top-bar">
+  <span
+    >Free Delivery on orders over $120. Don't miss discount.
+    <a href="#">Shop now</a></span
+  >
+</div>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="logo d-flex align-content-center">
+        <div class="logo-icon">
+          <span class="logo-text">F</span>
+        </div>
+        <span class="logo-title">FurMaster</span>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a routerLink="/">Home</a>
+      <a routerLink="/products">Shop <span class="badge-hot">HOT</span></a>
+      <a routerLink="/categories">Categories</a>
+    </nav>
+    <div class="header-right">
+      <i class="fa fa-search" [routerLink]="['/products']"></i>
+      <i class="fa fa-shopping-cart" [routerLink]="['/cart']"></i>
+      <i class="fa fa-user" [routerLink]="['/my-account']"></i>
+    </div>
+  </div>
+</header>

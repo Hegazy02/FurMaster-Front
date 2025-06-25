@@ -7,13 +7,16 @@ import { EmptyDataComponent } from '../../../../shared/empty-data/empty-data.com
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import {
   AdminProduct,
-  AdminProductColor,
+  AdminProductVariant,
 } from '../../../../core/interfaces/admin-product.interface';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
 import { ApiResponse } from '../../../../core/interfaces/api-response.interface';
 import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/primary-drop-down.component';
+import { ToastrService } from 'ngx-toastr';
+import { PrimaryModalComponent } from '../../../../shared/primary-modal/primary-modal.component';
+import { currency } from '../../../../core/constants/vairables';
 
 @Component({
   selector: 'app-products',
@@ -28,11 +31,18 @@ import { PrimaryDropDownComponent } from '../../../../shared/primary-drop-down/p
     EmptyDataComponent,
     MatPaginator,
     PrimaryDropDownComponent,
+    RouterLink,
+    PrimaryModalComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
 export class ProductsComponent implements AfterViewInit {
+  toastr = inject(ToastrService);
+  productsService = inject(ProductsService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   columnNames: string[] = [
     'name',
     'price',
@@ -42,25 +52,23 @@ export class ProductsComponent implements AfterViewInit {
     'actions',
   ];
   dropDownOptions = [
-    { title: 'Heigh price', onClick: () => this.onSortChange('price_desc') },
-    { title: 'Low price', onClick: () => this.onSortChange('price_asc') },
-    { title: 'A-Z', onClick: () => this.onSortChange('title_asc') },
-    { title: 'Z-A', onClick: () => this.onSortChange('title_desc') },
-    { title: 'Latest', onClick: () => this.onSortChange('createdAt_desc') },
-    { title: 'Oldest', onClick: () => this.onSortChange('createdAt_asc') },
-    { title: 'Popularity', onClick: () => this.onSortChange('popularity') },
-    { title: 'Out of stock', onClick: () => this.onSortChange('out_of_stock') },
+    { title: 'Heigh price', apiValue: 'price_desc' },
+    { title: 'Low price', apiValue: 'price_asc' },
+    { title: 'A-Z', apiValue: 'title_asc' },
+    { title: 'Z-A', apiValue: 'title_desc' },
+    { title: 'Latest', apiValue: 'createdAt_desc' },
+    { title: 'Oldest', apiValue: 'createdAt_asc' },
+    { title: 'Popularity', apiValue: 'popularity' },
+    { title: 'Out of stock', apiValue: 'out_of_stock' },
   ];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  productsService = inject(ProductsService);
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   productsResponse?: ApiResponse<AdminProduct[]>;
   limit = 10;
   page = 1;
   searchbyTitle: string = '';
   sortBy = { value: '', apiValue: '' };
   searchInput = new Subject<string>();
+  selectedDeletedProductId: string = '';
+  cureency = currency;
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
@@ -81,7 +89,6 @@ export class ProductsComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
-          console.log('data', data);
 
           this.productsResponse = data;
         },
@@ -133,19 +140,38 @@ export class ProductsComponent implements AfterViewInit {
       queryParamsHandling: 'merge',
     });
   }
-  onSortChange(value: string) {
-    this.sortBy = { value: this.derivedOption(value), apiValue: value };
-    this.setQueryParamsToUrl({ sortBy: value });
+
+  onSortChange(data: { value: string; apiValue: string }) {
+    this.sortBy = data;
+    this.setQueryParamsToUrl({ sortBy: data.apiValue });
     this.getProducts();
   }
-  getColumnClass(increaseBy: number = 0): string {
+  getColumnClass(cols?: number): string {
     const length = this.columnNames.length || 1;
     const colSize = Math.floor(12 / length);
-    return `col-${colSize + increaseBy}`;
+    return `col-${cols ?? colSize}`;
   }
 
-  getQuantity(colors: AdminProductColor[]): number {
+  getQuantity(colors: AdminProductVariant[]): number {
     return colors.reduce((acc, color) => acc + color.stock, 0);
+  }
+  deletePrdouct(id: string) {
+    const index = this.productsResponse?.data.findIndex((p) => p._id === id)!;
+    const product = this.productsResponse?.data.find((p) => p._id === id);
+
+    this.productsService
+      .deleteProduct(product!._id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.productsResponse?.data.splice(index, 1);
+          this.toastr.success('Product deleted Successfully');
+        },
+        error: (err) => {
+          this.toastr.error(err);
+          console.error(err);
+        },
+      });
   }
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();

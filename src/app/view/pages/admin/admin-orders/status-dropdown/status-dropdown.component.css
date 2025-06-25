@@ -1,0 +1,31 @@
+ .rotate-180 {
+   transform: rotate(180deg);
+ }
+
+ .label {
+   padding: 2px 8px;
+   border-radius: 6px;
+   font-size: 14px;
+   width: fit-content;
+   margin: 2px 0;
+ }
+
+ .pending {
+   color: #b49113;
+   background-color: #fdf7e3;
+ }
+ .processing {
+   color: #228888;
+   background-color: #caf8f3;
+ }
+
+ .completed {
+   color: #22883a;
+   background-color: #caf8d5;
+ }
+
+ .cancelled {
+   background-color: #ffdcdc;
+   color: #ff0000;
+
+ }

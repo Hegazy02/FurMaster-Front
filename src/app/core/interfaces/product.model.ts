@@ -1,17 +1,18 @@
 export interface Product {
-  _id?: string;
-  name: string;
-  price?: number;
-  offerPrice?: number;
-  image?: string;
+  _id: string;
+  title: string;
   description: string;
   categoryId: string | Category;
   ratingCounter?: number;
   rating?: number;
-  colors?: {
+  price?: number;
+  offerPrice?: number;
+
+  colors: {
     colorId?: string | Color;
     stock?: number;
     image?: string;
+    variantId?: string;
   }[];
 }
 
@@ -23,5 +24,10 @@ export interface Category {
 export interface Color {
   _id: string;
   name: string;
-  hexCode?: string;
+  hex: string;
+}
+
+export interface ColorResponse {
+  success: boolean;
+  data: Color[];
 }

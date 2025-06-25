@@ -1,4 +1,4 @@
-<div class="d-flex">
+<div class="d-flex gap-3">
   <app-search-input
     [searchBy]="'title'"
     (searchChange)="onSearch($event)"
@@ -6,21 +6,22 @@
   ></app-search-input>
   <app-primary-drop-down
     [buttonText]="sortBy.value == '' ? 'Sort By' : sortBy.value"
+    (onClickChange)="onSortChange($event)"
     [options]="dropDownOptions"
   ></app-primary-drop-down>
 </div>
 
-<div class="table-container">
+<div class="table-container  mt-3">
   <app-primary-table
     [columnNames]="columnNames"
-    [customSizes]="['col-3', 'col-2', 'col-2', 'col-2', 'col-2']"
+    [customSizes]="['col-3', 'col-2', 'col-2', 'col-2', 'col-2', 'col-1']"
     [isEmpty]="
       productsResponse?.data?.length == 0 || productsResponse?.data == null
     "
   >
     @for(product of productsResponse?.data; track $index) {
     <app-primary-table-row>
-      <div class="user-cell d-flex" [ngClass]="getColumnClass(1)">
+      <div class="user-cell d-flex" [ngClass]="getColumnClass(3)">
         <img
           [src]="product.colors[0].image ?? 'https://i.imgur.com/EJLFNOw.png'"
           alt="product"
@@ -36,10 +37,12 @@
       </div>
       <div [ngClass]="getColumnClass()">
         @if (product.offerPrice) {
-        <span class="me-2 text-decoration-line-through text-secondary">${{ product.price }}</span>
-        <span class="fw-bold">${{ product.offerPrice }}</span>
+        <span class="me-2 text-decoration-line-through text-secondary"
+          >${{ product.price }} {{ cureency }}</span
+        >
+        <span class="fw-bold">${{ product.offerPrice }} {{ cureency }}</span>
         }@else {
-        <p class="fw-bold">${{ product.price }}</p>
+        <p class="fw-bold">${{ product.price }} {{ cureency }}</p>
         }
       </div>
 
@@ -50,7 +53,6 @@
           [ngClass]="'color-circle'"
         ></span>
         }
-        <!-- {{ getColors(product.colors) }} -->
       </p>
       <div [ngClass]="getColumnClass()">
         @if (getQuantity(product.colors)>0) {
@@ -60,20 +62,33 @@
         }
       </div>
 
-      <!-- @for (item of product.colors; track $index) {
-        <span
-          [ngClass]="{
-            'text-danger': item.stock < 1,
-            'fw-bold': item.stock < 1
-          }"
-          >{{ item.stock }}
-        </span>
-        @if($index + 1 != product.colors.length) {<span>/</span>} } -->
       <div [ngClass]="getColumnClass()" class="d-flex rating">
         <p>
           {{ product.rating + " (" + product.ratingCounter + ")" }}
         </p>
         <i class="material-icons">star</i>
+      </div>
+      <div [ngClass]="getColumnClass(1)" class="d-flex actions gap-4">
+        <img
+          src="../../../../assets/icons/edit.svg"
+          alt="Edit"
+          [routerLink]="['/admin/products', product._id]"
+        />
+
+        <app-primary-modal
+          [title]="'Delete Product'"
+          [body]="'Are you sure you want to delete this product?'"
+          [buttonText]="'Delete'"
+          [buttonTextColor]="'red'"
+          (clickButton)="deletePrdouct(selectedDeletedProductId)"
+        >
+          <img
+            src="../../../../assets/icons/delete.svg"
+            alt="Delete"
+            (click)="selectedDeletedProductId = product._id"
+            #content
+          />
+        </app-primary-modal>
       </div>
     </app-primary-table-row>
     }@empty {
