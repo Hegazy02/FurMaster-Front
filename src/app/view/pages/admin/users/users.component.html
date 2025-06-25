@@ -7,11 +7,13 @@
   <app-primary-drop-down
     [buttonText]="sortBy.value == '' ? 'Sort By' : sortBy.value"
     [options]="dropDownOptions"
+    (onClickChange)="onSortChange($event)"
   ></app-primary-drop-down>
 </div>
-<div class="table-container  mt-3">
+<div class="table-container mt-3">
   <app-primary-table [columnNames]="columnNames" [isEmpty]="users.length == 0">
-    @for(user of users; track $index) {
+    @if (usersStatus.type == StatusType.Success) { @for(user of users; track
+    $index) {
     <app-primary-table-row>
       <div
         class="user-cell d-flex"
@@ -44,6 +46,10 @@
       [title]="'No Users'"
       [subtitle]="'There are no users to display'"
     ></app-empty-data>
+    } }@else if(usersStatus.type == StatusType.Error){
+    <app-error> </app-error>
+    }@else {
+    <app-loader></app-loader>
     }
   </app-primary-table>
   <mat-paginator
