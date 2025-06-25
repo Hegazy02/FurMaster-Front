@@ -23,12 +23,14 @@ export class UserService {
     page: number,
     limit: number,
     searchbyEmail: string,
+    orderBy: string,
     sort: string
   ): Observable<ApiResponse<User[]>> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString())
       .set('email', searchbyEmail)
+      .set('orderBy', orderBy)
       .set('sort', sort);
     return this.http.get<ApiResponse<User[]>>(Endpoints.USERS, { params });
   }
