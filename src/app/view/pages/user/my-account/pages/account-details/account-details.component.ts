@@ -28,7 +28,6 @@ export class AccountDetailsComponent {
   onSubmit(accountDetailsForm: FormGroup) {
     this.updateUser(accountDetailsForm)?.subscribe({
       next: (data) => {
-        console.log('data', data);
         this.authService.user = data;
         this.toastr.success('User updated successfully.');
       },

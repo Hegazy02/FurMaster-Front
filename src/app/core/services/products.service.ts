@@ -104,7 +104,6 @@ export class ProductsService {
     formData.append('colorId', variant.colorId);
     formData.append('stock', variant.stock.toString());
     formData.append('image', variant.image!);
-    console.log('productId', productId);
 
     return this.http.patch<AdminProduct>(
       `${Endpoints.ADMIN_PRODUCTS}/${productId}/variant/${variant._id}`,

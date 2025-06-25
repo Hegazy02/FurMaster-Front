@@ -21,12 +21,10 @@ export class SuccessComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.sessionId = params['session_id'];
       if (this.sessionId) {
-        console.log(this.sessionId);
         this.http
           .get(`${Endpoints.BASE_URL}/api/orders/by-session/${this.sessionId}`)
           .subscribe({
             next: (res) => {
-              console.log('Order response:', res);
               this.order = res;
             },
             error: (err) => console.error('Order fetch error:', err),

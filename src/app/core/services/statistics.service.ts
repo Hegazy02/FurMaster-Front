@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CustomerGenderStatistics } from '../interfaces/customer-gender-statistics.interface';
 import { Endpoints } from '../constants/endpoints';
 import {
+  BestSellingProductsResponse,
   TotalOrdersAmountStatisticsResoponse,
   TotalOrdersStatisticsResoponse,
 } from '../interfaces/total-orders-statistics.interface';
@@ -40,6 +41,23 @@ export class StatisticsService {
       Endpoints.TOTAL_ORDERS_AMOUNT_STATISTICS,
       {
         params: { from: from.toISOString(), to: to.toISOString() },
+      }
+    );
+  }
+  getBestSellingProducts(
+    limit: number,
+    from?: Date,
+    to?: Date
+  ): Observable<BestSellingProductsResponse> | null {
+    const params = new HttpParams().set('limit', limit);
+    if (from) params.set('from', from.toISOString());
+
+    if (to) params.set('to', to.toISOString());
+
+    return this.http.get<BestSellingProductsResponse>(
+      Endpoints.BEST_SELLING_PRODUCTS,
+      {
+        params: params,
       }
     );
   }

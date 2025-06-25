@@ -16,3 +16,13 @@ export interface TotalOrdersAmountStatistics {
   percentageChange: number;
   dailyTotals: { date: Date; totalOrders: number }[];
 }
+export interface BestSellingProductsResponse {
+  success: boolean;
+  data: BestSellingProduct[];
+}
+export interface BestSellingProduct {
+  title: string;
+  stock: number;
+  totalOrder: number;
+  price: number;
+}

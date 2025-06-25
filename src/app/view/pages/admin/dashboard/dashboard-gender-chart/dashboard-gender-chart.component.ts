@@ -149,7 +149,6 @@ export class DashboardGenderChartComponent implements OnInit {
       ?.pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
-          console.log(result);
           this.customerGenderStatistics = result.data;
           this.setChartOptions();
           this.setDetailsChartOptions();
@@ -176,5 +175,8 @@ export class DashboardGenderChartComponent implements OnInit {
         data: this.customerGenderStatistics.monthly.map((item) => item.female),
       },
     ];
+  }
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 }

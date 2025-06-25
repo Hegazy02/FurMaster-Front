@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -13,6 +13,9 @@ import {
 import { PrimaryTableComponent } from '../../components/primary-table/primary-table.component';
 import { PrimaryTableRowComponent } from '../../components/primary-table-row/primary-table-row.component';
 import { currency } from '../../../../../core/constants/vairables';
+import { StatisticsService } from '../../../../../core/services/statistics.service';
+import { Subject, takeUntil } from 'rxjs';
+import { BestSellingProductsResponse } from '../../../../../core/interfaces/total-orders-statistics.interface';
 
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
@@ -52,22 +55,25 @@ export class DashboardProductsChartsComponent {
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   currency = currency;
+  statisticsService = inject(StatisticsService);
+  bestSellingProductsByDateResponse?: BestSellingProductsResponse;
+  bestSellingProductsResponse?: BestSellingProductsResponse;
+
+  private destroy$ = new Subject<void>();
 
   constructor() {
     this.chartOptions = {
       series: [
         {
-          name: 'distibuted',
-          data: [21, 22, 10, 28, 16, 21, 13, 30],
+          name: 'Best Selling Products',
+          data: [1],
         },
       ],
       chart: {
         height: 200,
         type: 'bar',
         events: {
-          click: function (chart, w, e) {
-            // console.log(chart, w, e)
-          },
+          click: function (chart, w, e) {},
         },
       },
       colors: [
@@ -96,16 +102,7 @@ export class DashboardProductsChartsComponent {
         show: false,
       },
       xaxis: {
-        categories: [
-          ['Awesome', 'Bed'],
-          ['Cool', 'Chair'],
-          ['Lamp'],
-          'Amber',
-          ['Peter', 'Brown'],
-          ['Mary', 'Evans'],
-          ['David', 'Wilson'],
-          ['Lily', 'Roberts'],
-        ],
+        categories: [],
         labels: {
           style: {
             colors: [
@@ -123,5 +120,62 @@ export class DashboardProductsChartsComponent {
         },
       },
     };
+  }
+  ngOnInit(): void {
+    this.getBestSellingProductsByDateRange(
+      4,
+      new Date(new Date().setDate(new Date().getDate() - 7)),
+      new Date()
+    );
+    this.getBestSellingProducts(8);
+  }
+  getBestSellingProductsByDateRange(limit: number, from: Date, to: Date) {
+    this.statisticsService
+      .getBestSellingProducts(limit, from, to)
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          this.bestSellingProductsByDateResponse = result;
+        },
+        error: (err) => {
+          console.log('customer statistics error', err);
+        },
+      });
+  }
+  getBestSellingProducts(limit: number) {
+    this.statisticsService
+      .getBestSellingProducts(limit)
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          this.bestSellingProductsResponse = result;
+          this.setChartOptions();
+        },
+        error: (err) => {
+          console.log('customer statistics error', err);
+        },
+      });
+  }
+  setChartOptions() {
+    this.chartOptions = {
+      ...this.chartOptions,
+      series: [
+        {
+          name: 'Best Selling Products',
+          data: this.bestSellingProductsResponse!.data.map(
+            (item) => item.totalOrder
+          ),
+        },
+      ],
+      xaxis: {
+        ...this.chartOptions.xaxis,
+        categories: this.bestSellingProductsResponse!.data.map(
+          (item) => item.title
+        ),
+      },
+    };
+  }
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 }
