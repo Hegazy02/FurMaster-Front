@@ -16,34 +16,10 @@
     color: var(--label-color);
 }
 
-ul a {
-    cursor: pointer;
 
-}
-
-ul a:active {
-    background-color: var(--primary-color);
-    color: white;
-
-}
-
-.dropdown {
-    margin-left: 20px;
-}
-
-.custom-dropdown-button {
-    background-color: white;
-    color: var(--dark-label-color);
-    border: none;
-    padding: 16px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: var(--admin-shadow);
-
-}
 .table-container{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height:91%;
+    /* min-height:91%; */
 }

@@ -1,5 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute, RouterOutlet } from '@angular/router';
+import {
+  Router,
+  NavigationEnd,
+  ActivatedRoute,
+  RouterOutlet,
+} from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { AdminSidebarComponent } from '../../layout/admin-side-bar/admin-side-bar.component';
@@ -7,7 +12,7 @@ import { AdminSidebarComponent } from '../../layout/admin-side-bar/admin-side-ba
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterOutlet,AdminSidebarComponent],
+  imports: [RouterOutlet, AdminSidebarComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css',
 })
@@ -25,12 +30,12 @@ export class AdminComponent implements OnInit, OnDestroy {
           map(() => this.getRouteData())
         )
         .subscribe((data) => {
-          this.pageTitle = data?.title || 'Admin Dashboard';
+          this.pageTitle = data?.title || 'Dashboard';
         })
     );
 
     // Set initial title
-    this.pageTitle = this.getRouteData()?.title || 'Admin Dashboard';
+    this.pageTitle = this.getRouteData()?.title || 'Dashboard';
   }
 
   private getRouteData(): any {

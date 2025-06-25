@@ -9,9 +9,11 @@
   <h3>{{ title }}</h3>
   }
   <p>{{ subtitle }}</p>
-  <app-primary-button
-    [text]="'Add Card'"
-    (onClickChange)="onClick()"
-    [col]="'col-3'"
-  ></app-primary-button>
+  <div class="w-100">
+    <app-primary-button
+      [text]="'Add Card'"
+      (onClickChange)="onClick()"
+      [col]="'col-12'"
+    ></app-primary-button>
+  </div>
 </div>

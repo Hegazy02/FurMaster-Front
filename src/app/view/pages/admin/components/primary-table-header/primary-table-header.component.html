@@ -1,5 +1,7 @@
-<div class="header-container rounded row">
-  @for (colName of columnNames; track $index) {
+<div class="header-container rounded row mt-0">
+  @if (customSizes.length) { @for (size of customSizes; track $index) {
+  <th [ngClass]="size">{{ columnNames[$index] }}</th>
+  } }@else { @for (colName of columnNames; track $index) {
   <th [ngClass]="'col-' + 12 / columnNames.length">{{ colName }}</th>
-  }
+  } }
 </div>

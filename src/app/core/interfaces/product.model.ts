@@ -1,8 +1,6 @@
 export interface Product {
-      image?: string;
-
-  _id?: string;
-  name: string;
+  _id: string;
+  title: string;
   description: string;
   categoryId: string | Category;
   ratingCounter?: number;
@@ -10,10 +8,11 @@ export interface Product {
   price?: number;
   offerPrice?: number;
 
-  colors?: {
+  colors: {
     colorId?: string | Color;
     stock?: number;
     image?: string;
+    variantId?: string;
   }[];
 }
 
@@ -25,5 +24,10 @@ export interface Category {
 export interface Color {
   _id: string;
   name: string;
-  hexCode?: string;
+  hex: string;
+}
+
+export interface ColorResponse {
+  success: boolean;
+  data: Color[];
 }

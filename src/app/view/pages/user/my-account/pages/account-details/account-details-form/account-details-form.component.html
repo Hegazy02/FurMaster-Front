@@ -2,34 +2,38 @@
   <div class="personal-details">
     <h3>Personal Details</h3>
     <div class="row g-5 mb-2">
-      <app-account-details-form-input
+      <app-primary-form-input
         [formControl]="getFormControl('firstName')"
         [label]="'First Name'"
+        [placeholder]="'First Name'"
         [required]="true"
         [isInvalid]="isInvalid(getFormControl('firstName'))"
         class="col-6"
-      ></app-account-details-form-input>
-      <app-account-details-form-input
+      ></app-primary-form-input>
+      <app-primary-form-input
         [formControl]="getFormControl('lastName')"
         [label]="'Last Name'"
+        [placeholder]="'Last Name'"
         [required]="true"
         class="col-6"
         [isInvalid]="isInvalid(getFormControl('lastName'))"
-      ></app-account-details-form-input>
+      ></app-primary-form-input>
     </div>
     <div class="row g-5">
-      <app-account-details-form-input
+      <app-primary-form-input
         [formControl]="getFormControl('email')"
         [label]="'Email'"
+        [placeholder]="'Email'"
         [required]="true"
         class="col-6"
-      ></app-account-details-form-input
-      ><app-account-details-form-input
+      ></app-primary-form-input
+      ><app-primary-form-input
         [formControl]="getFormControl('phoneNumber')"
         [label]="'Phone number'"
+        [placeholder]="'Phone number'"
         class="col-6"
         [isInvalid]="isInvalid(getFormControl('phoneNumber'))"
-      ></app-account-details-form-input>
+      ></app-primary-form-input>
     </div>
 
     <div class="gender-container mt-3">
@@ -64,21 +68,24 @@
   <div class="address-details">
     <h3>Address Details</h3>
     <div class="row g-5 mb-2">
-      <app-account-details-form-input
+      <app-primary-form-input
         [formControl]="getFormControl('city')"
-        [label]="'city'"
+        [label]="'City'"
+        [placeholder]="'City'"
         class="col-6"
-      ></app-account-details-form-input>
-      <app-account-details-form-input
+      ></app-primary-form-input>
+      <app-primary-form-input
         [formControl]="getFormControl('street')"
-        [label]="'street'"
+        [label]="'Street'"
+        [placeholder]="'Street'"
         class="col-6"
-      ></app-account-details-form-input>
+      ></app-primary-form-input>
     </div>
-    <app-account-details-form-input
+    <app-primary-form-input
       [formControl]="getFormControl('address')"
-      [label]="'address'"
-    ></app-account-details-form-input>
+      [label]="'Address'"
+      [placeholder]="'Address'"
+    ></app-primary-form-input>
   </div>
   <app-primary-button (onClickChange)="onSubmit()"></app-primary-button>
 </form>

@@ -1,0 +1,41 @@
+<section class="charts d-flex flex-column flex-md-row">
+  <div class="col-12 col-md-6 p-4 rounded-4">
+    <p class="font-bold text-xl">Best Selling Products</p>
+    <div id="chart">
+      <apx-chart
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [dataLabels]="chartOptions.dataLabels!"
+        [plotOptions]="chartOptions.plotOptions!"
+        [yaxis]="chartOptions.yaxis!"
+        [xaxis]="chartOptions.xaxis!"
+        [legend]="chartOptions.legend!"
+        [colors]="chartOptions.colors!"
+        [grid]="chartOptions.grid!"
+      ></apx-chart>
+    </div>
+  </div>
+  <div class="col-12 col-md-6 p-4 rounded-4">
+    <p class="font-bold text-xl">Best Selling Products This Week</p>
+
+    <app-primary-table
+      [columnNames]="['Title', 'Total Order', 'Stock', 'Price']"
+      [customSizes]="['col-4', 'col-3', 'col-2', 'col-3']"
+      [isEmpty]="false"
+      [hasMinHeight]="false"
+    >
+      @if(bestSellingProductsByDateResponse){ @for (product of
+      bestSellingProductsByDateResponse.data; track $index) {
+
+      <app-primary-table-row>
+        <p class="col-4 font-bold">{{ product.title }}</p>
+        <p class="col-3">{{ product.totalOrder }} {{ currency }}</p>
+        <p class="col-2">{{ product.stock }}</p>
+        <p class="col-3">{{ product.price }} {{ currency }}</p>
+      </app-primary-table-row>
+      }@empty {
+        <p class="text-center text-lg mt-4">No Products</p>
+      } }
+    </app-primary-table>
+  </div>
+</section>
