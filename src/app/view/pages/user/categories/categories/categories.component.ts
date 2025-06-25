@@ -12,14 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SearchInputComponent } from '../../../../../shared/search-input/search-input.component';
 import { BannerComponent } from '../../../../../shared/banner/banner.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import {
-  trigger,
-  transition,
-  style,
-  animate,
-  query,
-  stagger,
-} from '@angular/animations';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'app-categories',
@@ -31,7 +24,7 @@ import {
     LoaderComponent,
     SearchInputComponent,
     BannerComponent,
-    MatPaginatorModule,
+    MatPaginatorModule
   ],
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
@@ -42,19 +35,13 @@ import {
           ':enter',
           [
             style({ opacity: 0, transform: 'scale(0.95)' }),
-            stagger(
-              '300ms',
-              animate(
-                '400ms ease-out',
-                style({ opacity: 1, transform: 'scale(1)' })
-              )
-            ),
+            stagger('300ms', animate('400ms ease-out', style({ opacity: 1, transform: 'scale(1)' })))
           ],
           { optional: true }
-        ),
-      ]),
-    ]),
-  ],
+        )
+      ])
+    ])
+  ]
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
   private categoriesService = inject(CategoriesService);
@@ -73,7 +60,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   totalPages = 1;
   totalItems = 0;
 
-  breadcrumbItems = [{ label: 'Home', link: '/' }, { label: 'Categories' }];
+  breadcrumbItems = [
+    { label: 'Home', link: '/' },
+    { label: 'Categories' }
+  ];
 
   ngOnInit() {
     this.loadCategories();
@@ -86,8 +76,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       ...(this.searchQuery && { search: this.searchQuery }),
     };
 
-    this.categoriesService
-      .getCategories(params)
+    this.categoriesService.getCategories(params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -99,11 +88,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error loading categories:', error);
-          this.categoriesStatus = new Status(
-            StatusType.Error,
-            'Failed to load categories.'
-          );
-        },
+          this.categoriesStatus = new Status(StatusType.Error, 'Failed to load categories.');
+        }
       });
   }
 
