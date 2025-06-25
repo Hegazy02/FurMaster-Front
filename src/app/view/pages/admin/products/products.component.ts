@@ -89,7 +89,6 @@ export class ProductsComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
-          console.log('data', data);
 
           this.productsResponse = data;
         },

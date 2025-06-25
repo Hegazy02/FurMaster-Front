@@ -65,7 +65,6 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
@@ -73,8 +72,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
         this.searchQuery = params['key'] || '';
 
         this.categoryIdParam = params['categoryId'];
-        console.log('categoryIdParam', this.categoryIdParam);
-        
+
         this.selectedCategories = [this.categoryIdParam];
 
         const colorIdParam = params['colorId'];
@@ -98,10 +96,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
               next: (res) => {
-                console.log('Full category response:', res);
-
                 const category = res?.data;
-                console.log('category object:', category);
                 if (category) {
                   this.categoryName = category.name || 'Category';
                   this.categoryImage =
@@ -118,11 +113,6 @@ export class ProductListingComponent implements OnInit, OnDestroy {
                   ];
                 }
                 this.categoryLoaded = true;
-                console.log(
-                  ' category:',
-                  this.categoryName,
-                  this.categoryImage
-                );
               },
               error: () => {
                 this.breadcrumbItems = [
@@ -162,8 +152,6 @@ export class ProductListingComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          console.log('Products:', res);
-
           this.products = res.success ? res.data : [];
           this.totalItems = res.total ?? 0;
           this.productsStatus = new Status(StatusType.Success);
