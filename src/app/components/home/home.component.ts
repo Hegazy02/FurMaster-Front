@@ -7,14 +7,17 @@ import { FeaturedCategoriesComponent } from '../featured-categories/featured-cat
 import { SlideWordsComponent } from '../slide-words/slide-words.component';
 import { ProductSlideshowComponent } from '../product-slideshow/product-slideshow.component';
 import { DecorArticleComponent } from '../Decor-Article/Decor-Article.component';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent , FeaturedCategoriesComponent , SlideWordsComponent , ProductSlideshowComponent , DecorArticleComponent],
+  imports: [CommonModule, ProductCardComponent , FeaturedCategoriesComponent , SlideWordsComponent , ProductSlideshowComponent , DecorArticleComponent , RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent  {
   products: Product[] = [];
 
