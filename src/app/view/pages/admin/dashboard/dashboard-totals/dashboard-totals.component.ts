@@ -170,7 +170,7 @@ export class DashboardTotalsComponent implements OnInit {
       .subscribe({
         next: (result) => {
           this.totalOrdersAmountStatistics = result.data;
-          console.log('orders', this.totalOrdersAmountStatistics.percentageChange);
+     
 
           this.setTotalOrdersAmountStatistics(
             this.totalOrdersAmountStatistics!
@@ -178,5 +178,8 @@ export class DashboardTotalsComponent implements OnInit {
         },
         error: (error) => console.error(error),
       });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 }

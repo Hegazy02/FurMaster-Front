@@ -227,7 +227,6 @@ toggleCart(): void {
 
 
   addToWishlist(): void {
-    console.log('Adding to wishlist:', this.product._id);
     this.toastr.success(`${this.product.title} has been added to your wishlist!`);
   }
 

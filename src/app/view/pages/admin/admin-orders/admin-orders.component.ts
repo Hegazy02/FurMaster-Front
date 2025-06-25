@@ -97,7 +97,6 @@ export class AdminOrdersComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
-          console.log('result', result);
 
           this.orders = result.data ?? [];
           this.total = result.total ?? 0;
@@ -111,7 +110,6 @@ export class AdminOrdersComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
-          console.log('result', result);
           this.getOrders(this.page, 10, this.searchbyOrderNumber);
         },
         error: (error) => console.error(error),

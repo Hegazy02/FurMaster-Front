@@ -15,40 +15,27 @@
       ></apx-chart>
     </div>
   </div>
-  <div class=" col-12 col-md-6 p-4 rounded-4">
+  <div class="col-12 col-md-6 p-4 rounded-4">
     <p class="font-bold text-xl">Best Selling Products This Week</p>
 
     <app-primary-table
-      [columnNames]="['Name', 'Total Order', 'Status', 'Stock', 'Price']"
-      [customSizes]="['col-3', 'col-3', 'col-2', 'col-2', 'col-2']"
+      [columnNames]="['Title', 'Total Order', 'Stock', 'Price']"
+      [customSizes]="['col-4', 'col-3', 'col-2', 'col-3']"
       [isEmpty]="false"
       [hasMinHeight]="false"
     >
+      @if(bestSellingProductsByDateResponse){ @for (product of
+      bestSellingProductsByDateResponse.data; track $index) {
+
       <app-primary-table-row>
-        <p class="col-3 font-bold">Awesome Bed</p>
-        <p class="col-3">4000 {{ currency }}</p>
-        <p class="col-2">In Stock</p>
-        <p class="col-2">10</p>
-        <p class="col-2">150 {{ currency }}</p> </app-primary-table-row
-      ><app-primary-table-row>
-        <p class="col-3 font-bold">Awesome Bed</p>
-        <p class="col-3">4000 {{ currency }}</p>
-        <p class="col-2">In Stock</p>
-        <p class="col-2">10</p>
-        <p class="col-2">150 {{ currency }}</p> </app-primary-table-row
-      ><app-primary-table-row>
-        <p class="col-3 font-bold">Awesome Bed</p>
-        <p class="col-3">4000 {{ currency }}</p>
-        <p class="col-2">In Stock</p>
-        <p class="col-2">10</p>
-        <p class="col-2">150 {{ currency }}</p> </app-primary-table-row
-      ><app-primary-table-row>
-        <p class="col-3 font-bold">Awesome Bed</p>
-        <p class="col-3">4000 {{ currency }}</p>
-        <p class="col-2">In Stock</p>
-        <p class="col-2">10</p>
-        <p class="col-2">150 {{ currency }}</p>
+        <p class="col-4 font-bold">{{ product.title }}</p>
+        <p class="col-3">{{ product.totalOrder }} {{ currency }}</p>
+        <p class="col-2">{{ product.stock }}</p>
+        <p class="col-3">{{ product.price }} {{ currency }}</p>
       </app-primary-table-row>
+      }@empty {
+        <p class="text-center text-lg mt-4">No Products</p>
+      } }
     </app-primary-table>
   </div>
 </section>
