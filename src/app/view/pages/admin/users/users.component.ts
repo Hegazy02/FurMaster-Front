@@ -68,8 +68,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   getUsers() {
-    console.log("ss",   this.sortBy.apiValue);
-    
     this.usersStatus.type = StatusType.Loading;
     this.userService
       .getUsers(
@@ -126,8 +124,6 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.limit = params['limit'] ?? 10;
         this.searchbyEmail = params['email'] ?? '';
         if (params['sort']) {
-          console.log("ppppppppp", params['sort']);
-          
           this.sortBy = {
             value: this.derivedOption(params['sort']),
             apiValue: params['sort'],
@@ -142,10 +138,12 @@ export class UsersComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge',
     });
   }
-  onSortChange(data: { value: string; apiValue: string }) {
+  onSortChange(data: { title: string; apiValue: string }) {
     console.log("value", data);
     
-    this.sortBy = { value: this.derivedOption(data.value), apiValue: data.apiValue };
+    this.sortBy = { value: data.title, apiValue: data.apiValue };
+    console.log("soring", this.sortBy);
+    
     this.setQueryParamsToUrl({ sort: this.sortBy.apiValue });
     this.getUsers();
   }
