@@ -1,8 +1,17 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+  Output,
+  input,
+  Input,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../../../../../../core/services/products.service';
 import { Category } from '../../../../../../core/interfaces/category.interface';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-product-filter',
@@ -10,11 +19,13 @@ import { Category } from '../../../../../../core/interfaces/category.interface';
   imports: [CommonModule, FormsModule],
   templateUrl: './product-filter.component.html',
 })
-export class ProductFilterComponent implements OnInit {
+export class ProductFilterComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
   categories: Category[] = [];
   colorOptions: { name: string; hex?: string; id: string }[] = [];
 
-  selectedCategories: string[] = [];
+  @Input() selectedCategories: string[] = [];
   selectedColors: string[] = [];
   priceRange: number[] = [0, 1500];
   showNewArrivals: boolean = false;
@@ -39,21 +50,27 @@ export class ProductFilterComponent implements OnInit {
   }
 
   fetchCategories(): void {
-    this.productService.getCategories().subscribe((res) => {
-      if (res.success) this.categories = res.data;
-    });
+    this.productService
+      .getCategories()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        if (res.success) this.categories = res.data;
+      });
   }
 
   fetchColors(): void {
-    this.productService.getColors().subscribe((res) => {
-      if (res.success) {
-        this.colorOptions = res.data.map((c) => ({
-          id: c._id,
-          name: c.name,
-          hex: c.hex,
-        }));
-      }
-    });
+    this.productService
+      .getColors()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        if (res.success) {
+          this.colorOptions = res.data.map((c) => ({
+            id: c._id,
+            name: c.name,
+            hex: c.hex,
+          }));
+        }
+      });
   }
 
   emitChanges(): void {
@@ -65,17 +82,22 @@ export class ProductFilterComponent implements OnInit {
     });
   }
 
-  handleCategoryChange(id: string, event: any): void {
-    event.target.checked
-      ? this.selectedCategories.push(id)
-      : (this.selectedCategories = this.selectedCategories.filter((c) => c !== id));
+  handleCategoryChange(categoryId: string) {
+    const index = this.selectedCategories.indexOf(categoryId);
+    if (index > -1) {
+      this.selectedCategories.splice(index, 1);
+    } else {
+      this.selectedCategories.push(categoryId);
+    }
     this.emitChanges();
   }
 
-  handleColorChange(id: string, event: any): void {
-    event.target.checked
-      ? this.selectedColors.push(id)
-      : (this.selectedColors = this.selectedColors.filter((c) => c !== id));
+  handleColorChange(id: string, event?: any): void {
+    if (this.selectedColors.includes(id)) {
+      this.selectedColors = this.selectedColors.filter((c) => c !== id);
+    } else {
+      this.selectedColors.push(id);
+    }
     this.emitChanges();
   }
 
@@ -94,5 +116,10 @@ export class ProductFilterComponent implements OnInit {
     this.priceRange = [0, 1500];
     this.showNewArrivals = false;
     this.emitChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,5 +1,4 @@
 import {
-  HttpContext,
   HttpContextToken,
   HttpEvent,
   HttpEventType,
@@ -16,11 +15,11 @@ export const loadingInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
   const shouldTrack = req.context.get(SHOULD_TRACK_LOADING);
+
   if (!shouldTrack) {
     return next(req);
   }
-  console.log("Loading Interceptor");
-  
+
   const loadingService = inject(LoadingService);
   loadingService.setLoading(true);
 

@@ -22,7 +22,7 @@ ul.my-account-side-bar li:hover::after,
 
 ul.my-account-side-bar li::before {
     width: 100%;
-    background-color: var(--grey);
+    background-color: white;
 }
 
 ul.my-account-side-bar li:hover,

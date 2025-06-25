@@ -1,4 +1,3 @@
-<router-outlet></router-outlet>
 <ngx-spinner
   bdColor="rgba(51,51,51,0.8)"
   size="medium"
@@ -7,3 +6,12 @@
 >
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
+@if (showHeaderAndFooter()) {
+<app-header></app-header>
+}
+
+<router-outlet></router-outlet>
+
+@if (showHeaderAndFooter()) {
+<app-footer></app-footer>
+}

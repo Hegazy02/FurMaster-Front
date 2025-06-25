@@ -1,16 +1,38 @@
 <div class="success-container">
-  <div class="success-card">
-    <svg class="success-icon" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" />
-    </svg>
-    <h1 class="success-title">Payment Successful! 🎉</h1>
-    <p class="success-message">Thank you for your order! Our team will contact you shortly.</p>
-    <a href="/" class="home-button">
-      Return to Homepage
-      <svg class="arrow-icon" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
-      </svg>
-    </a>
+  <div class="success-icon"></div>
+  <h2>Payment Success!</h2>
+  <p>Thank you for shopping with us!</p>
+  <p>Your order <strong>#{{ order.orderId }}</strong> is confirmed and in processing.</p>
+  <div class="points">total payment:{{ order.amountTotal }} </div>
+  <div class="support-text">
+    Need assistance? We’re here for you! If you have any questions or need support, contact
+    <b>Customer Support</b>.
+  </div>
+<button class="details-btn" (click)="toggleDetails()">Order Details</button>
+
+<div *ngIf="showDetails && order" class="order-details">
+  <h2>Order Summary</h2>
+  <div class="summary-info">
+    <p><strong>Order ID:</strong> {{ order.orderId }}</p>
+    <p><strong>Total:</strong> {{ order.amountTotal }} {{ order.currency }}</p>
+    <p><strong>Status:</strong> {{ order.status }}</p>
+    <p><strong>Email:</strong> {{ order.customerEmail || 'Not provided' }}</p>
+   <!-- <p><strong>Payment Method:</strong> 
+      {{ order.cardBrand || 'N/A' }} 
+      <span *ngIf="order.cardLast4">****{{ order.cardLast4 }}</span>
+    </p>-->
+  </div>
+
+  <h3>Products in this Order</h3>
+  <div class="products-list">
+    <div *ngFor="let product of order.products" class="product-card">
+      <img [src]="product.image" alt="{{ product.name }}" />
+      <div class="product-details">
+        <h4>{{ product.name }}</h4>
+        <p><strong>Quantity:</strong> {{ product.quantity }}</p>
+        <p><strong>Total Price:</strong> {{ product.totalPrice }} USD</p>
+      </div>
+    </div>
   </div>
 </div>
-
+</div>

@@ -1,20 +1,23 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Endpoints } from '../constants/endpoints';
 import { Observable } from 'rxjs/internal/Observable';
 import { User } from '../interfaces/user.interface';
 import { ApiResponse } from '../interfaces/api-response.interface';
+import { SHOULD_TRACK_LOADING } from '../interceptors/loading.interceptor';
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   http = inject(HttpClient);
- 
-  updateUser(data: [string, any][]): Observable<any> | null {
+
+  updateUser(data: [string, any][]): Observable<User> {
     const formData = new FormData();
     data.forEach(([key, value]) => formData.append(key, value));
 
-    return this.http.patch(Endpoints.USER, formData);
+    return this.http.patch<User>(Endpoints.USER, formData, {
+      context: new HttpContext().set(SHOULD_TRACK_LOADING, true),
+    });
   }
   getUsers(
     page: number,

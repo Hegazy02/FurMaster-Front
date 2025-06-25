@@ -12,7 +12,8 @@ import { AdminOrder } from '../interfaces/admin-order.interface';
   providedIn: 'root',
 })
 export class OrdersService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
 
   getUserOrders(
     page: number,
@@ -37,12 +38,10 @@ export class OrdersService {
     if (dateFrom) params = params.set('dateFrom', dateFrom);
     if (dateTo) params = params.set('dateTo', dateTo);
 
-    return this.http.get<ApiResponse<Order[]>>(
-      'http://localhost:3000/api/orders',
-      { params }
-    );
+    return this.http.get<ApiResponse<Order[]>>(`${Endpoints.BASE_URL}/api/orders`, { params });
   }
-  getAllOrders(
+
+   getAllOrders(
     page: number,
     limit: number,
     number: string
@@ -59,3 +58,4 @@ export class OrdersService {
     return this.http.patch<Data>(`${Endpoints.ADMIN_ORDERS}/${id}`, { status });
   }
 }
+

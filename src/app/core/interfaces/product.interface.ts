@@ -23,13 +23,13 @@ export interface ProductColor {
 }
 
 
-// API query parameters
 export interface ProductQueryParams {
   key?: string;
   page?: number;
   minPrice?: number;
   maxPrice?: number;
-  categoryId?: string;
-  colorId?: string;
+  categoryId?: string[];
+  colorId?: string[];
   sortBy?: 'price_asc' | 'price_desc' | 'popularity';
+    limit: number
 }
