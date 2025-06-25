@@ -11,6 +11,9 @@ import { AdminOrder } from '../../../../core/interfaces/admin-order.interface';
 import { OrdersService } from '../../../../core/services/orders.service';
 import { StatusDropdownComponent } from './status-dropdown/status-dropdown.component';
 import { currency } from '../../../../core/constants/vairables';
+import { Status, StatusType } from '../../../../core/util/status';
+import { LoaderComponent } from "../../../../shared/loader/loader.component";
+import { ErrorComponent } from "../../../../shared/error/error.component";
 
 @Component({
   selector: 'app-admin-orders',
@@ -25,7 +28,9 @@ import { currency } from '../../../../core/constants/vairables';
     EmptyDataComponent,
     MatPaginator,
     StatusDropdownComponent,
-  ],
+    LoaderComponent,
+    ErrorComponent
+],
   templateUrl: './admin-orders.component.html',
   styleUrl: './admin-orders.component.css',
 })
@@ -41,6 +46,9 @@ export class AdminOrdersComponent {
   orders: AdminOrder[] = [];
   searchInput = new Subject<string>();
   currency = currency;
+  ordersStatus = new Status();
+  StatusType = StatusType;
+
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.getQueryParamsFromUrl();
@@ -92,16 +100,20 @@ export class AdminOrdersComponent {
   }
 
   getOrders(page: number = 1, limit: number = 10, number: string = '') {
+    this.ordersStatus = new Status(StatusType.Loading);
     this.ordersService
       .getAllOrders(page, limit, number)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
-
           this.orders = result.data ?? [];
           this.total = result.total ?? 0;
+          this.ordersStatus = new Status(StatusType.Success);
         },
-        error: (error) => console.error(error),
+        error: (error) => {
+          this.ordersStatus = new Status(StatusType.Error);
+          console.error(error);
+        },
       });
   }
   handleStatusChange(status: string, order: AdminOrder): void {
@@ -110,9 +122,12 @@ export class AdminOrdersComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
-          this.getOrders(this.page, 10, this.searchbyOrderNumber);
+          // this.getOrders(this.page, 10, this.searchbyOrderNumber);
         },
-        error: (error) => console.error(error),
+        error: (error) => {
+          this.ordersStatus = new Status(StatusType.Error);
+          console.error(error);
+        },
       });
   }
   ngOnDestroy(): void {
