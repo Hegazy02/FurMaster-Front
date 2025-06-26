@@ -4,7 +4,7 @@
 </app-banner>
 
 <div class="min-h-screen bg-grey">
-<div class="container-lg py-8">
+  <div class="container-lg py-8">
 
     <div class="flex justify-center mb-4">
       <app-search-input class="w-full max-w-xl" [search]="searchQuery" placeholder="Search products..."
@@ -14,12 +14,17 @@
 
     <app-breadcrumb *ngIf="categoryLoaded" [items]="breadcrumbItems"></app-breadcrumb>
 
+    <div class="lg:hidden flex justify-start mb-4">
+      <button (click)="isMobileFilterOpen = true" class="px-4 py-2 bg-[var(--primary-color)] text-white rounded-md">
+        Filters
+      </button>
+    </div>
+
     <div class="flex flex-col lg:flex-row gap-8 items-start">
 
-    <div class="lg:w-64 w-full sticky top-36 self-start z-10 lg:pl-0">
-  <app-product-filter (filtersChanged)="handleFiltersChange($event)"></app-product-filter>
-</div>
-
+      <div class="hidden lg:block w-full lg:w-64 lg:sticky lg:top-36 self-start z-10 lg:pl-0">
+        <app-product-filter (filtersChanged)="handleFiltersChange($event)"></app-product-filter>
+      </div>
 
       <div class="flex-1 w-full">
 
@@ -41,6 +46,7 @@
             </button>
           </div>
         </ng-container>
+
       </div>
     </div>
 
@@ -50,4 +56,20 @@
       </mat-paginator>
     </div>
   </div>
+
+  <div *ngIf="isMobileFilterOpen"
+  class="fixed inset-0 bg-black bg-opacity-50 z-[1050] flex justify-start transition-opacity duration-300">
+
+    <div
+      class="w-3/4 max-w-xs bg-white h-full p-4 overflow-y-auto transform transition-transform duration-300"
+      [ngClass]="{ '-translate-x-full': !isMobileFilterOpen, 'translate-x-0': isMobileFilterOpen }">
+
+      <div class="flex justify-between items-center mb-4">
+        <button (click)="isMobileFilterOpen = false" class="text-gray-600 text-2xl">&times;</button>
+      </div>
+
+      <app-product-filter (filtersChanged)="handleFiltersChange($event)"></app-product-filter>
+    </div>
+  </div>
+
 </div>

@@ -43,6 +43,8 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   categoryImage?: string;
   categoryName?: string;
   categoryLoaded = false;
+  isMobileFilterOpen = false;
+
 
   breadcrumbItems: { label: string; link?: string }[] = [];
 
