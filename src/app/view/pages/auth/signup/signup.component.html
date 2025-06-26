@@ -9,10 +9,6 @@
   <div class="auth-right">
     <div class="form-container container-fluid">
       <h2>Sign up</h2>
-      <p class="subtext">
-        Already have an account?
-        <span class="link" [routerLink]="['/login']">Login</span>
-      </p>
 
       <form [formGroup]="signupForm">
         <ng-container *ngFor="let field of formFields">
@@ -26,7 +22,10 @@
               [formControlName]="field.name"
             >
             </app-primary-form-input>
-            <p *ngIf="isInvalid(signupForm.controls[field.name])" class="error-message">
+            <p
+              *ngIf="isInvalid(signupForm.controls[field.name])"
+              class="error-message"
+            >
               {{ field.error }}
             </p>
           </div>
@@ -56,7 +55,10 @@
             Gender is required
           </div>
         </div>
-
+        <p class="subtext">
+          Already have an account?
+          <span class="link" [routerLink]="['/login']">Login</span>
+        </p>
         <app-primary-button
           (onClickChange)="onSubmit()"
           [col]="'col-12'"
