@@ -3,8 +3,7 @@
 **FurMaster** is a full-featured e-commerce web application designed for seamless shopping and efficient store management. Built with **Angular** for the front-end and **Express.js** for the back-end, FurMaster includes modern features like JWT-based authentication, role-based authorization, product filtering, order management, and integrations with third-party services like **Stripe** and **Twilio**.
 
 ---
-## 🔗 Live Demo
-### Coming soon!
+## 🔗 [Live](https://furmaster.netlify.app/)
 ## 🚀 Tech Stack
 
 - **Frontend:** Angular
