@@ -1,0 +1,75 @@
+<app-banner [title]="categoryName || 'Products'"
+  [description]="'Discover our exclusive collection in ' + (categoryName ? categoryName : 'our store')"
+  [imageUrl]="categoryImage || 'assets/images/default-banner.jpg'">
+</app-banner>
+
+<div class="min-h-screen bg-grey">
+  <div class="container-lg py-8">
+
+    <div class="flex justify-center mb-4">
+      <app-search-input class="w-full max-w-xl" [search]="searchQuery" placeholder="Search products..."
+        (searchEnter)="handleSearchChange($event)" (searchDebounced)="handleSearchChange($event)">
+      </app-search-input>
+    </div>
+
+    <app-breadcrumb *ngIf="categoryLoaded" [items]="breadcrumbItems"></app-breadcrumb>
+
+    <div class="lg:hidden flex justify-start mb-4">
+      <button (click)="isMobileFilterOpen = true" class="px-4 py-2 bg-[var(--primary-color)] text-white rounded-md">
+        Filters
+      </button>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+      <div class="hidden lg:block w-full lg:w-64 lg:sticky lg:top-36 self-start z-10 lg:pl-0">
+        <app-product-filter (filtersChanged)="handleFiltersChange($event)"></app-product-filter>
+      </div>
+
+      <div class="flex-1 w-full">
+
+        <app-loader *ngIf="productsStatus.type === StatusType.Loading"></app-loader>
+
+        <div *ngIf="productsStatus.type === StatusType.Error" class="text-center text-red-500 py-20">
+          <p>{{ productsStatus.message || 'Something went wrong while loading products.' }}</p>
+        </div>
+
+        <ng-container *ngIf="productsStatus.type === StatusType.Success && products">
+          <app-product-grid [products]="products" [showNewArrivals]="showNewArrivals">
+          </app-product-grid>
+
+          <div *ngIf="products.length === 0" class="text-center py-12">
+            <p class="text-gray-500 text-lg">No products found matching your filters.</p>
+            <button class="mt-4 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 font-medium"
+              (click)="resetFilters()">
+              Clear All Filters
+            </button>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+
+    <div class="w-full mt-10 flex justify-center">
+      <mat-paginator class="w-full" [length]="totalItems" [pageIndex]="page - 1" [pageSize]="limit"
+        [pageSizeOptions]="[12]" (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+  </div>
+
+  <div *ngIf="isMobileFilterOpen"
+  class="fixed inset-0 bg-black bg-opacity-50 z-[1050] flex justify-start transition-opacity duration-300">
+
+    <div
+      class="w-3/4 max-w-xs bg-white h-full p-4 overflow-y-auto transform transition-transform duration-300"
+      [ngClass]="{ '-translate-x-full': !isMobileFilterOpen, 'translate-x-0': isMobileFilterOpen }">
+
+      <div class="flex justify-between items-center mb-4">
+        <button (click)="isMobileFilterOpen = false" class="text-gray-600 text-2xl">&times;</button>
+      </div>
+
+      <app-product-filter (filtersChanged)="handleFiltersChange($event)"></app-product-filter>
+    </div>
+  </div>
+
+</div>

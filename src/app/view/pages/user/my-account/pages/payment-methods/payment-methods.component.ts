@@ -51,7 +51,6 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
       .getPaymentMethods()
       ?.subscribe({
         next: (data) => {
-          console.log('cards', data);
           this.getPaymentMethodsStatus = new Status(StatusType.Success);
 
           this.cards = data;
@@ -63,7 +62,6 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
       });
   }
   addCard() {
-    console.log('add cardddd');
   }
   onSetAsDefault(card: PaymentMethod) {
     this.setDefaultStatus = new Status(StatusType.Loading);

@@ -16,8 +16,6 @@ export class PaymetMethodsService {
     cardId: string,
     data: any
   ): Observable<PaymentMethod[]> | null {
-    console.log('id', cardId);
-
     return this.http.patch<PaymentMethod[]>(
       Endpoints.PAYMENT_METHODS + `/${cardId}`,
       data

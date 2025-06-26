@@ -1,0 +1,55 @@
+<app-banner
+  [title]="'Explore Our Categories'"
+  [description]="'Upgrade your space with modern and classic pieces for every room.'"
+  [imageUrl]="'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1332'">
+</app-banner>
+
+<div class="container-lg py-8">
+
+  <app-search-input
+    [search]="searchQuery"
+    placeholder="Search categories..."
+    (searchEnter)="onSearchEnter($event)"
+    (searchDebounced)="onSearchChange($event)">
+  </app-search-input>
+
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <app-loader *ngIf="categoriesStatus.type === StatusType.Loading"></app-loader>
+
+  <div *ngIf="categoriesStatus.type === StatusType.Error" class="text-center py-12 text-red-500">
+    {{ categoriesStatus.message || 'Something went wrong while loading categories.' }}
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="categories-grid" *ngIf="categoriesStatus.type === StatusType.Success && categories.length > 0" [@listAnimation]>
+    <div class="category-card" *ngFor="let category of categories" (click)="navigateToCategory(category._id)">
+      <div class="category-image-container">
+        <img [src]="category.image || getDefaultImage()" [alt]="category.name" class="category-image">
+        <div class="category-overlay">
+          <span class="view-products">View Products</span>
+        </div>
+      </div>
+      <div class="category-info">
+        <h3 class="category-name">{{ category.name }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- NO CATEGORIES -->
+  <ng-template [ngIf]="categoriesStatus.type === StatusType.Success && categories.length === 0">
+    <div class="no-categories text-center py-12 text-gray-500">
+      <h3>No categories found</h3>
+      <p>Try adjusting your search terms</p>
+    </div>
+  </ng-template>
+
+  <mat-paginator
+    [length]="totalItems"
+    [pageIndex]="currentPage - 1"
+    [pageSize]="10"
+    [pageSizeOptions]="[10]"
+    (page)="handlePageChange($event)">
+  </mat-paginator>
+
+</div>
