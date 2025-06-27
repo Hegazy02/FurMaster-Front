@@ -9,7 +9,7 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './related-product.component.html',
-  styleUrls: ["./related-Product.component.css"]
+  styleUrls: ["./related-product.component.css"]
 })
 export class RelatedProductComponent {
   @Input() relatedProducts: Product[] = [];
@@ -31,15 +31,5 @@ export class RelatedProductComponent {
     this.router.navigate(['/products', productId]);
   }
 
-chunkedRelatedProducts(): Product[][] {
-  const chunkSize = 4;
-  const chunks: Product[][] = [];
-  for (let i = 0; i < this.relatedProducts.length; i += chunkSize) {
-    const chunk = this.relatedProducts.slice(i, i + chunkSize);
-    if (chunk.length === chunkSize) { 
-      chunks.push(chunk);
-    }
-  }
-  return chunks;
-}
+
 }

@@ -1,12 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface Product {
-  id: string;
-  title: string;
-  image: string;
-  price?: number;
-}
+import { ProductsService } from '../../core/services/products.service';
+import { Product } from '../../core/interfaces/product.interface';
+import { ApiResponse } from '../../core/interfaces/api-response.interface';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-product-slideshow',
@@ -16,14 +14,31 @@ interface Product {
   styleUrls: ['./product-slideshow.component.css'],
 })
 export class ProductSlideshowComponent implements OnInit {
-  @Input() products: Product[] = [];
-
+  products: Product[] = [];
   currentIndex = 0;
 
+  private destroy$ = new Subject<void>();
+  private productsService = inject(ProductsService);
+
   ngOnInit(): void {
-    setInterval(() => {
-      this.nextSlide();
-    }, 4000); // slide every 4 seconds
+    this.productsService.getProducts({
+      key: '',
+      page: 1,
+      limit: 5,
+      sortBy: 'popularity',
+    })
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (response: ApiResponse<Product[]>) => {
+        this.products = response.data ?? [];
+        this.initSlider();
+      },
+      error: (err) => console.error('Slideshow product load failed:', err)
+    });
+  }
+
+  initSlider(): void {
+    setInterval(() => this.nextSlide(), 4000);
   }
 
   nextSlide(): void {

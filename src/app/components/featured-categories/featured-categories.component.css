@@ -1,83 +1,22 @@
-.featured-section {
-  width: 100%;
-  padding: 60px 0px;
-  overflow: hidden;
-  background-color: #ffffff;
+@keyframes heartbeat {
+  0%, 100% { 
+    transform: scale(1); 
+  }
+  50% { 
+    transform: scale(1.25); 
+  }
 }
+.header-category{
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
 
-.featured-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 40px;
-  position: relative;
 }
-
-.featured-header .dot {
-  font-size: 28px;
-  margin-bottom: 10px;
+.animate-heartbeat {
   animation: heartbeat 1.2s infinite;
 }
 
-.featured-header h2 {
-  font-size: 32px;
-  font-weight: 600;
-  
-}
-
-@keyframes heartbeat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.25);
-  }
-}
-.category-grid {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 0; /* We'll handle spacing via card width */
-}
-
-.category-card {
-  flex: 0 0 24%; /* Take up 24% of the width */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
-  cursor: pointer;
-  color: var(--primary-color);
-  transition: transform 0.3s ease;
-}
-
-.category-card img {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  background: none;
-  transition: transform 0.3s ease;
-  margin-bottom: 10px; /* ensures spacing between image and text */
-}
-
-.category-card:hover img {
-  transform: translateY(-8px);
-}
-
-.category-card p {
-  font-weight: 500;
-  font-size: 16px;
-  margin: 0;
-  position: relative;
-}
-
-.category-card p::after {
+.hover-underline::after {
   content: '';
   display: block;
   width: 0%;
@@ -87,7 +26,7 @@
   transition: width 0.3s ease;
 }
 
-.category-card:hover p::after {
+.hover-underline:hover::after {
   width: 50%;
 }
 
@@ -111,100 +50,77 @@ a {
   text-decoration: none;
 }
 
-/* --------------------------- SECOND SECTION --------------------------- */
-
-.gallery-section {
-  padding: 80px 40px;
-  background-color: #fafafa;
-}
-
-.gallery-grid {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.gallery-card {
-  position: relative;
-  flex: 0 0 calc(25% - 15px);
+.h-75 {
   height: 300px;
-  overflow: hidden;
-  border-radius: 16px;
-  cursor: pointer;
-  text-decoration: none;
 }
 
-.gallery-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+.h-50 {
+  height: 200px;
 }
 
-.gallery-card .overlay {
+.w-15 {
+  width: 60px;
+}
+
+.h-15 {
+  height: 60px;
+}
+
+.py-15 {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.all-products-header {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+
+  margin: 60px auto 30px;
+}
+.all-products-header::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* Animation */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-header {
+  animation: fadeSlideUp 1s ease forwards;
+}
+/* Underline animation base */
+.underline-animate {
+  position: relative;
+  display: inline-block;
+}
+
+/* The underline itself */
+.underline-animate::after {
+  content: '';
   position: absolute;
-  bottom: 0;
+  left: 0;
+  bottom: -6px; /* distance below the image */
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease-in-out;
+}
+
+/* When the parent link is hovered, trigger underline */
+.category-link:hover .underline-animate::after {
   width: 100%;
-  height: 40%;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  transform: translateY(100%);
-  transition: transform 0.5s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.gallery-card h3 {
-  margin: 0;
-  font-size: 1.2rem;
-}
-
-.gallery-card:hover img {
-  transform: scale(1.05);
-}
-
-.gallery-card:hover .overlay {
-  transform: translateY(0);
-}
-
-/* RESPONSIVENESS */
-
-@media (max-width: 992px) {
-  .category-card {
-    width: 30%;
-  }
-
-  .gallery-card {
-    flex: 0 0 calc(33.333% - 15px);
-    height: 260px;
-  }
-}
-
-@media (max-width: 768px) {
-  .category-card {
-    width: 45%;
-  }
-
-  .gallery-card {
-    flex: 0 0 calc(50% - 15px);
-    height: 250px;
-  }
-}
-
-@media (max-width: 480px) {
-  .category-card {
-    width: 100%;
-  }
-
-  .gallery-card {
-    flex: 0 0 100%;
-    margin-bottom: 20px;
-    height: 200px;
-  }
-
-  .featured-header h2 {
-    font-size: 24px;
-  }
 }
