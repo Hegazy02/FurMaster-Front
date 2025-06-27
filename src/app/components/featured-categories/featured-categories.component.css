@@ -6,7 +6,12 @@
     transform: scale(1.25); 
   }
 }
+.header-category{
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
 
+}
 .animate-heartbeat {
   animation: heartbeat 1.2s infinite;
 }
@@ -24,6 +29,21 @@
 .hover-underline:hover::after {
   width: 50%;
 }
+
+/* Optional: Responsive support */
+@media (max-width: 768px) {
+  .category-card {
+    flex: 0 0 48%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-card {
+    flex: 0 0 100%;
+  }
+}
+
 
 a {
   color: inherit;
@@ -49,4 +69,58 @@ a {
 .py-15 {
   padding-top: 60px;
   padding-bottom: 60px;
+}
+.all-products-header {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+
+  margin: 60px auto 30px;
+}
+.all-products-header::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* Animation */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-header {
+  animation: fadeSlideUp 1s ease forwards;
+}
+/* Underline animation base */
+.underline-animate {
+  position: relative;
+  display: inline-block;
+}
+
+/* The underline itself */
+.underline-animate::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px; /* distance below the image */
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease-in-out;
+}
+
+/* When the parent link is hovered, trigger underline */
+.category-link:hover .underline-animate::after {
+  width: 100%;
 }

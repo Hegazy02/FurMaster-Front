@@ -1,7 +1,7 @@
 /* Slideshow Container */
 .word-slideshow {
   position: relative;
-  width: 100%;
+  width: 90%;
   overflow: hidden;
   background: #fff;
   border-top: 1px solid #eee;
@@ -12,17 +12,17 @@
 
 /* Sliding Track */
 .track {
-  display: inline-block;
-  white-space: nowrap;
+  display: flex;
   animation: slide 18s linear infinite;
-  font-size: clamp(24px, 5vw, 64px);
-  color: #000000;
+  font-size: clamp(20px, 5vw, 48px);
+  color: #000;
+  gap: 6vw;
 }
 
 /* Word Styling */
 .track span {
   display: inline-block;
-  margin-right: 5vw;
+  white-space: nowrap;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
@@ -34,32 +34,18 @@
   vertical-align: middle;
 }
 
-/* Font Classes for Each Word */
-.font1 {
-   font-family: 'Segoe Script', cursive;
-      font-style: italic;
-    font-size: 3rem;
-}
-.font2 {
-   font-family: 'Segoe Script', cursive;
-      font-style: italic;
-          font-size: 3rem;
-
-}
-.font3 {
-     font-family: 'Segoe Script', cursive;
-      font-style: italic;
-          font-size: 3rem;
-}
-
+/* Font Styles – Signature Feel */
+.font1,
+.font2,
+.font3,
 .font4 {
-   font-family: 'Segoe Script', cursive;
-      font-style: italic;
-          font-size: 3rem;
+  font-family: 'Segoe Script', cursive;
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.5vw, 3rem);
+  white-space: nowrap;
 }
 
-
-/* Keyframes for Sliding Effect */
+/* Sliding Animation */
 @keyframes slide {
   0% {
     transform: translateX(100%);
@@ -69,12 +55,12 @@
   }
 }
 
-/* Edge Fade Effects */
+/* Edge Fades */
 .fade-left,
 .fade-right {
   position: absolute;
   top: 0;
-  width: 15%;
+  width: 10%;
   height: 100%;
   z-index: 2;
   pointer-events: none;
@@ -88,4 +74,19 @@
 .fade-right {
   right: 0;
   background: linear-gradient(to left, #fff, transparent);
+}
+
+/* Media Queries for Extra Small Screens */
+@media (max-width: 500px) {
+  .track {
+    animation-duration: 30s;
+    gap: 10vw;
+  }
+
+  .font1,
+  .font2,
+  .font3,
+  .font4 {
+    font-size: 1.4rem;
+  }
 }
