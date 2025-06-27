@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PrimaryButtonComponent } from "../../../../../../shared/primary-button/primary-button.component";
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../../../core/services/auth.service';
+import { WishlistService } from '../../../../../../core/services/wishlist.service';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class ProductInfoComponent implements OnInit {
   @Input() categoryName: string = '';
   authService = inject(AuthService);
   router = inject(Router);
+  wishlistService = inject(WishlistService);
+
 
   isInCart: boolean = false;
   isInWishlist: boolean = false;
@@ -36,16 +39,19 @@ export class ProductInfoComponent implements OnInit {
   toastr = inject(ToastrService);
 
 ngOnInit(): void {
+   this.cartService.init().subscribe();
   this.mainImage = this.product.colors?.[0]?.image || '';
   this.thumbnailImages = this.product.colors.map((c) => c.image).filter(Boolean) as string[];
 
-  const productId = this.product._id;
-  const selectedColorId = this.product.colors?.[this.selectedColorIndex]?._id;
-  const key = `cart_${productId}_${selectedColorId}`;
-  this.isInCart = localStorage.getItem(key) === 'true';
+  this.cartService.cartItems$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(() => {
+      this.checkIfInCart();
+    });
+
+  this.checkIfInCart();
+  this.checkIfInWishlist();
 }
-
-
 
 
   onColorLeave(): void {
@@ -54,11 +60,14 @@ ngOnInit(): void {
     if (image) this.mainImage = image;
   }
 
-  onColorSelect(index: number): void {
-    this.selectedColorIndex = index;
-    const image = this.product.colors?.[index]?.image;
-    if (image) this.mainImage = image;
-  }
+onColorSelect(index: number): void {
+  this.selectedColorIndex = index;
+  const image = this.product.colors?.[index]?.image;
+  if (image) this.mainImage = image;
+
+  this.checkIfInCart(); 
+}
+
 
   onThumbnailLeave(): void {
     this.hoveredThumbnailIndex = null;
@@ -225,21 +234,44 @@ toggleCart(): void {
   }
 }
 
+checkIfInCart(): void {
+  const selectedColorId = this.product.colors?.[this.selectedColorIndex]?._id;
+  this.isInCart = this.cartService.items.some(item => item.productId === this.product._id && item.variantId === selectedColorId);
+}
 
-  addToWishlist(): void {
-    console.log('Adding to wishlist:', this.product._id);
-    this.toastr.success(`${this.product.title} has been added to your wishlist!`);
-  }
 
-  toggleWishlist(): void {
-    if (this.isInWishlist) {
-      this.toastr.info('Removed from wishlist 💔');
-      this.isInWishlist = false;
-    } else {
-      this.toastr.success('Added to wishlist ❤️');
-      this.isInWishlist = true;
-    }
+toggleWishlist(): void {
+  if (this.isInWishlist) {
+    this.wishlistService.removeFromWishlist(this.product._id).subscribe({
+      next: () => {
+        this.toastr.info(`${this.product.title} removed from wishlist 💔`);
+        this.isInWishlist = false;
+      },
+      error: () => this.toastr.error('Failed to remove from wishlist')
+    });
+  } else {
+    this.wishlistService.addToWishlist(this.product._id).subscribe({
+      next: () => {
+        this.toastr.success(`${this.product.title} added to wishlist ❤️`);
+        this.isInWishlist = true;
+      },
+      error: () => this.toastr.error('Failed to add to wishlist')
+    });
   }
+}
+
+  checkIfInWishlist(): void {
+  this.wishlistService.getWishlist().subscribe({
+    next: (res) => {
+      this.isInWishlist = res.data.some(p => p._id === this.product._id);
+    },
+    error: (err) => console.error('Error checking wishlist', err)
+  });
+}
+goToWishlist(): void {
+  this.router.navigate(['/wishlist']);
+}
+
 
 
   shareProduct(): void {

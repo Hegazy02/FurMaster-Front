@@ -199,6 +199,14 @@ export const routes: Routes = [
         './view/pages/user/products/product-detail/product-detail-page.component'
       ).then((m) => m.ProductDetailPageComponent),
   },
+    {
+    path: 'wishlist',
+    loadComponent: () =>
+      import('./view/pages/user/products/wishlist/wishlist.component').then(
+        (m) => m.WishlistComponent
+      ),
+    canActivate: [authGuard(UserRole.User)],
+  },
   {
     path: 'categories',
     loadComponent: () =>

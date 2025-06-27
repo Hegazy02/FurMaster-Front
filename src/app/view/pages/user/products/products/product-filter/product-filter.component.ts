@@ -27,7 +27,7 @@ export class ProductFilterComponent implements OnInit, OnDestroy {
 
   @Input() selectedCategories: string[] = [];
   selectedColors: string[] = [];
-  priceRange: number[] = [0, 1500];
+  priceRange: number[] = [0, 1000000];
   showNewArrivals: boolean = false;
 
   categoryOpen = true;
@@ -113,7 +113,7 @@ export class ProductFilterComponent implements OnInit, OnDestroy {
   clearAllFilters(): void {
     this.selectedCategories = [];
     this.selectedColors = [];
-    this.priceRange = [0, 1500];
+    this.priceRange = [0, 100000];
     this.showNewArrivals = false;
     this.emitChanges();
   }

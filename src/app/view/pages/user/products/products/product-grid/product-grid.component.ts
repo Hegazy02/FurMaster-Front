@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { Product } from '../../../../../../core/interfaces/product.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { CartService } from '../../../../../../core/services/cart.service';
+import { WishlistService } from '../../../../../../core/services/wishlist.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-product-grid',
@@ -34,6 +38,12 @@ export class ProductGridComponent implements OnChanges {
   sortedProducts: Product[] = [];
 
   @Output() sortChanged = new EventEmitter<string>();
+
+  constructor(
+    private cartService: CartService,
+    private wishlistService: WishlistService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['products'] || changes['showNewArrivals']) {
@@ -77,5 +87,16 @@ export class ProductGridComponent implements OnChanges {
     const currentDate = new Date();
     const daysDiff = (currentDate.getTime() - addedDate.getTime()) / (1000 * 3600 * 24);
     return daysDiff <= 30;
+  }
+
+  handleAddToWishlist(product: Product) {
+    this.wishlistService.addToWishlist(product._id).subscribe({
+      next: () => {
+        this.toastr.success('Product added to wishlist');
+      },
+      error: () => {
+        this.toastr.error('Failed to add product to wishlist');
+      }
+    });
   }
 }

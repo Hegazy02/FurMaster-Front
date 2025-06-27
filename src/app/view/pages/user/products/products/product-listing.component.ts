@@ -51,7 +51,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   ///////Filters
   selectedCategories: string[] = [];
   selectedColors: string[] = [];
-  priceRange: number[] = [0, 1500];
+ priceRange: number[] = [0, 1000000]; 
 
   ///////Pagination
   limit = 12;
@@ -140,38 +140,40 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   }
 
   loadFilteredProducts(): void {
-    this.productsStatus = new Status(StatusType.Loading);
+  this.productsStatus = new Status(StatusType.Loading);
 
-    this.productService
-      .getProducts({
-        key: this.searchQuery,
-        page: this.page,
-        minPrice: this.priceRange[0],
-        maxPrice: this.priceRange[1],
-        categoryId: this.selectedCategories,
-        colorId: this.selectedColors,
-        sortBy: 'popularity',
-        limit: this.limit,
+  const filters: any = {
+    key: this.searchQuery,
+    page: this.page,
+    categoryId: this.selectedCategories,
+    colorId: this.selectedColors,
+    sortBy: 'popularity',
+    limit: this.limit,
+  };
 
-      })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          console.log('Products:', res);
-
-          this.products = res.success ? res.data : [];
-          this.totalItems = res.total ?? 0;
-          this.productsStatus = new Status(StatusType.Success);
-        },
-        error: (err) => {
-          console.error('Error loading products', err);
-          this.productsStatus = new Status(
-            StatusType.Error,
-            'Failed to load products'
-          );
-        },
-      });
+  if (!(this.priceRange[0] === 0 && this.priceRange[1] === 1000000)) {
+    filters.minPrice = this.priceRange[0];
+    filters.maxPrice = this.priceRange[1];
   }
+
+  this.productService
+    .getProducts(filters)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (res) => {
+        this.products = res.success ? res.data : [];
+        this.totalItems = res.total ?? 0;
+        this.productsStatus = new Status(StatusType.Success);
+      },
+      error: (err) => {
+        this.productsStatus = new Status(
+          StatusType.Error,
+          'Failed to load products'
+        );
+      },
+    });
+}
+
 
   onPageChange(event: PageEvent): void {
     this.page = event.pageIndex + 1;
@@ -204,15 +206,16 @@ export class ProductListingComponent implements OnInit, OnDestroy {
     const currentParams = { ...this.route.snapshot.queryParams };
 
     const newParams: any = {
-      page: this.page,
-      limit: this.limit,
-      key: this.searchQuery || undefined,
-      categoryId: this.selectedCategories.length ? this.selectedCategories : undefined,
-      colorId: this.selectedColors.length ? this.selectedColors : undefined,
-      minPrice: this.priceRange[0],
-      maxPrice: this.priceRange[1],
-      newArrivals: this.showNewArrivals || undefined,
-    };
+  page: this.page,
+  limit: this.limit,
+  key: this.searchQuery || undefined,
+  categoryId: this.selectedCategories.length ? this.selectedCategories : undefined,
+  colorId: this.selectedColors.length ? this.selectedColors : undefined,
+  minPrice: !(this.priceRange[0] === 0 && this.priceRange[1] === 1000000) ? this.priceRange[0] : undefined,
+  maxPrice: !(this.priceRange[0] === 0 && this.priceRange[1] === 1000000) ? this.priceRange[1] : undefined,
+  newArrivals: this.showNewArrivals || undefined,
+};
+
 
     const mergedParams = { ...currentParams, ...newParams };
 
@@ -226,7 +229,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
     this.searchQuery = '';
     this.selectedCategories = [];
     this.selectedColors = [];
-    this.priceRange = [0, 1500];
+    this.priceRange = [0, 1000000];
     this.showNewArrivals = false;
     this.page = 1;
     this.filtersApplied = false;

@@ -1,7 +1,7 @@
 
 
 export interface CartItem {
-  _id: string;
+  _id?: string;
   title: string;
   price: number;
   offerPrice?: number;

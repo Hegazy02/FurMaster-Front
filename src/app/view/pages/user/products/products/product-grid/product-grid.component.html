@@ -15,16 +15,11 @@
   </select>
 </div>
 
-
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6" [@listAnimation]>
-  <div
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6" [@listAnimation]>
+  <app-product-card
     *ngFor="let product of sortedProducts"
-    (mouseenter)="hoveredProduct = product._id"
-    (mouseleave)="hoveredProduct = null"
+    [product]="product"
+    (addToWishlist)="handleAddToWishlist($event)"
   >
-    <app-product-card
-      [product]="product"
-      [hoveredProduct]="hoveredProduct"
-    ></app-product-card>
-  </div>
+  </app-product-card>
 </div>

@@ -5,18 +5,14 @@
   <button (click)="categoryOpen = !categoryOpen"
     class="flex items-center justify-between w-full py-2 px-1 text-left font-semibold hover:bg-gray-50 rounded-md transition-all duration-200"
     [style.color]="'var(--primary-color)'">
-    <span class="flex items-center">
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-        [style.color]="'var(--primary-color)'">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-      </svg>
-      <span class="text-base">Categories</span>
-    </span>
+
+    <span class="text-base">Categories</span>
+
     <svg class="w-4 h-4 text-gray-400 transition-transform duration-200" [class.rotate-180]="categoryOpen" fill="none"
       stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
     </svg>
+
   </button>
 
   <div *ngIf="categoryOpen" class="space-y-2 pt-3 pl-1 animate-fadeIn">
@@ -33,13 +29,10 @@
         ✓
       </div>
 
-      <!-- Category Name -->
       <span class="text-sm font-medium text-gray-700 hover:text-gray-900">{{ category.name }}</span>
-
     </div>
   </div>
 </div>
-
 
 
 <!-- Colors -->
@@ -99,13 +92,13 @@
       <div class="space-y-3">
         <div class="relative">
           <label class="text-xs font-medium text-gray-600 uppercase">Min Price</label>
-          <input type="range" [min]="0" [max]="1500" [step]="50" [(ngModel)]="priceRange[0]"
+          <input type="range" [min]="0" [max]="1000000" [step]="50" [(ngModel)]="priceRange[0]"
             (ngModelChange)="onPriceChange()" class="w-full h-2 rounded-lg appearance-none cursor-pointer"
             style="background: linear-gradient(to right, var(--primary-color, rgba(13, 148, 136, 0.15)), var(--primary-color, rgba(13, 148, 136, 0.4)));" />
         </div>
         <div class="relative">
           <label class="text-xs font-medium text-gray-600 uppercase">Max Price</label>
-          <input type="range" [min]="0" [max]="1500" [step]="50" [(ngModel)]="priceRange[1]"
+          <input type="range" [min]="0" [max]="1000000" [step]="50" [(ngModel)]="priceRange[1]"
             (ngModelChange)="onPriceChange()" class="w-full h-2 rounded-lg appearance-none cursor-pointer"
             style="background: linear-gradient(to right, var(--primary-color, rgba(13, 148, 136, 0.15)), var(--primary-color, rgba(13, 148, 136, 0.4)));" />
         </div>

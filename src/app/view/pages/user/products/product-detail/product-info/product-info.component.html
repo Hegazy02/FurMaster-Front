@@ -3,9 +3,9 @@
     <div
       class="aspect-square max-w-[500px] w-full bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 relative group cursor-zoom-in">
       <img [src]="mainImage" [alt]="product.title" [class]="
-          'w-full h-full object-cover absolute top-0 left-0 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-105' +
-          (imageFading ? ' opacity-0 scale-95 blur-sm' : ' opacity-100 scale-100 blur-0')
-        " loading="lazy" (load)="onImageLoad()" />
+  'w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-500 ease-in-out' +
+  (imageFading ? ' opacity-0' : ' opacity-100')
+" loading=" lazy" (load)="onImageLoad()" />
     </div>
 
     <div class="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide max-w-[500px]">
@@ -148,28 +148,17 @@
           </app-primary-button>
 
 
-
-
-
-
-          <!-- <button (click)="addToCart()" [disabled]="!isInStock()"
-          class="w-full bg-gray-900 text-white py-3 px-6 rounded-md font-semibold text-base hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">{{
-          isInStock() ? 'Add to Cart • $' + (getCurrentPrice() * quantity) : 'Out of Stock' }}</button> -->
-
           <div class="grid grid-cols-2 gap-3">
             <button *ngIf="!isInWishlist" (click)="toggleWishlist()"
               class="flex items-center justify-center py-2 px-4 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors duration-200 text-sm">
               <i class="fa fa-heart-o mr-2"></i> Add to Wishlist
             </button>
 
-
-
-            <button *ngIf="isInWishlist" (click)="toggleWishlist()"
-              class="flex items-center justify-center py-2 px-4 border border-red-300 text-red-700 rounded-md font-medium hover:bg-red-50 transition-colors duration-200 text-sm">
-              <i class="fa fa-heart mr-2"></i> Remove from Wishlist
+            <button *ngIf="isInWishlist" (click)="goToWishlist()"
+              class="flex items-center justify-center py-2 px-4 rounded-md font-medium hover:bg-primary-light transition-colors duration-200 text-sm"
+              style="color: var(--primary-color); border: 1px solid var(--primary-color);">
+              <i class="fa fa-heart mr-2"></i> Browse Wishlist
             </button>
-
-
 
 
             <button (click)="shareProduct()"
