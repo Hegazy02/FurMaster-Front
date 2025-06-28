@@ -64,6 +64,7 @@ ngOnInit(): void {
 
 onColorSelect(index: number): void {
   this.selectedColorIndex = index;
+    this.quantity = 1; 
   const image = this.product.colors?.[index]?.image;
   if (image) this.mainImage = image;
 
