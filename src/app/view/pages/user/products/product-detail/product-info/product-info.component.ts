@@ -9,6 +9,8 @@ import { PrimaryButtonComponent } from "../../../../../../shared/primary-button/
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../../../core/services/auth.service';
 import { WishlistService } from '../../../../../../core/services/wishlist.service';
+import { CartItem } from '../../../../../../core/interfaces/cart-item.model';
+
 
 
 @Component({
@@ -43,13 +45,13 @@ ngOnInit(): void {
   this.mainImage = this.product.colors?.[0]?.image || '';
   this.thumbnailImages = this.product.colors.map((c) => c.image).filter(Boolean) as string[];
 
-  this.cartService.cartItems$
+ this.cartService.cartItems$
     .pipe(takeUntil(this.destroy$))
-    .subscribe(() => {
-      this.checkIfInCart();
+    .subscribe((items) => {
+      this.checkIfInCart(items); 
     });
 
-  this.checkIfInCart();
+  this.checkIfInCart(this.cartService.items);
   this.checkIfInWishlist();
 }
 
@@ -65,7 +67,7 @@ onColorSelect(index: number): void {
   const image = this.product.colors?.[index]?.image;
   if (image) this.mainImage = image;
 
-  this.checkIfInCart(); 
+  this.checkIfInCart(this.cartService.items);
 }
 
 
@@ -104,6 +106,7 @@ onColorSelect(index: number): void {
     );
     if (colorIndex !== undefined && colorIndex >= 0) {
       this.selectedColorIndex = colorIndex;
+      this.checkIfInCart(this.cartService.items);
     }
   }
 
@@ -199,7 +202,8 @@ onColorSelect(index: number): void {
 
         const key = `cart_${cartItem.productId}_${cartItem.selectedColor._id}`;
         localStorage.setItem(key, 'true');
-        this.isInCart = true;
+        this.cartService.init().subscribe();
+
       },
       error: () => this.toastr.error('Failed to add to cart'),
     });
@@ -220,7 +224,8 @@ removeFromCart(): void {
 
         const key = `cart_${productId}_${selectedColorId}`;
         localStorage.removeItem(key);
-        this.isInCart = false;
+        this.cartService.init().subscribe();
+
       },
       error: () => this.toastr.error('Failed to remove from cart'),
     });
@@ -234,10 +239,14 @@ toggleCart(): void {
   }
 }
 
-checkIfInCart(): void {
+checkIfInCart(cartItems: CartItem[]): void {
   const selectedColorId = this.product.colors?.[this.selectedColorIndex]?._id;
-  this.isInCart = this.cartService.items.some(item => item.productId === this.product._id && item.variantId === selectedColorId);
+  this.isInCart = cartItems.some(
+    (item) => item.productId === this.product._id && item.variantId === selectedColorId
+  );
 }
+
+
 
 
 toggleWishlist(): void {
@@ -271,7 +280,6 @@ toggleWishlist(): void {
 goToWishlist(): void {
   this.router.navigate(['/wishlist']);
 }
-
 
 
   shareProduct(): void {
