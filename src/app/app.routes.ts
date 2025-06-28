@@ -30,7 +30,6 @@ export const routes: Routes = [
       import('./view/pages/user/success/success.component').then(
         (m) => m.SuccessComponent
       ),
-    canActivate: [authGuard(UserRole.User)],
   },
   {
     path: 'cancel',
@@ -38,7 +37,6 @@ export const routes: Routes = [
       import('./view/pages/user/cancel/cancel.component').then(
         (m) => m.CancelComponent
       ),
-    canActivate: [authGuard(UserRole.User)],
   },
 
   {
