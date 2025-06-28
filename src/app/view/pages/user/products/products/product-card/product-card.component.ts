@@ -65,6 +65,12 @@ router = inject(Router);
   }
 }
 
+getStarArray(): number[] {
+  return Array(5).fill(0).map((_, i) => i);
+}
 
+getFloor(value: number): number {
+  return Math.floor(value);
+}
 
 }

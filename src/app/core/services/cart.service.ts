@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { CartItem } from '../interfaces/cart-item.model';
 import { Endpoints } from '../constants/endpoints';
 import { SHOULD_TRACK_LOADING } from '../interceptors/loading.interceptor';
@@ -43,8 +43,20 @@ cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
   clearCart() {
     return this.http.delete(Endpoints.CART);
   }
+  
+    getCartItemCount(): Observable<number> {
+  return this.cartItems$.pipe(
+    map((items: any[]) => items.reduce((total: any, item: { quantity: any; }) => total + item.quantity, 0))
+  );
+}
+
 
   init() {
-    return this.http.get<CartItem[]>(Endpoints.CART);
+    return this.http.get<CartItem[]>(Endpoints.CART).pipe(
+    tap((items) => {
+      this.cartItemsSubject.next(items); 
+    })
+  );
   }
+
 }
