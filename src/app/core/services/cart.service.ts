@@ -52,7 +52,11 @@ cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
 
 
   init() {
-    return this.http.get<CartItem[]>(Endpoints.CART);
+    return this.http.get<CartItem[]>(Endpoints.CART).pipe(
+    tap((items) => {
+      this.cartItemsSubject.next(items); 
+    })
+  );
   }
 
 }

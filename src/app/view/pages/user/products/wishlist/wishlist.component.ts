@@ -34,6 +34,8 @@ export class WishlistComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
+            console.log(res.data);
+
           this.wishlistProducts = res.data || [];
           this.wishlistStatus = new Status(StatusType.Success);
         },
