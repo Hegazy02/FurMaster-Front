@@ -25,17 +25,21 @@
     </section>
 
     <section class="products">
-      <div class="product-list">
-            <app-product-card
-      *ngFor="let product of products"
-      [product]="product">
-    </app-product-card>
 
     <app-featured-categories></app-featured-categories>
-    <app-slide-words></app-slide-words>
-    <app-product-slideshow></app-product-slideshow>
+     </section>
+      <h2 class="all-products-header animate-header">All Products <i class="fa-solid fa-store"></i></h2>
+        <section class="products">
+          <div class="product-grid">
+  <app-product-card
+    *ngFor="let product of productsResponse?.data"
+    [product]="product">
+  </app-product-card>
+</div>
+    <!-- <app-slide-words></app-slide-words> -->
+ <!-- <app-product-slideshow></app-product-slideshow> -->
     <decor-article></decor-article>
-      </div>
+
     </section>
   </main>
 

@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { ProductService, Product } from '../../services/product.service';
 import { ProductCardComponent } from '../product-card/product-card.component';
-import { Product } from '../../core/interfaces/product.model';
+
 import { FeaturedCategoriesComponent } from '../featured-categories/featured-categories.component';
 import { SlideWordsComponent } from '../slide-words/slide-words.component';
 import { ProductSlideshowComponent } from '../product-slideshow/product-slideshow.component';
 import { DecorArticleComponent } from '../Decor-Article/Decor-Article.component';
 import { RouterModule } from '@angular/router';
+import { ProductsService } from '../../core/services/products.service';
+import { Subject, takeUntil } from 'rxjs';
+import { ApiResponse } from '../../core/interfaces/api-response.interface';
+import { Product } from '../../core/interfaces/product.interface';
 
 
 @Component({
@@ -19,15 +23,43 @@ import { RouterModule } from '@angular/router';
 })
 
 export class HomeComponent  {
-  products: Product[] = [];
 
-  // constructor(private productService: ProductService) {}
 
-//   ngOnInit(): void {
-//     this.productService.getProducts().subscribe((result) => {
-//       this.products = result.data;
-//     });
-//   }
+ 
+
+ 
+ productsService = inject(ProductsService);
+    private destroy$ = new Subject<void>();
+      productsResponse?: ApiResponse<Product[]>;
+   getProducts() {
+     
+      this.productsService
+        .getProducts(
+          {
+            key: '',
+            page: 1,
+            limit: 4,
+            sortBy: 'popularity',
+           
+          } 
+        )
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (data) => {
+            this.productsResponse = data;
+           
+          },
+          error: (err) => {
+          
+            console.error(err);
+          },
+        });
+    }
+     ngOnInit(): void {                   
+      this.getProducts();
+ 
+    
+  }
 }
 
 

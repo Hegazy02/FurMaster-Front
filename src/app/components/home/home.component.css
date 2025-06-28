@@ -242,3 +242,42 @@ body {
   gap: 20px;
   justify-content: center;
 }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  padding: 20px;
+}
+.all-products-header {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+
+  margin: 60px auto 30px;
+}
+.all-products-header::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* Animation */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-header {
+  animation: fadeSlideUp 1s ease forwards;
+}
