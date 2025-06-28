@@ -1,5 +1,7 @@
 <div class="wishlist-page p-4">
-  <h1 class="text-2xl font-bold mb-4">My Wishlist</h1>
+<h1 class="text-2xl font-bold mb-4" [ngStyle]="{ 'color': 'var(--primary-color)' }">
+  My Wishlist
+</h1>
 
   <div *ngIf="wishlistStatus.type === StatusType.Loading" class="flex justify-center items-center min-h-[300px]">
     <app-loader></app-loader>

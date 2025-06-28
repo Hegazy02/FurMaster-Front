@@ -14,8 +14,8 @@ export interface Product {
 }
 
 export interface ProductColor {
- _id: string;
-  colorId: string;
+  _id: string;
+  colorId: string | { hex: string, name: string }
   name: string;
   hex?: string;
   stock: number;
@@ -31,5 +31,5 @@ export interface ProductQueryParams {
   categoryId?: string[];
   colorId?: string[];
   sortBy?: 'price_asc' | 'price_desc' | 'popularity';
-    limit: number
+  limit: number
 }
