@@ -9,5 +9,7 @@ export interface CartItem {
   image?: string; 
   variantId: string;
   productId: string;
+    stock: number;
+
 }
 
