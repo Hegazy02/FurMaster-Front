@@ -16,7 +16,10 @@
     </nav>
     <div class="header-right">
       <a routerLink="/products" title="Search"><i class="fa fa-search"></i></a>
-      <a routerLink="/cart" title="Cart"><i class="fa fa-shopping-cart"></i></a>
+<a routerLink="/cart" title="Cart" class="cart-icon">
+  <i class="fa fa-shopping-cart"></i>
+  <span class="badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+</a>
       <a routerLink="/my-account" title="Account"><i class="fa fa-user"></i></a>
     </div>
   </div>
