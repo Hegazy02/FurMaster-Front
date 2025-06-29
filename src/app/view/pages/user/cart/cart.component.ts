@@ -145,6 +145,13 @@ this.cartService.cartItemsSubject.next([]);
   return this.cartItem.reduce((total, item) => total + item.quantity, 0);
 }
 
+getStock(productId: string, variantId: string): number {
+  const item = this.cartItem.find(
+    i => i.productId === productId && i.variantId === variantId
+  );
+  return item?.stock ?? 0;
+}
+
   ngOnDestroy() {
     this.destroy$.unsubscribe();
   }
