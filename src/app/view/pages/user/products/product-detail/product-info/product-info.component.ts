@@ -67,7 +67,6 @@ onColorSelect(index: number): void {
     this.quantity = 1; 
   const image = this.product.colors?.[index]?.image;
   if (image) this.mainImage = image;
-
   this.checkIfInCart(this.cartService.items);
 }
 
