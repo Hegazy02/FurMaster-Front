@@ -40,20 +40,20 @@ export class ProductInfoComponent implements OnInit {
   private destroy$ = new Subject<void>();
   toastr = inject(ToastrService);
 
-ngOnInit(): void {
-   this.cartService.init().subscribe();
-  this.mainImage = this.product.colors?.[0]?.image || '';
-  this.thumbnailImages = this.product.colors.map((c) => c.image).filter(Boolean) as string[];
+  ngOnInit(): void {
+    this.cartService.init().subscribe();
+    this.mainImage = this.product.colors?.[0]?.image || '';
+    this.thumbnailImages = this.product.colors.map((c) => c.image).filter(Boolean) as string[];
 
- this.cartService.cartItems$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((items) => {
-      this.checkIfInCart(items); 
-    });
+    this.cartService.cartItems$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((items) => {
+        this.checkIfInCart(items);
+      });
 
-  this.checkIfInCart(this.cartService.items);
-  this.checkIfInWishlist();
-}
+    this.checkIfInCart(this.cartService.items);
+    this.checkIfInWishlist();
+  }
 
 
   onColorLeave(): void {
@@ -62,13 +62,13 @@ ngOnInit(): void {
     if (image) this.mainImage = image;
   }
 
-onColorSelect(index: number): void {
-  this.selectedColorIndex = index;
-    this.quantity = 1; 
-  const image = this.product.colors?.[index]?.image;
-  if (image) this.mainImage = image;
-  this.checkIfInCart(this.cartService.items);
-}
+  onColorSelect(index: number): void {
+    this.selectedColorIndex = index;
+    this.quantity = 1;
+    const image = this.product.colors?.[index]?.image;
+    if (image) this.mainImage = image;
+    this.checkIfInCart(this.cartService.items);
+  }
 
 
   onThumbnailLeave(): void {
@@ -173,88 +173,97 @@ onColorSelect(index: number): void {
   }
 
   addToCart(): void {
-  if (!this.authService.isLoggedIn()) {
-    this.router.navigate(['/login']);
-    return;
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    if (!this.isInStock()) return;
+
+    const cartItem = {
+      productId: this.product._id,
+      title: this.product.title,
+      price: this.getCurrentPrice(),
+      quantity: this.quantity,
+      selectedColor: {
+        _id: this.product.colors?.[this.selectedColorIndex]?._id,
+        colorId: this.product.colors?.[this.selectedColorIndex]?.colorId,
+        name: this.getSelectedColorName(),
+        hex: this.getColorHexByIndex(this.selectedColorIndex),
+      },
+      image: this.mainImage,
+    };
+
+    this.cartService.addToCart(cartItem.productId, cartItem.selectedColor._id, cartItem.quantity)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.toastr.success(`Added ${this.quantity} ${this.product.title} (${this.getSelectedColorName()}) to cart!`);
+
+          const key = `cart_${cartItem.productId}_${cartItem.selectedColor._id}`;
+          localStorage.setItem(key, 'true');
+          this.cartService.init().subscribe();
+
+        },
+        error: () => this.toastr.error('Failed to add to cart'),
+      });
   }
 
-  if (!this.isInStock()) return;
 
-  const cartItem = {
-    productId: this.product._id,
-    title: this.product.title,
-    price: this.getCurrentPrice(),
-    quantity: this.quantity,
-    selectedColor: {
-      _id: this.product.colors?.[this.selectedColorIndex]?._id,
-      colorId: this.product.colors?.[this.selectedColorIndex]?.colorId,
-      name: this.getSelectedColorName(),
-      hex: this.getColorHexByIndex(this.selectedColorIndex),
-    },
-    image: this.mainImage,
-  };
+  removeFromCart(): void {
+    const productId = this.product._id;
+    const selectedColorId = this.product.colors?.[this.selectedColorIndex]?._id;
 
-  this.cartService.addToCart(cartItem.productId, cartItem.selectedColor._id, cartItem.quantity)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: () => {
-        this.toastr.success(`Added ${this.quantity} ${this.product.title} (${this.getSelectedColorName()}) to cart!`);
+    if (!selectedColorId) return;
 
-        const key = `cart_${cartItem.productId}_${cartItem.selectedColor._id}`;
-        localStorage.setItem(key, 'true');
-        this.cartService.init().subscribe();
+    this.cartService.removeFromCart(selectedColorId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.toastr.info(`Removed ${this.product.title} (${this.getSelectedColorName()}) from cart.`);
 
-      },
-      error: () => this.toastr.error('Failed to add to cart'),
-    });
-}
+          const key = `cart_${productId}_${selectedColorId}`;
+          localStorage.removeItem(key);
+          this.cartService.init().subscribe();
 
-
-removeFromCart(): void {
-  const productId = this.product._id;
-  const selectedColorId = this.product.colors?.[this.selectedColorIndex]?._id;
-
-  if (!selectedColorId) return;
-
-  this.cartService.removeFromCart(selectedColorId)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: () => {
-        this.toastr.info(`Removed ${this.product.title} (${this.getSelectedColorName()}) from cart.`);
-
-        const key = `cart_${productId}_${selectedColorId}`;
-        localStorage.removeItem(key);
-        this.cartService.init().subscribe();
-
-      },
-      error: () => this.toastr.error('Failed to remove from cart'),
-    });
-}
-
-toggleCart(): void {
-  if (this.isInCart) {
-    this.removeFromCart();
-  } else {
-    this.addToCart();
+        },
+        error: () => this.toastr.error('Failed to remove from cart'),
+      });
   }
-}
 
-checkIfInCart(cartItems: CartItem[]): void {
-  const selectedColorId = this.product.colors?.[this.selectedColorIndex]?._id;
-  this.isInCart = cartItems.some(
-    (item) => item.productId === this.product._id && item.variantId === selectedColorId
-  );
-}
+  toggleCart(): void {
+    if (this.isInCart) {
+      this.removeFromCart();
+    } else {
+      this.addToCart();
+    }
+  }
 
-
+  checkIfInCart(cartItems: CartItem[]): void {
+    const selectedColorId = this.product.colors?.[this.selectedColorIndex]?._id;
+    this.isInCart = cartItems.some(
+      (item) => item.productId === this.product._id && item.variantId === selectedColorId
+    );
+  }
 
 
 toggleWishlist(): void {
+    if (!this.authService.isLoggedIn()) {
+    this.toastr.warning('You are not logged in. Please login first.');
+    this.router.navigate(['/login']);
+    return; 
+  }
   if (this.isInWishlist) {
     this.wishlistService.removeFromWishlist(this.product._id).subscribe({
       next: () => {
         this.toastr.info(`${this.product.title} removed from wishlist 💔`);
         this.isInWishlist = false;
+
+        this.wishlistService.getWishlist().subscribe(res => {
+          if (res.success) {
+            this.wishlistService.updateWishlistItems(res.data);
+          }
+        });
       },
       error: () => this.toastr.error('Failed to remove from wishlist')
     });
@@ -263,23 +272,30 @@ toggleWishlist(): void {
       next: () => {
         this.toastr.success(`${this.product.title} added to wishlist ❤️`);
         this.isInWishlist = true;
+
+        this.wishlistService.getWishlist().subscribe(res => {
+          if (res.success) {
+            this.wishlistService.updateWishlistItems(res.data);
+          }
+        });
       },
       error: () => this.toastr.error('Failed to add to wishlist')
     });
   }
 }
 
+
   checkIfInWishlist(): void {
-  this.wishlistService.getWishlist().subscribe({
-    next: (res) => {
-      this.isInWishlist = res.data.some(p => p._id === this.product._id);
-    },
-    error: (err) => console.error('Error checking wishlist', err)
-  });
-}
-goToWishlist(): void {
-  this.router.navigate(['/wishlist']);
-}
+    this.wishlistService.getWishlist().subscribe({
+      next: (res) => {
+        this.isInWishlist = res.data.some(p => p._id === this.product._id);
+      },
+      error: (err) => console.error('Error checking wishlist', err)
+    });
+  }
+  goToWishlist(): void {
+    this.router.navigate(['/wishlist']);
+  }
 
 
   shareProduct(): void {
@@ -296,8 +312,8 @@ goToWishlist(): void {
   }
 
   ngOnDestroy(): void {
-  this.destroy$.next();
-  this.destroy$.complete();
-}
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 }

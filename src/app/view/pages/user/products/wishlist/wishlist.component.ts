@@ -45,18 +45,20 @@ export class WishlistComponent implements OnInit, OnDestroy {
       });
   }
 
-  removeFromWishlist(productId: string): void {
-    this.wishlistService.removeFromWishlist(productId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.wishlistProducts = this.wishlistProducts.filter(p => p._id !== productId);
-        },
-        error: () => {
-          console.error('Failed to remove product from wishlist');
-        }
-      });
-  }
+removeFromWishlist(productId: string): void {
+  this.wishlistService.removeFromWishlist(productId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: () => {
+        this.wishlistProducts = this.wishlistProducts.filter(p => p._id !== productId);
+      },
+      error: () => {
+        console.error('Failed to remove product from wishlist');
+      }
+    });
+}
+
+
 
   ngOnDestroy(): void {
     this.destroy$.next();

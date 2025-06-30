@@ -20,6 +20,8 @@
     *ngFor="let product of sortedProducts"
     [product]="product"
     (addToWishlist)="handleAddToWishlist($event)"
+    (removeProduct)="handleRemoveFromWishlist($event)"
+
   >
   </app-product-card>
 </div>

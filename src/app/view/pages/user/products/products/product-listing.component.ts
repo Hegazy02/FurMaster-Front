@@ -52,7 +52,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   ///////Filters
   selectedCategories: string[] = [];
   selectedColors: string[] = [];
-  priceRange: number[] = [0, 1000000];
+  priceRange: number[] = [0, 100000];
 
   ///////Pagination
   limit = 12;
@@ -90,7 +90,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
             ? [colorIdParam]
             : [];
 
-        this.priceRange = [+params['minPrice'] || 0, +params['maxPrice'] || 1500];
+        this.priceRange = [+params['minPrice'] || 0, +params['maxPrice'] || 100000];
         this.showNewArrivals = params['newArrivals'] === 'true';
 
         ///// Breadcrumbs
@@ -155,7 +155,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
       limit: this.limit,
     };
 
-    if (!(this.priceRange[0] === 0 && this.priceRange[1] === 1000000)) {
+    if (!(this.priceRange[0] === 0 && this.priceRange[1] === 100000)) {
       filters.minPrice = this.priceRange[0];
       filters.maxPrice = this.priceRange[1];
     }
@@ -215,8 +215,8 @@ export class ProductListingComponent implements OnInit, OnDestroy {
       key: this.searchQuery || undefined,
       categoryId: this.selectedCategories.length ? this.selectedCategories : undefined,
       colorId: this.selectedColors.length ? this.selectedColors : undefined,
-      minPrice: !(this.priceRange[0] === 0 && this.priceRange[1] === 1000000) ? this.priceRange[0] : undefined,
-      maxPrice: !(this.priceRange[0] === 0 && this.priceRange[1] === 1000000) ? this.priceRange[1] : undefined,
+      minPrice: !(this.priceRange[0] === 0 && this.priceRange[1] === 100000) ? this.priceRange[0] : undefined,
+      maxPrice: !(this.priceRange[0] === 0 && this.priceRange[1] === 100000) ? this.priceRange[1] : undefined,
       newArrivals: this.showNewArrivals || undefined,
     };
 
@@ -234,7 +234,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
     this.searchQuery = '';
     this.selectedCategories = [];
     this.selectedColors = [];
-    this.priceRange = [0, 1000000];
+    this.priceRange = [0, 100000];
     this.showNewArrivals = false;
     this.page = 1;
     this.filtersApplied = false;

@@ -92,13 +92,13 @@
       <div class="space-y-3">
         <div class="relative">
           <label class="text-xs font-medium text-gray-600 uppercase">Min Price</label>
-          <input type="range" [min]="0" [max]="1000000" [step]="50" [(ngModel)]="priceRange[0]"
+          <input type="range" [min]="0" [max]="100000" [step]="50" [(ngModel)]="priceRange[0]"
             (ngModelChange)="onPriceChange()" class="w-full h-2 rounded-lg appearance-none cursor-pointer"
             style="background: linear-gradient(to right, var(--primary-color, rgba(13, 148, 136, 0.15)), var(--primary-color, rgba(13, 148, 136, 0.4)));" />
         </div>
         <div class="relative">
           <label class="text-xs font-medium text-gray-600 uppercase">Max Price</label>
-          <input type="range" [min]="0" [max]="1000000" [step]="50" [(ngModel)]="priceRange[1]"
+          <input type="range" [min]="0" [max]="100000" [step]="50" [(ngModel)]="priceRange[1]"
             (ngModelChange)="onPriceChange()" class="w-full h-2 rounded-lg appearance-none cursor-pointer"
             style="background: linear-gradient(to right, var(--primary-color, rgba(13, 148, 136, 0.15)), var(--primary-color, rgba(13, 148, 136, 0.4)));" />
         </div>
