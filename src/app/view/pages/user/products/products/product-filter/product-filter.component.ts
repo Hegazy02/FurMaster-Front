@@ -27,7 +27,7 @@ export class ProductFilterComponent implements OnInit, OnDestroy {
 
   @Input() selectedCategories: string[] = [];
   selectedColors: string[] = [];
-  priceRange: number[] = [0, 1000000];
+  priceRange: number[] = [0, 100000];
   showNewArrivals: boolean = false;
 
   categoryOpen = true;
@@ -82,15 +82,16 @@ export class ProductFilterComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleCategoryChange(categoryId: string) {
-    const index = this.selectedCategories.indexOf(categoryId);
-    if (index > -1) {
-      this.selectedCategories.splice(index, 1);
-    } else {
-      this.selectedCategories.push(categoryId);
-    }
-    this.emitChanges();
+handleCategoryChange(categoryId: string) {
+  const index = this.selectedCategories.indexOf(categoryId);
+  if (index > -1) {
+    this.selectedCategories = this.selectedCategories.filter((c) => c !== categoryId);
+  } else {
+    this.selectedCategories = [...this.selectedCategories, categoryId];
   }
+  this.emitChanges();
+}
+
 
   handleColorChange(id: string, event?: any): void {
     if (this.selectedColors.includes(id)) {

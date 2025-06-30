@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Endpoints } from '../constants/endpoints';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, map, tap } from 'rxjs';
 import { ApiResponse } from '../interfaces/api-response.interface';
 import { Product } from '../../core/interfaces/product.interface';
 
@@ -10,7 +10,10 @@ import { Product } from '../../core/interfaces/product.interface';
 })
 export class WishlistService {
 
-  constructor(private http: HttpClient) { }
+  public wishlistItemsSubject = new BehaviorSubject<Product[]>([]);
+  wishlistItems$ = this.wishlistItemsSubject.asObservable();
+
+  constructor(private http: HttpClient) {}
 
   getWishlist(): Observable<ApiResponse<Product[]>> {
     const token = localStorage.getItem('token');
@@ -19,17 +22,48 @@ export class WishlistService {
     });
   }
 
-  addToWishlist(productId: string): Observable<ApiResponse<Product[]>> {
+  addToWishlist(productId: string): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.post<ApiResponse<Product[]>>(`${Endpoints.WISHLIST}/${productId}`, {}, {
+    return this.http.post<Product>(`${Endpoints.WISHLIST}/${productId}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
-    });
+    }).pipe(
+      tap(() => {
+        const currentItems = this.wishlistItemsSubject.getValue();
+        if (!currentItems.find(item => item._id === productId)) {
+          this.wishlistItemsSubject.next([...currentItems, { _id: productId } as Product]);
+        }
+      })
+    );
   }
 
-  removeFromWishlist(productId: string): Observable<ApiResponse<Product[]>> {
+  removeFromWishlist(productId: string): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.delete<ApiResponse<Product[]>>(`${Endpoints.WISHLIST}/${productId}`, {
+    return this.http.delete(`${Endpoints.WISHLIST}/${productId}`, {
       headers: { Authorization: `Bearer ${token}` }
-    });
+    }).pipe(
+      tap(() => {
+        const currentItems = this.wishlistItemsSubject.getValue();
+        const updatedItems = currentItems.filter(item => item._id !== productId);
+        this.wishlistItemsSubject.next(updatedItems);
+      })
+    );
+  }
+
+  updateWishlistItems(items: Product[]) {
+    this.wishlistItemsSubject.next(items);
+  }
+
+  getWishlistItemCount(): Observable<number> {
+    return this.wishlistItems$.pipe(map(items => items.length));
+  }
+
+  init() {
+    return this.getWishlist().pipe(
+      tap((res) => {
+        if (res.success) {
+          this.updateWishlistItems(res.data);
+        }
+      })
+    );
   }
 }

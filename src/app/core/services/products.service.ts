@@ -123,7 +123,7 @@ export class ProductsService {
   getProducts(filters: ProductQueryParams): Observable<ApiResponse<Product[]>> {
     let params = new HttpParams()
       .set('minPrice', filters.minPrice?.toString() || '0')
-      .set('maxPrice', filters.maxPrice?.toString() || '1500');
+      .set('maxPrice', filters.maxPrice?.toString() || '100000');
 
     if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
     if (filters.page) params = params.set('page', filters.page.toString());

@@ -4,7 +4,7 @@
       <div class="logo d-flex align-content-center">
         <div>
           <img src="../../../assets/images/logo2.png" alt="logo" class="logo-icon" />
- 
+
         </div>
         <a routerLinkl="/" class="logo-title">Furmaster</a>
       </div>
@@ -16,11 +16,17 @@
     </nav>
     <div class="header-right">
       <a routerLink="/products" title="Search"><i class="fa fa-search"></i></a>
-<a routerLink="/cart" title="Cart" class="cart-icon">
-  <i class="fa fa-shopping-cart"></i>
-  <span class="badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
-</a>
+      <a routerLink="/cart" title="Cart" class="cart-icon">
+        <i class="fa fa-shopping-cart"></i>
+        <span class="badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+      </a> 
+        <a routerLink="/wishlist" title="Wishlist" class="wishlist-icon">
+        <i class="fa fa-heart"></i>
+        <span class="badge" *ngIf="wishlistItemCount > 0">{{ wishlistItemCount }}</span>
+      </a>
       <a routerLink="/my-account" title="Account"><i class="fa fa-user"></i></a>
+   
+
     </div>
   </div>
-</header> 
+</header>

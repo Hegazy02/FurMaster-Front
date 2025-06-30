@@ -89,14 +89,28 @@ export class ProductGridComponent implements OnChanges {
     return daysDiff <= 30;
   }
 
-  handleAddToWishlist(product: Product) {
-    this.wishlistService.addToWishlist(product._id).subscribe({
-      next: () => {
-        this.toastr.success('Product added to wishlist');
-      },
-      error: () => {
-        this.toastr.error('Failed to add product to wishlist');
-      }
-    });
-  }
+handleAddToWishlist(product: Product) {
+  this.wishlistService.addToWishlist(product._id).subscribe({
+    next: () => {
+      this.toastr.success('Product added to wishlist');
+    },
+    error: () => {
+      this.toastr.error('Failed to add product to wishlist');
+    }
+  });
+}
+
+handleRemoveFromWishlist(productId: string) {
+  this.wishlistService.removeFromWishlist(productId).subscribe({
+    next: () => {
+      this.toastr.info('Product removed from wishlist');
+    },
+    error: () => {
+      this.toastr.error('Failed to remove product from wishlist');
+    }
+  });
+}
+
+
+
 }
