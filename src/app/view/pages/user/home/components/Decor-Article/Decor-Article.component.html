@@ -1,4 +1,4 @@
-<section class="decor-articles">
+<section class="decor-articles" data-aos="fade-left">
   <div class="section-header">
     <p class="subheading">DESIGNERS IDEAS</p>
     <h2 class="main-heading">The decor article</h2>
@@ -18,9 +18,9 @@
 
 <section class="features-section">
   <div class="feature" *ngFor="let item of features">
-    <div class="icon">{{ item.icon }}</div>
+    <i class=" fa-2x {{ item.icon }} "></i>
     <div>
-      <h4>{{ item.title }}</h4>
+      <h4 class="mb-0 mt-2">{{ item.title }}</h4>
       <p>{{ item.subtitle }}</p>
     </div>
   </div>

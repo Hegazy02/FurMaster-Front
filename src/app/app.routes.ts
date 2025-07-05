@@ -2,14 +2,13 @@ import { Routes } from '@angular/router';
 import { CartComponent } from './view/pages/user/cart/cart.component';
 import { authGuard } from './core/guards/auth.guard';
 import { UserRole } from './core/interfaces/user.interface';
-import { HomeComponent } from './components/home/home.component'
 
 export const routes: Routes = [
     {
     path: '',
     pathMatch: 'full',
     loadComponent: () =>
-      import('./components/home/home.component').then((m) => m.HomeComponent),
+      import('./view/pages/user/home/home.component').then((m) => m.HomeComponent),
   },
   // {
   //   path: '',
