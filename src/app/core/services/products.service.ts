@@ -127,6 +127,8 @@ export class ProductsService {
 
     if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
     if (filters.page) params = params.set('page', filters.page.toString());
+    if (filters.limit) params = params.set('limit', filters.limit.toString());
+    
     if (filters.key) params = params.set('key', filters.key);
     if (filters.categoryId?.length) {
 
