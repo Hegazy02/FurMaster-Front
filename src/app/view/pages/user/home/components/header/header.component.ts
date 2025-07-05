@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../../core/services/cart.service';
+import { CartService } from '../../../../../../core/services/cart.service';
 import { CommonModule } from '@angular/common';
-import { WishlistService } from '../../core/services/wishlist.service';
+import { WishlistService } from '../../../../../../core/services/wishlist.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

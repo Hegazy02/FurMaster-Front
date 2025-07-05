@@ -1,17 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { ProductService, Product } from '../../services/product.service';
-import { ProductCardComponent } from '../product-card/product-card.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 
-import { FeaturedCategoriesComponent } from '../featured-categories/featured-categories.component';
-import { SlideWordsComponent } from '../slide-words/slide-words.component';
-import { ProductSlideshowComponent } from '../product-slideshow/product-slideshow.component';
-import { DecorArticleComponent } from '../Decor-Article/Decor-Article.component';
+import { FeaturedCategoriesComponent } from './components/featured-categories/featured-categories.component';
+import { SlideWordsComponent } from './components/slide-words/slide-words.component';
+import { ProductSlideshowComponent } from './components/product-slideshow/product-slideshow.component';
+import { DecorArticleComponent } from './components/Decor-Article/Decor-Article.component';
 import { RouterModule } from '@angular/router';
-import { ProductsService } from '../../core/services/products.service';
+import { ProductsService } from '../../../../core/services/products.service';
 import { Subject, takeUntil } from 'rxjs';
-import { ApiResponse } from '../../core/interfaces/api-response.interface';
-import { Product } from '../../core/interfaces/product.interface';
+import { ApiResponse } from '../../../../core/interfaces/api-response.interface';
+import { Product } from '../../../../core/interfaces/product.interface';
 
 
 @Component({

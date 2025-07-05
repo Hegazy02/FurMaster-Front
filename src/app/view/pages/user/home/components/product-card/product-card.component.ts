@@ -2,7 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
-import { Product } from '../../core/interfaces/product.interface';
+import { Product } from '../../../../../../core/interfaces/product.interface';
 
 @Component({
   selector: 'app-product-card',
