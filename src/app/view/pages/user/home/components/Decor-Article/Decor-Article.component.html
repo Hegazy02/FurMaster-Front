@@ -1,11 +1,11 @@
-<section class="decor-articles" data-aos="fade-right">
+<section class="decor-articles">
   <div class="section-header">
     <p class="subheading">DESIGNERS IDEAS</p>
     <h2 class="main-heading">The decor article</h2>
   </div>
 
-  <div class="articles">
-    <div class="article" *ngFor="let item of articles">
+  <div class="articles"  >
+    <div class="article" *ngFor="let item of articles" data-aos="fade-right">
       <img [src]="item.img" [alt]="item.title" />
       <div class="meta">
         <span class="category">{{ item.category }}</span> •
