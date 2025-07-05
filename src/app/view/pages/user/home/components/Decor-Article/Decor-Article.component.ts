@@ -38,22 +38,22 @@ export class DecorArticleComponent {
 
   features = [
     {
-      icon: '🚚',
+      icon: 'fa fa-truck',
       title: 'Free shipping',
       subtitle: 'Free return & exchange',
     },
     {
-      icon: '📍',
+      icon: 'fa fa-globe',
       title: 'Store locator',
       subtitle: 'Find nearest store',
     },
     {
-      icon: '💳',
+      icon: 'fa fa-lock',
       title: 'Secure payment',
       subtitle: '100% secure method',
     },
     {
-      icon: '💬',
+      icon: 'fa fa-headphones',
       title: 'Online support',
       subtitle: '24/7 support center',
     },

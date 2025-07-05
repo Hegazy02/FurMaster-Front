@@ -4,8 +4,8 @@ import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
 import { LoadingService } from './core/services/loading.service';
-import { HeaderComponent } from "./components/header/header.component";
-import { FooterComponent } from "./components/footer/footer.component";
+import { HeaderComponent } from "./view/pages/user/home/components/header/header.component";
+import { FooterComponent } from "./view/pages/user/home/components/footer/footer.component";
 
 @Component({
   selector: 'app-root',

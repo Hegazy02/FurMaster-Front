@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductsService } from '../../core/services/products.service';
-import { Product } from '../../core/interfaces/product.interface';
-import { ApiResponse } from '../../core/interfaces/api-response.interface';
+import { ProductsService } from '../../../../../../core/services/products.service';
+import { Product } from '../../../../../../core/interfaces/product.interface';
+import { ApiResponse } from '../../../../../../core/interfaces/api-response.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
