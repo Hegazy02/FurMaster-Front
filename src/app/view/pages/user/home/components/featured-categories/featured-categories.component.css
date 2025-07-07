@@ -33,7 +33,7 @@
 /* Optional: Responsive support */
 @media (max-width: 768px) {
   .category-card {
-    flex: 0 0 48%;
+    /* flex: 0 0 48%; */
     margin-bottom: 20px;
   }
 }
@@ -83,7 +83,7 @@ a {
   width: 60px;
   height: 4px;
   background-color: var(--primary-color);
-  margin: 12px auto 0;
+  margin: 18px auto 0;
   border-radius: 2px;
 }
 
