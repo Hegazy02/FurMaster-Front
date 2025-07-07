@@ -19,7 +19,6 @@
   color: #111;
   transition: letter-spacing 0.4s ease, color 0.4s ease;
   cursor: default;
-  margin-right:40px;
 
 }
 
@@ -128,9 +127,8 @@ color: var(--primary-color);
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 32px;
-  flex: 1;
   justify-content: center;
+  gap: 20px !important;
 }
 .main-nav a {
   text-decoration: none;
@@ -138,7 +136,6 @@ color: var(--primary-color);
   font-weight: 500;
   font-size: 1.08rem;
   position: relative;
-  padding: 6px 10px;
   border-radius: 4px;
   transition: background 0.2s, color 0.2s;
   font-family: inherit;
