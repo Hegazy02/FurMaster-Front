@@ -1,32 +1,48 @@
 <header class="site-header">
   <div class="header-inner">
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
     <div class="header-left">
       <div class="logo d-flex align-content-center">
         <div>
           <img src="../../../assets/images/logo2.png" alt="logo" class="logo-icon" />
-
         </div>
-        <a routerLinkl="/" class="logo-title">Furmaster</a>
+        <a routerLink="/" class="logo-title">Furmaster</a>
       </div>
     </div>
-    <nav class="main-nav">
+
+    <nav class="main-nav desktop-nav">
       <a routerLink="/" class="header-title">Home</a>
       <a routerLink="/products" class="header-title">Shop</a>
       <a routerLink="/categories" class="header-title">Categories</a>
     </nav>
+
     <div class="header-right">
       <a routerLink="/products" title="Search"><i class="fa fa-search"></i></a>
       <a routerLink="/cart" title="Cart" class="cart-icon">
         <i class="fa fa-shopping-cart"></i>
         <span class="badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
       </a> 
-        <a routerLink="/wishlist" title="Wishlist" class="wishlist-icon">
+      <a routerLink="/wishlist" title="Wishlist" class="wishlist-icon">
         <i class="fa fa-heart"></i>
         <span class="badge" *ngIf="wishlistItemCount > 0">{{ wishlistItemCount }}</span>
       </a>
       <a routerLink="/my-account" title="Account"><i class="fa fa-user"></i></a>
-   
-
     </div>
+  </div>
+
+  <div class="mobile-nav" [class.open]="isMobileMenuOpen">
+    <div class="mobile-nav-overlay" (click)="closeMobileMenu()"></div>
+    <nav class="mobile-nav-menu">
+      <a routerLink="/" class="mobile-nav-item" (click)="closeMobileMenu()">Home</a>
+      <a routerLink="/products" class="mobile-nav-item" (click)="closeMobileMenu()">
+        Shop <span class="badge-hot">HOT</span>
+      </a>
+      <a routerLink="/categories" class="mobile-nav-item" (click)="closeMobileMenu()">Categories</a>
+    </nav>
   </div>
 </header>

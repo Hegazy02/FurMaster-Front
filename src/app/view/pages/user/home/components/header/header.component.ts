@@ -15,8 +15,7 @@ export class HeaderComponent {
 
   cartItemCount = 0;
   wishlistItemCount = 0;
-
-
+  isMobileMenuOpen = false;
   constructor(private cartService: CartService, private wishlistService: WishlistService) { }
 
   ngOnInit() {
@@ -36,5 +35,13 @@ export class HeaderComponent {
       }
     });
   }
+
+  toggleMobileMenu(): void {
+  this.isMobileMenuOpen = !this.isMobileMenuOpen;
+}
+
+closeMobileMenu(): void {
+  this.isMobileMenuOpen = false;
+}
 }
 
