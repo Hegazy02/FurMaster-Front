@@ -98,6 +98,12 @@ body {
   animation-delay: 2s;
   padding-left: 80px;
 }
+@media screen and (max-width: 768px) {
+  .hero-text h1 {
+    font-size: 6em;
+  }
+  
+}
 
 .hero-text p {
   font-size: 1.2rem;
