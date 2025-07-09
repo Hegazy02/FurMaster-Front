@@ -22,21 +22,26 @@ export class ProductCardComponent {
   @Output() addToWishlist = new EventEmitter<Product>();
   @Output() removeProduct = new EventEmitter<string>();
   @Output() addToCart = new EventEmitter<{
-  productId: string;
-  selectedColorId: string;
-  quantity: number;
-  image: string;
-  title: string;
-  price: number;
-  
-}>();
+    productId: string;
+    selectedColorId: string;
+    quantity: number;
+    image: string;
+    title: string;
+    price: number;
 
-cartService = inject(CartService);
-authService = inject(AuthService);
-toastr = inject(ToastrService);
-router = inject(Router);
+  }>();
+
+  cartService = inject(CartService);
+  authService = inject(AuthService);
+  toastr = inject(ToastrService);
+  router = inject(Router);
   hovered: boolean = false;
   currentImageIndex: number = 0;
+
+
+  changeImage(index: number) {
+    this.currentImageIndex = index;
+  }
 
   isNewArrival(date: Date): boolean {
     const addedDate = new Date(date);
@@ -57,20 +62,20 @@ router = inject(Router);
   }
 
   handleAddToWishlist() {
-  if (this.authService.isLoggedIn()) { 
-    this.addToWishlist.emit(this.product);
-  } else {
-    this.toastr.warning('Please login to add to wishlist', 'Not Logged In');
-    this.router.navigate(['/login']); 
+    if (this.authService.isLoggedIn()) {
+      this.addToWishlist.emit(this.product);
+    } else {
+      this.toastr.warning('Please login to add to wishlist', 'Not Logged In');
+      this.router.navigate(['/login']);
+    }
   }
-}
 
-getStarArray(): number[] {
-  return Array(5).fill(0).map((_, i) => i);
-}
+  getStarArray(): number[] {
+    return Array(5).fill(0).map((_, i) => i);
+  }
 
-getFloor(value: number): number {
-  return Math.floor(value);
-}
+  getFloor(value: number): number {
+    return Math.floor(value);
+  }
 
 }

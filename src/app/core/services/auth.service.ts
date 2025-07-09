@@ -1,6 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
+import { CartService } from './cart.service';
+import { WishlistService } from './wishlist.service';
 import { Endpoints } from '../constants/endpoints';
 import {
   AuthResponse,
@@ -17,6 +19,8 @@ import { SHOULD_TRACK_LOADING } from '../interceptors/loading.interceptor';
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private cartService = inject(CartService);
+  private wishlistService = inject(WishlistService);
   user?: User;
   signup(userData: SignupBody): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(Endpoints.REGISTER, userData, {
@@ -29,9 +33,9 @@ export class AuthService {
     });
   }
 
-    isLoggedIn(): boolean {
-  return !!this.getToken(); 
-}
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
@@ -42,6 +46,8 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    this.cartService.cartItemsSubject.next([]);
+    this.wishlistService.wishlistItemsSubject.next([]);
   }
 
   resetPassword(data: {

@@ -1,8 +1,10 @@
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Helvetica Neue', sans-serif;
   color: #333;
@@ -10,22 +12,16 @@ body {
   line-height: 1.6;
 }
 
-/* ===== Hero Styling ===== */
 .hero {
   position: relative;
   height: 100vh;
-  background-image: url(https://crafto.themezaa.com/decor-store/wp-content/uploads/sites/44/2025/05/demo-decor-store-slider-01-img-02.webp);
+  background-color: var(--primary-color-light);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  
 }
 
-
-
-/* ✅ Pattern image behind the sofa */
 .pattern-wrapper {
   position: absolute;
   top: 0;
@@ -35,12 +31,12 @@ body {
   overflow: hidden;
   z-index: 1;
 }
+
 .pattern-bg {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url('https://crafto.themezaa.com/decor-store/wp-content/uploads/sites/44/2025/05/demo-decor-store-slider-01-img-02.webp') no-repeat center;
-  background-size: cover;
+  background: none; 
   transform: translateX(100%);
   opacity: 0;
   animation: slideInPattern 1.2s ease forwards;
@@ -52,11 +48,12 @@ body {
   top: 0;
   width: 70%;
   height: 100%;
-  background-color: #e5eff3;
+  background-color: var(--primary-color-light);
   opacity: 0;
   animation: fadeInLeftBG 1s ease 1.2s forwards;
   z-index: 0;
 }
+
 @keyframes fadeInLeftBG {
   to {
     opacity: 1;
@@ -70,7 +67,6 @@ body {
   }
 }
 
-
 .hero-content {
   position: relative;
   display: flex;
@@ -81,58 +77,44 @@ body {
   max-width: 1400px;
   z-index: 2;
 }
-@media screen and (max-width: 800px) {
-  .hero-content {
-    flex-direction: column;
-  }
-  
-}
-/* ===== Text ===== */
-.hero-text{
-  animation: slideup 2s ease-out forwards;
-}
-
-.hero-text h1 {
-  font-size: 150px;
-  font-weight: 550;
-  line-height: 1.1;
-  color: #1a1a1a;
-  animation: slideup 2s;
-}
-
-@keyframes slideUp {
-  to {
-    transform: translate(-72%, -50%);
-  }
-}
 .hero-text {
   z-index: 3;
   position: relative;
 }
-.hero-text h1, .hero-text p, .hero-text .btn {
+
+.hero-text h1,
+.hero-text p,
+.hero-text .btn {
   opacity: 0;
   transform: translateY(40px);
   animation: slideUp 0.8s ease forwards;
+  padding-left: 80px;
 }
+
 .hero-text h1 {
   font-size: 8em;
   font-weight: 700;
   line-height: 1.1;
   animation-delay: 2s;
+  padding-left: 80px;
 }
+
 .hero-text p {
   font-size: 1.2rem;
   margin: 1rem 0;
   animation-delay: 2.2s;
+  padding-left: 80px;
 }
+
 .hero-text .btn {
   display: inline-block;
   padding: 0.8rem 1.5rem;
-  background-color: #222;
+  background-color: var(--primary-color);
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
   animation-delay: 2.4s;
+  margin-left: 80px;
 }
 
 @keyframes slideUp {
@@ -142,35 +124,30 @@ body {
   }
 }
 
-
-/* ===== Sofa Image ===== */
 .hero-image img {
   width: 1500px;
   height: auto;
   position: relative;
-  right: -400px;
+  right: -250px;
   animation: fadeInBubbles 2.5s ease forwards;
   z-index: 3;
 }
 
-/* ===== Circle Overlay ===== */
 .circle-overlay {
   position: absolute;
   width: 900px;
   height: 900px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.963);
-  left: 72%;
+  left: 65%;
   top: 50%;
-  transform: translate(-72%, -50%);
-  z-index: 1; /* Behind the image */
+  transform:  translate(-65%, -50%);
+  z-index: 1;
   animation: fadeInCircle 1.5s ease forwards;
   opacity: 0.4;
   pointer-events: none;
-  display: 70%;
-}  
+}
 
-/* ===== Optional Animation ===== */
 @keyframes fadeInCircle {
   from {
     transform: scale(0.8) translate(-50%, -50%);
@@ -179,14 +156,6 @@ body {
   to {
     transform: scale(1) translate(-50%, -50%);
     opacity: 0.4;
-  }
-}
-
-/* ===== Animations ===== */
-@keyframes fadeInBG {
-
-  to {
-    opacity: 1;
   }
 }
 
@@ -201,8 +170,6 @@ body {
   }
 }
 
-
-
 @keyframes fadeInText {
   from {
     opacity: 0;
@@ -214,8 +181,6 @@ body {
   }
 }
 
-
-/* ANIMATIONS */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -226,6 +191,7 @@ body {
     transform: translateY(0);
   }
 }
+
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -236,10 +202,10 @@ body {
     transform: translateY(0);
   }
 }
+
 .animate-in {
   animation: fadeUp 1s ease forwards;
 }
-
 
 .product-list {
   display: flex;
@@ -254,13 +220,14 @@ body {
   gap: 24px;
   padding: 20px;
 }
+
 .all-products-header {
   text-align: center;
   font-size: 2.5rem;
   font-weight: bold;
-
   margin: 60px auto 30px;
 }
+
 .all-products-header::after {
   content: '';
   display: block;
@@ -271,7 +238,6 @@ body {
   border-radius: 2px;
 }
 
-/* Animation */
 @keyframes fadeSlideUp {
   0% {
     opacity: 0;
@@ -286,3 +252,5 @@ body {
 .animate-header {
   animation: fadeSlideUp 1s ease forwards;
 }
+
+
